@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using DVMN.Data;
 using DVMN.Models;
 using DVMN.Services;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace DVMN
 {
@@ -40,6 +42,8 @@ namespace DVMN
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddMemoryCache();
+            //services.AddResponseCaching();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -47,8 +51,20 @@ namespace DVMN
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
-
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("Default",
+                    new Microsoft.AspNetCore.Mvc.CacheProfile()
+                    {
+                        Duration = 60
+                    });
+                options.CacheProfiles.Add("Never",
+                    new Microsoft.AspNetCore.Mvc.CacheProfile()
+                    {
+                        Location = Microsoft.AspNetCore.Mvc.ResponseCacheLocation.None,
+                        NoStore = true
+                    });
+            });
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -71,8 +87,25 @@ namespace DVMN
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue()
+                    {
+                        MaxAge = TimeSpan.FromSeconds(60),
+                        
 
+                    };
+                    // Cache static file for 1 year
+                    //if (!string.IsNullOrEmpty(context.Context.Request.Query["v"]))
+                    //{
+                    //    context.Context.Response.Headers.Add("cache-control", new[] { "public,max-age=31536000" });
+                    //    context.Context.Response.Headers.Add("Expires", new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123
+                    //}
+                }
+            });
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
@@ -83,6 +116,19 @@ namespace DVMN
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.UseResponseCaching();
+            //app.Run(async (context) =>
+            //{
+            //    context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue()
+            //    {
+            //        Public = true,
+            //        MaxAge = TimeSpan.FromSeconds(10)
+            //    };
+            //    context.Response.Headers[HeaderNames.Vary] = new string[] { "Accept-Encoding" };
+
+            //    await context.Response.WriteAsync("Hello World! " + DateTime.UtcNow);
+            //});
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
@@ -11,6 +11,71 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-DVMN-8a7f799c-ed9f-47f5-b087-5f914e8a0cfe</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\assets\css\animate.css" />
+    <Content Include="wwwroot\assets\css\bootstrap.min.css" />
+    <Content Include="wwwroot\assets\css\font-awesome.min.css" />
+    <Content Include="wwwroot\assets\css\font.css" />
+    <Content Include="wwwroot\assets\css\images\blank.gif" />
+    <Content Include="wwwroot\assets\css\images\fancybox_loading%402x.gif" />
+    <Content Include="wwwroot\assets\css\images\fancybox_loading.gif" />
+    <Content Include="wwwroot\assets\css\images\fancybox_overlay.png" />
+    <Content Include="wwwroot\assets\css\images\fancybox_sprite%402x.png" />
+    <Content Include="wwwroot\assets\css\images\fancybox_sprite.png" />
+    <Content Include="wwwroot\assets\css\images\slider_next.png" />
+    <Content Include="wwwroot\assets\css\images\slider_prev.png" />
+    <Content Include="wwwroot\assets\css\images\socials.png" />
+    <Content Include="wwwroot\assets\css\images\status.gif" />
+    <Content Include="wwwroot\assets\css\jquery.fancybox.css" />
+    <Content Include="wwwroot\assets\css\li-scroller.css" />
+    <Content Include="wwwroot\assets\css\slick.css" />
+    <Content Include="wwwroot\assets\css\style.css" />
+    <Content Include="wwwroot\assets\css\theme.css" />
+    <Content Include="wwwroot\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="wwwroot\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="wwwroot\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="wwwroot\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="wwwroot\assets\fonts\FontAwesome.otf" />
+    <Content Include="wwwroot\assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="wwwroot\assets\fonts\OpenSans-400.woff" />
+    <Content Include="wwwroot\assets\fonts\Oswald-Regular-400.woff" />
+    <Content Include="wwwroot\assets\fonts\Varela-400.woff" />
+    <Content Include="wwwroot\assets\js\bootstrap.min.js" />
+    <Content Include="wwwroot\assets\js\custom.js" />
+    <Content Include="wwwroot\assets\js\html5shiv.min.js" />
+    <Content Include="wwwroot\assets\js\jquery.fancybox.pack.js" />
+    <Content Include="wwwroot\assets\js\jquery.li-scroller.1.0.js" />
+    <Content Include="wwwroot\assets\js\jquery.min.js" />
+    <Content Include="wwwroot\assets\js\jquery.newsTicker.min.js" />
+    <Content Include="wwwroot\assets\js\respond.min.js" />
+    <Content Include="wwwroot\assets\js\slick.min.js" />
+    <Content Include="wwwroot\assets\js\wow.min.js" />
+    <Content Include="wwwroot\gazeta\js\vendor\slick\slick.js" />
+    <Content Include="wwwroot\images\addbanner_728x90_V1.jpg" />
+    <Content Include="wwwroot\images\add_img.jpg" />
+    <Content Include="wwwroot\images\featured_img1.jpg" />
+    <Content Include="wwwroot\images\featured_img2.jpg" />
+    <Content Include="wwwroot\images\featured_img3.jpg" />
+    <Content Include="wwwroot\images\logo.jpg" />
+    <Content Include="wwwroot\images\news_thumbnail2.jpg" />
+    <Content Include="wwwroot\images\news_thumbnail3.jpg" />
+    <Content Include="wwwroot\images\photograph_img2.jpg" />
+    <Content Include="wwwroot\images\photograph_img3.jpg" />
+    <Content Include="wwwroot\images\photograph_img4.jpg" />
+    <Content Include="wwwroot\images\post_img1.jpg" />
+    <Content Include="wwwroot\images\post_img2.jpg" />
+    <Content Include="wwwroot\images\single_post_img.jpg" />
+    <Content Include="wwwroot\images\slider_img1.jpg" />
+    <Content Include="wwwroot\images\slider_img2.jpg" />
+    <Content Include="wwwroot\images\slider_img3.jpg" />
+    <Content Include="wwwroot\images\slider_img4.jpg" />
+    <Content Include="wwwroot\images\slider_next.png" />
+    <Content Include="wwwroot\images\slider_prev.png" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -18,11 +83,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCaching" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" PrivateAssets="All" />
@@ -32,6 +99,9 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\TestCache\" />
   </ItemGroup>
 
 </Project>

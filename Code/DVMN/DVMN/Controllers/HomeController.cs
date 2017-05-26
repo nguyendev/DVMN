@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DVMN.Controllers
 {
+    [ResponseCache(Duration = 30)]
     public class HomeController : Controller
     {
+        [ResponseCache(CacheProfileName = "Default")]
         public IActionResult Index()
         {
-            return View();
+            return View("Index1");
         }
+        
 
         public IActionResult About()
         {
@@ -19,6 +22,7 @@ namespace DVMN.Controllers
 
             return View();
         }
+        [ResponseCache(Duration = 60)]
 
         public IActionResult Contact()
         {
