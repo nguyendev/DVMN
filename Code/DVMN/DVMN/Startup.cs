@@ -80,7 +80,7 @@ namespace DVMN
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
+              //  app.UseBrowserLink();
             }
             else
             {
@@ -94,7 +94,7 @@ namespace DVMN
                     var headers = context.Context.Response.GetTypedHeaders();
                     headers.CacheControl = new CacheControlHeaderValue()
                     {
-                        MaxAge = TimeSpan.FromSeconds(60),
+                        MaxAge = TimeSpan.FromSeconds(120),
                         
 
                     };
