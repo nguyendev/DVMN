@@ -15,14 +15,21 @@ namespace DVMN.Areas.WebManager.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public string Create(SinglePuzzleDetails model, string id)
+        [HttpGet]
+        public IActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                HttpContext.Session.SetObjectAsJson("cau" + id, model);
-                return "1";
-            }
+            var multiPuzzle =  HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
+            ViewData["NumberQuestion"] = multiPuzzle.NumberQuestion;
+            return View();
+        }
+        [HttpPost]
+
+        public string Create(Temp temp)
+        {
+            
+                //HttpContext.Session.SetObjectAsJson("cau" + id, model);
+            return "1";
+            
             //var MultiPuzzle= HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
             //MultiPuzzle.NumberQuestion;
             //HttpContext.Session.SetObjectAsJson("")

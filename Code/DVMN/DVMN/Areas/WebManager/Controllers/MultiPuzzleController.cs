@@ -33,8 +33,8 @@ namespace DVMN.Areas.WebManager.Controllers
             if (ModelState.IsValid)
             {
                 HttpContext.Session.SetObjectAsJson("MultiPuzzle", model);
-                ViewData["NumberQuestion"] = model.NumberQuestion;
-                return View("~/Areas/WebManager/Views/SinglePuzzleDetails/Create.cshtml");
+                
+                return RedirectToAction("Create", "SinglePuzzleDetails");
             }
             return View(model);
         }
