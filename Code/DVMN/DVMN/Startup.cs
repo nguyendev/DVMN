@@ -43,11 +43,12 @@ namespace DVMN
         {
             // Add framework services.
             services.AddMemoryCache();
+           
             //services.AddResponseCaching();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<Member, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -65,9 +66,12 @@ namespace DVMN
                         NoStore = true
                     });
             });
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddScoped<IMultiPuzzle, MultiPuzzleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,9 +113,25 @@ namespace DVMN
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                LoginPath = "/quan-ly-web/dang-nhap",
+                AuthenticationScheme = "Cookies",
 
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = "283779168758487",
+                AppSecret = "16cbd9eafd6d2b5f6c1fb8b2fda3b1c6"
+            });
             app.UseMvc(routes =>
             {
+                routes.MapRoute(name: "areaRoute",
+                    template: "{area:exists}/{controller=Admin}/{action=Index}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

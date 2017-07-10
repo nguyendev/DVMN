@@ -13,6 +13,7 @@ namespace DVMN.Models
         public string Approved { get; set; }
         public string Active { get; set; }
         public bool IsDeleted { get; set; }
+        public string Note { get; set; }
 
 
 
