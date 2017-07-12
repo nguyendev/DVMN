@@ -1,11 +1,14 @@
+@using DVMN.Services;
+
 @{
     int? number = ViewData["NumberQuestion"] as int?;
+    //List<Temp> list = ViewData["listSinglePuzzleDetails"] as List<Temp>;
 }
 @if (number.HasValue)
 {
     for (int i = 0; i < number; i++)
     {
-        <form id="@i">
+        <form id="@i" method="post">
             <div class="form-group">
                 <div class="col-md-10">
                     <input id="Title_@i" class="form-control" />
@@ -13,71 +16,48 @@
             </div>
             <div class="form-group">
                 <div class="col-md-10">
-                    <input name="Description" class="form-control" />
+                    <input id="Description_@i" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-10">
-                    <input name="Image" class="form-control" />
+                    <input id="Image_@i" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
-                            <input name="IsYesNo" />
+                            <input id="IsYesNo_@i" />
                             @*<label asp-for="IsYesNo"></label>*@
                         </div>
                     </div>
                 </div>
-                @*<div class="form-group">
-                    <div class="col-md-10">
-                        <input asp-for="AnswerA" class="form-control" />
-                        <span asp-validation-for="AnswerA" class="text-danger"></span>
-                    </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input id="AnswerA_@i" class="form-control" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="AnswerB" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="AnswerB" class="form-control" />
-                        <span asp-validation-for="AnswerB" class="text-danger"></span>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input id="AnswerB_@i" class="form-control" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="AnswerC" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="AnswerC" class="form-control" />
-                        <span asp-validation-for="AnswerC" class="text-danger"></span>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input id="AnswerC_@i" class="form-control" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="AnswerD" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="AnswerD" class="form-control" />
-                        <span asp-validation-for="AnswerD" class="text-danger"></span>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input id="AnswerD_@i" class="form-control" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="Correct" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Correct" class="form-control" />
-                        <span asp-validation-for="Correct" class="text-danger"></span>
-                    </div>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="Correct" class="col-md-2 control-label"></label>*@
+                <div class="col-md-10">
+                    <input id="Correct_@i" class="form-control" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="CreateDT" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="CreateDT" class="form-control" />
-                        <span asp-validation-for="CreateDT" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpdateDT" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="UpdateDT" class="form-control" />
-                        <span asp-validation-for="UpdateDT" class="text-danger"></span>
-                    </div>
-                </div>*@
-
+            </div>   
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" id="@i" class="btn btn-default update_form" />
@@ -87,42 +67,80 @@
     }
 }
 
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts{
 <script type="text/javascript">
+
     // this is the class of the submit button
-    $(".update_form").click(function () { // changed
+    $(".update_form").click(function (e) { // changed.
+        e.preventDefault();
             var element = $(this);
             var Id = element.attr("id");
-            var Title = 'Title_' + Id; 
+            var Title = 'Title_' + Id;
+            var Description = 'Description_' + Id;
+            var Image = 'Image_' + Id;
+            var IsYesNo = 'IsYesNo_' + Id;
+            var AnswerA = 'AnswerA_' + Id;
+            var AnswerB = 'AnswerB_' + Id;
+            var AnswerC = 'AnswerC_' + Id;
+            var AnswerD = 'AnswerD_' + Id;
+            var Correct = 'Correct_' + Id;
             var Temp = {
+                ID: Id,
                 Title: $('#' + Title).val(),
-                ID: Id
+                Description: $('#' + Description).val(),
+                Image: $('#' + Image).val(),
+                IsYesNo: $('#' + IsYesNo).val(),
+                AnswerA: $('#' + AnswerA).val(),
+                AnswerB: $('#' + AnswerB).val(),
+                AnswerC: $('#' + AnswerC).val(),
+                AnswerD: $('#' + AnswerD).val(),
+                Correct: $('#' + Correct).val()
             };
-        
+
             $.ajax({
                 type: "POST",
-                url: "@(Url.Action("Create", "SinglePuzzleDetails"))",
-               
+                url: "@(Url.Action("SaveTemp", "SinglePuzzleDetails"))",
                 data: {
-                    Temp: Temp
+                    Temp: Temp,id: Id
                     },
                 dataType: "json",
                 success: function (data) {
-                    if (data == "1") {
-                        alert("Successfull login.");
-                    } else {
-                        alert("Invalid user id and password.");
+                    var item = JSON.parse(data);
+                    for (var i = 0; i < item.length; i++)
+                    {
+                        var Title = 'Title_' + i;
+                        var Description = 'Description_' + i;
+                        var Image = 'Image_' + Id;
+                        var IsYesNo = 'IsYesNo_' + i;
+                        var AnswerA = 'AnswerA_' + i;
+                        var AnswerB = 'AnswerB_' + i;
+                        var AnswerC = 'AnswerC_' + i;
+                        var AnswerD = 'AnswerD_' + i;
+                        var Correct = 'Correct_' + i;
+                        $('#' + Title).val(item[i].Title);
+                        $('#' + Description).val(item[i].Description);
+                        $('#' + Image).val(item[i].Image);
+                        $('#' + IsYesNo).val(item[i].IsYesNo);
+                        $('#' + AnswerA).val(item[i].AnswerA);
+                        $('#' + AnswerB).val(item[i].AnswerB);
+                        $('#' + AnswerC).val(item[i].AnswerC);
+                        $('#' + AnswerD).val(item[i].AnswerD);
+                        $('#' + Correct).val(item[i].Correct);
+                        alert(Title);
+                        alert($('#' + Title).val());
                     }
                 },
-                error: function (reponse) {
-                    alert("error : " + reponse);
+                error: function (data) {
+                    alert("error : ");
                 }
             });
+            var number = 0;
     });
-    
+
 </script>
 }
