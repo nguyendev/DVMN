@@ -21,6 +21,9 @@ namespace DVMN.Models
         public string AnswerC { get; set; }
         public string AnswerD { get; set; }
         public int Correct { get; set; }
+        public string Reason { get; set; }
+        public int MultiPuzzleID { get; set; }
+        public MultiPuzzle MultiPuzzle { get; set; }
 
     }
 }

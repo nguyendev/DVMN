@@ -6,12 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using DVMN.Services;
 using DVMN.Models;
 using Newtonsoft.Json;
+using DVMN.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace DVMN.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
     public class SinglePuzzleDetailsController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<Member> _userManager;
+        public SinglePuzzleDetailsController(
+            ApplicationDbContext context,
+            UserManager<Member> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
         public IActionResult Index()
         {
             return View();
@@ -70,12 +81,7 @@ namespace DVMN.Areas.WebManager.Controllers
             return Json(serializedJsonModel);
         }
 
-        //public IActionResult SavePuzzleToSession([Bind("Title", "Description", "Image", "IsYesNo", "AnswerA", "AnswerB", "AnswerC", "AnswerD", "Correct")] SinglePuzzleDetails model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        HttpContext.Session.SetObjectAsJson("")
-        //    }
-        //}
+   
+       
     }
 }

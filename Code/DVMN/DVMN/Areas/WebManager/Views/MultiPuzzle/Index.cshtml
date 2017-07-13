@@ -1,10 +1,10 @@
 @model IEnumerable<DVMN.Models.MultiPuzzle>
     @{
-        ViewData["Title"] = "Index";
-        ViewData["H1"] = "Danh sách các sách hiện có";
+        ViewData["Title"] = "Danh sách câu đố";
+        ViewData["H1"] = "Danh sách các câu đố hiện có";
         ViewData["Breadcrumb1"] = "Quản lý";
-        ViewData["Breadcrumb2"] = "Danh mục sách";
-        ViewData["Breadcrumb3"] = "Danh sách";
+        ViewData["Breadcrumb2"] = "Đố theo kỳ";
+        ViewData["Breadcrumb3"] = "Danh sách câu đố";
     }
     <div class="box">
         <div class="box-header with-border">
@@ -27,9 +27,6 @@
                                 @Html.DisplayNameFor(model => model.Title)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model.Slug)
                             </th>
                             <th>
@@ -45,12 +42,6 @@
                                 @Html.DisplayNameFor(model => model.Level)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CreateDT)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.UpdateDT)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model.AuthorID)
                             </th>
                             <th>
@@ -58,9 +49,6 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Active)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IsDeleted)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Note)
@@ -74,9 +62,6 @@
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Slug)
@@ -94,12 +79,6 @@
                                     @Html.DisplayFor(modelItem => item.Level)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CreateDT)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UpdateDT)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.AuthorID)
                                 </td>
                                 <td>
@@ -107,9 +86,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Active)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsDeleted)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Note)

@@ -1,10 +1,24 @@
 @model DVMN.Models.MultiPuzzle
-
-    <div class="form-horizontal">
-        <h4>MultiPuzzle</h4>
-        <hr />
-       
-            <form asp-action="Create">
+@{
+    ViewData["H1"] = "Câu hỏi theo kỳ";
+    ViewData["Breadcrumb1"] = "Đố vui";
+    ViewData["Breadcrumb2"] = "Quản lý";
+    ViewData["Breadcrumb3"] = "Danh mục câu hỏi";
+    ViewData["Title"] = "Đặt câu hỏi";
+}
+<div class="box box-success">
+    <div class="box-header with-border">
+        <h3 class="box-title">Đặt câu hỏi</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <form asp-action="Create">
+        <div class="box-body">
+            <div class="form-horizontal">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Title" class="col-md-2 control-label"></label>
@@ -56,65 +70,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreateDT" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="CreateDT" class="form-control" />
-                        <span asp-validation-for="CreateDT" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpdateDT" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="UpdateDT" class="form-control" />
-                        <span asp-validation-for="UpdateDT" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AuthorID" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="AuthorID" class="form-control" />
-                        <span asp-validation-for="AuthorID" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Approved" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Approved" class="form-control" />
-                        <span asp-validation-for="Approved" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Active" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Active" class="form-control" />
-                        <span asp-validation-for="Active" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <input asp-for="IsDeleted" />
-                            <label asp-for="IsDeleted"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label asp-for="Note" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
                         <input asp-for="Note" class="form-control" />
                         <span asp-validation-for="Note" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
-            </form>
-        
-</div>
+            </div>
+        </div>
 
-
-<div>
-    <a asp-action="Index">Back to List</a>
+        <div class="box-footer clearfix">
+            <input type="submit" value="Tiếp tục" class="btn btn-success pull-right" />
+        </div>
+    </form>
 </div>

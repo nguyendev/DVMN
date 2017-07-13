@@ -33,47 +33,17 @@
     <!-- /.search form -->
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Sách</li>
+        <li class="header">Danh mục câu hỏi</li>
         <!-- Optionally, you can add icons to the links -->
-        @*@if (!_Context.BookCategory.Any())
-        { 
-            <li>
-                <a>
-                    <i class="fa fa-book"></i>
-                    <span class="">Chưa có sách nào</span>
-                    <span class="pull-right-container">
-                        @*<i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-            </li>
-        }*@
-        @*@foreach (var item in _Context.BookCategory)
-        {
-            <li>
-                <a asp-action="ListChappter" asp-controller="Home" asp-route-slug="@item.Slug">
-                    <i class="fa fa-book"></i> 
-                    <span class="">@item.CategoryName</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-            </li>
-            <li>@item.Slug</li>
-            @*<li class="treeview">
-                <a asp-action="Index" asp-route-id="@item.ID">
-                    <i class="fa fa-book"></i> <span class="">@item.CategoryName</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @foreach (var subItem in item.Chappters)
-                    {
-                        <li><a asp-action="Index" asp-route-id="@subItem.ID">@subItem.Name</a></li>
-                    }
-                </ul>
-            </li>
-        }*@
+        <li>
+            <a asp-action="Index" asp-controller="MultiPuzzle" asp-area="WebManager">
+                <i class="fa fa-puzzle-piece"></i>
+                <span class="">Câu đố theo kỳ</span>
+                @*<span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>*@
+            </a>
+        </li>
         @if(User.IsInRole("Admin"))
         {
         <li class="header">Quản lý</li>
