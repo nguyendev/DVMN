@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DVMN.Services;
-using DVMN.Models;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using DVMN.Data;
-using Microsoft.AspNetCore.Identity;
+using DVMN.Models;
 
 namespace DVMN.Areas.WebManager.Controllers
 {
@@ -15,73 +14,148 @@ namespace DVMN.Areas.WebManager.Controllers
     public class SinglePuzzleDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<Member> _userManager;
-        public SinglePuzzleDetailsController(
-            ApplicationDbContext context,
-            UserManager<Member> userManager)
+
+        public SinglePuzzleDetailsController(ApplicationDbContext context)
         {
-            _context = context;
-            _userManager = userManager;
+            _context = context;    
         }
-        public IActionResult Index()
+
+        // GET: WebManager/SinglePuzzleDetails1
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var applicationDbContext = _context.SinglePuzzleDetails.Include(s => s.MultiPuzzle);
+            return View(await applicationDbContext.ToListAsync());
         }
+
+        // GET: WebManager/SinglePuzzleDetails1/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var singlePuzzleDetails = await _context.SinglePuzzleDetails
+                .Include(s => s.MultiPuzzle)
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (singlePuzzleDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View(singlePuzzleDetails);
+        }
+
+        // GET: WebManager/SinglePuzzleDetails1/Create
         public IActionResult Create()
         {
-            var multiPuzzle =  HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
-            var listSinglePuzzleDetails = HttpContext.Session.GetObjectFromJson <List<Temp>>("listSinglePuzzleDetails");
-            if (listSinglePuzzleDetails == null)
-            {
-               
-                List<Temp> list = new List<Temp>(multiPuzzle.NumberQuestion - 1);
-                for (int i = 0; i <= multiPuzzle.NumberQuestion - 1; i++)
-                {
-                    list.Add(new Temp { ID = i });
-                }
-                ViewData["listSinglePuzzleDetails"] = list.ToList();
-                HttpContext.Session.SetObjectAsJson("listSinglePuzzleDetails", list);
-            }
-            else
-            {
-                ViewData["listSinglePuzzleDetails"] = listSinglePuzzleDetails.ToList();
-            }
-            ViewData["NumberQuestion"] = multiPuzzle.NumberQuestion;
+            ViewData["MultiPuzzleID"] = new SelectList(_context.MultiPuzzle, "ID", "Description");
             return View();
         }
+
+        // POST: WebManager/SinglePuzzleDetails1/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("sendData")]
-        public IActionResult SaveTemp(Temp temp,string id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID,Title,Description,Image,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,MultiPuzzleID,CreateDT,UpdateDT,AuthorID,Approved,Active,IsDeleted,Note")] MSinglePuzzleDetails singlePuzzleDetails)
         {
-            var oldListSinglePuzzleDetails = HttpContext.Session.GetObjectFromJson<List<Temp>>("listSinglePuzzleDetails");
-            var multiPuzzle = HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
-
-            //luu gia tri moi vao session
-            List<Temp> newListSinglePuzzleDetails = new List<Temp>(multiPuzzle.NumberQuestion-1);
-            foreach (var item in oldListSinglePuzzleDetails)
+            if (ModelState.IsValid)
             {
-                if (item.ID == Int32.Parse(id))
-                {
-                    item.Title = temp.Title;
-                    item.Description = temp.Description;
-                    item.Image = temp.Image;
-                    item.AnswerA = temp.AnswerA;
-                    item.AnswerB = temp.AnswerB;
-                    item.AnswerC = temp.AnswerC;
-                    item.AnswerD = temp.AnswerD;
-                    item.Correct = temp.Correct;
-                    item.IsYesNo = temp.IsYesNo;
-                }
-                newListSinglePuzzleDetails.Add(item);
+                _context.Add(singlePuzzleDetails);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            HttpContext.Session.SetObjectAsJson("listSinglePuzzleDetails", newListSinglePuzzleDetails);
-            ViewData["listSinglePuzzleDetails"] = newListSinglePuzzleDetails.ToList();
-
-            var serializedJsonModel = JsonConvert.SerializeObject(newListSinglePuzzleDetails.ToList());
-            return Json(serializedJsonModel);
+            ViewData["MultiPuzzleID"] = new SelectList(_context.MultiPuzzle, "ID", "Description", singlePuzzleDetails.MMultiPuzzleID);
+            return View(singlePuzzleDetails);
         }
 
-   
-       
+        // GET: WebManager/SinglePuzzleDetails1/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var singlePuzzleDetails = await _context.SinglePuzzleDetails.SingleOrDefaultAsync(m => m.ID == id);
+            if (singlePuzzleDetails == null)
+            {
+                return NotFound();
+            }
+            ViewData["MultiPuzzleID"] = new SelectList(_context.MultiPuzzle, "ID", "Description", singlePuzzleDetails.MMultiPuzzleID);
+            return View(singlePuzzleDetails);
+        }
+
+        // POST: WebManager/SinglePuzzleDetails1/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,Image,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,MultiPuzzleID,CreateDT,UpdateDT,AuthorID,Approved,Active,IsDeleted,Note")] MSinglePuzzleDetails singlePuzzleDetails)
+        {
+            if (id != singlePuzzleDetails.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(singlePuzzleDetails);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SinglePuzzleDetailsExists(singlePuzzleDetails.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            ViewData["MultiPuzzleID"] = new SelectList(_context.MultiPuzzle, "ID", "Description", singlePuzzleDetails.MMultiPuzzleID);
+            return View(singlePuzzleDetails);
+        }
+
+        // GET: WebManager/SinglePuzzleDetails1/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var singlePuzzleDetails = await _context.SinglePuzzleDetails
+                .Include(s => s.MultiPuzzle)
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (singlePuzzleDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View(singlePuzzleDetails);
+        }
+
+        // POST: WebManager/SinglePuzzleDetails1/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var singlePuzzleDetails = await _context.SinglePuzzleDetails.SingleOrDefaultAsync(m => m.ID == id);
+            _context.SinglePuzzleDetails.Remove(singlePuzzleDetails);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        private bool SinglePuzzleDetailsExists(int id)
+        {
+            return _context.SinglePuzzleDetails.Any(e => e.ID == id);
+        }
     }
 }

@@ -13,6 +13,6 @@ namespace DVMN.Models
         public string Slug { get; set; }
 
         public string SinglePuzzleDetailsID { get; set; }
-        public SinglePuzzleDetails SinglePuzzleDetails { get; set; }
+        public MSinglePuzzleDetails SinglePuzzleDetails { get; set; }
     }
 }

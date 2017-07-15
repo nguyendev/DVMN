@@ -12,10 +12,8 @@ namespace DVMN.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int ID { get; set; }
-        public int MemberID { get; set; }
-        public Member Author { get; set; }
         public int Like { get; set; }
-        public int MultiPuzzleID { get; set; }
-        public MultiPuzzle MultiPuzzle { get; set; }
+        public int MMultiPuzzle { get; set; }
+        public MMultiPuzzle MultiPuzzle { get; set; }
     }
 }

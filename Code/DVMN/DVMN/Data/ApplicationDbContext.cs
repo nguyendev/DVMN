@@ -24,10 +24,11 @@ namespace DVMN.Data
             
         }
 
-        public DbSet<MultiPuzzle> MultiPuzzle { get; set; }
-        public DbSet<SinglePuzzleDetails> SinglePuzzleDetails { get; set; }
+        public DbSet<MMultiPuzzle> MultiPuzzle { get; set; }
+        public DbSet<MSinglePuzzleDetails> SinglePuzzleDetails { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Tag> Tag { get; set; }
+        public DbSet<DVMN.Models.SSinglePuzzle> SSinglePuzzle { get; set; }
 
     }
 }

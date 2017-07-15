@@ -9,11 +9,11 @@ namespace DVMN.Services
     public interface IMultiPuzzle
     {
         //List<PuzzleType> GetPuzzleType();
-        Task<MultiPuzzle> Get(int? id);
+        Task<MMultiPuzzle> Get(int? id);
         bool Exists(int id);
-        Task<List<MultiPuzzle>> GetAll();
-        Task Add(MultiPuzzle model);
-        Task Update(MultiPuzzle model);
+        Task<List<MMultiPuzzle>> GetAll();
+        Task Add(MMultiPuzzle model);
+        Task Update(MMultiPuzzle model);
         Task Delete(int id);
 
     }

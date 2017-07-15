@@ -14,6 +14,7 @@ using DVMN.Models;
 using DVMN.Services;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Serialization;
 
 namespace DVMN
 {
@@ -52,7 +53,8 @@ namespace DVMN
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc(options =>
+            services.
+                AddMvc(options =>
             {
                 options.CacheProfiles.Add("Default",
                     new Microsoft.AspNetCore.Mvc.CacheProfile()
@@ -65,13 +67,16 @@ namespace DVMN
                         Location = Microsoft.AspNetCore.Mvc.ResponseCacheLocation.None,
                         NoStore = true
                     });
-            });
+            })
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IMultiPuzzle, MultiPuzzleRepository>();
+            // Add Kendo UI services to the services container
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,7 +141,8 @@ namespace DVMN
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
+            // Configure Kendo UI
+            app.UseKendo(env);
             //app.UseResponseCaching();
             //app.Run(async (context) =>
             //{

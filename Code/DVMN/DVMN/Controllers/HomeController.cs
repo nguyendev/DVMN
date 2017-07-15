@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using DVMN.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DVMN.Controllers
 {
     [ResponseCache(Duration = 30)]
     public class HomeController : Controller
     {
-        [ResponseCache(CacheProfileName = "Default")]
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
         {
-            return View("Index1");
+            _context = context;
+        }
+
+        [ResponseCache(CacheProfileName = "Default")]
+        public async Task<IActionResult> Index()
+        {
+            ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
+            ViewData["listSinglePuzzle"] = await _context.SSinglePuzzle.ToListAsync();
+            return View();
         }
         
 

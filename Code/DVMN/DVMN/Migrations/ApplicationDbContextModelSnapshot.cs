@@ -25,29 +25,69 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Approved");
 
-                    b.Property<string>("AuthorID");
-
-                    b.Property<DateTime>("CreateDT");
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<int>("Like");
 
-                    b.Property<int>("MemberID");
+                    b.Property<int>("MMultiPuzzle");
 
-                    b.Property<int>("MultiPuzzleID");
+                    b.Property<string>("MemberID");
+
+                    b.Property<int?>("MultiPuzzleID");
 
                     b.Property<string>("Note");
 
-                    b.Property<DateTime>("UpdateDT");
+                    b.Property<int?>("SSinglePuzzleID");
+
+                    b.Property<DateTime?>("UpdateDT");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AuthorID");
+                    b.HasIndex("MemberID");
 
                     b.HasIndex("MultiPuzzleID");
 
+                    b.HasIndex("SSinglePuzzleID");
+
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("DVMN.Models.Image", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ALT");
+
+                    b.Property<string>("Active");
+
+                    b.Property<string>("Approved");
+
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("MemberID");
+
+                    b.Property<string>("Note");
+
+                    b.Property<string>("Pic1");
+
+                    b.Property<string>("Pic2");
+
+                    b.Property<string>("Pic3");
+
+                    b.Property<string>("Title");
+
+                    b.Property<DateTime?>("UpdateDT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
+
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("DVMN.Models.Member", b =>
@@ -112,7 +152,7 @@ namespace DVMN.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("DVMN.Models.MultiPuzzle", b =>
+            modelBuilder.Entity("DVMN.Models.MMultiPuzzle", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -121,9 +161,7 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Approved");
 
-                    b.Property<string>("AuthorID");
-
-                    b.Property<DateTime>("CreateDT");
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -136,6 +174,8 @@ namespace DVMN.Migrations
 
                     b.Property<int>("Like");
 
+                    b.Property<string>("MemberID");
+
                     b.Property<string>("Note");
 
                     b.Property<int>("NumberQuestion");
@@ -146,14 +186,16 @@ namespace DVMN.Migrations
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.Property<DateTime>("UpdateDT");
+                    b.Property<DateTime?>("UpdateDT");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
 
                     b.ToTable("MultiPuzzle");
                 });
 
-            modelBuilder.Entity("DVMN.Models.SinglePuzzleDetails", b =>
+            modelBuilder.Entity("DVMN.Models.MSinglePuzzleDetails", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -170,11 +212,9 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Approved");
 
-                    b.Property<string>("AuthorID");
-
                     b.Property<int>("Correct");
 
-                    b.Property<DateTime>("CreateDT");
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<string>("Description");
 
@@ -184,19 +224,79 @@ namespace DVMN.Migrations
 
                     b.Property<bool>("IsYesNo");
 
-                    b.Property<int?>("MultiPuzzleID");
+                    b.Property<int>("MMultiPuzzleID");
+
+                    b.Property<string>("MemberID");
 
                     b.Property<string>("Note");
 
+                    b.Property<string>("Reason");
+
                     b.Property<string>("Title");
 
-                    b.Property<DateTime>("UpdateDT");
+                    b.Property<DateTime?>("UpdateDT");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MultiPuzzleID");
+                    b.HasIndex("MMultiPuzzleID");
+
+                    b.HasIndex("MemberID");
 
                     b.ToTable("SinglePuzzleDetails");
+                });
+
+            modelBuilder.Entity("DVMN.Models.SSinglePuzzle", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Active");
+
+                    b.Property<string>("AnswerA");
+
+                    b.Property<string>("AnswerB");
+
+                    b.Property<string>("AnswerC");
+
+                    b.Property<string>("AnswerD");
+
+                    b.Property<string>("Approved");
+
+                    b.Property<int>("Correct");
+
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("ImageID");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsYesNo");
+
+                    b.Property<float>("Level");
+
+                    b.Property<int>("Like");
+
+                    b.Property<string>("MemberID");
+
+                    b.Property<string>("Note");
+
+                    b.Property<string>("Reason");
+
+                    b.Property<string>("Slug");
+
+                    b.Property<string>("Title");
+
+                    b.Property<DateTime?>("UpdateDT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ImageID");
+
+                    b.HasIndex("MemberID");
+
+                    b.ToTable("SSinglePuzzle");
                 });
 
             modelBuilder.Entity("DVMN.Models.Tag", b =>
@@ -208,11 +308,11 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Approved");
 
-                    b.Property<string>("AuthorID");
-
-                    b.Property<DateTime>("CreateDT");
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("MemberID");
 
                     b.Property<string>("Name");
 
@@ -224,9 +324,11 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Slug");
 
-                    b.Property<DateTime>("UpdateDT");
+                    b.Property<DateTime?>("UpdateDT");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
 
                     b.HasIndex("SinglePuzzleDetailsID1");
 
@@ -342,26 +444,64 @@ namespace DVMN.Migrations
 
             modelBuilder.Entity("DVMN.Models.Comment", b =>
                 {
-                    b.HasOne("DVMN.Models.Member", "Author")
+                    b.HasOne("DVMN.Models.Member", "Member")
                         .WithMany()
-                        .HasForeignKey("AuthorID");
+                        .HasForeignKey("MemberID");
 
-                    b.HasOne("DVMN.Models.MultiPuzzle", "MultiPuzzle")
+                    b.HasOne("DVMN.Models.MMultiPuzzle", "MultiPuzzle")
                         .WithMany("Comment")
-                        .HasForeignKey("MultiPuzzleID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MultiPuzzleID");
+
+                    b.HasOne("DVMN.Models.SSinglePuzzle")
+                        .WithMany("Comment")
+                        .HasForeignKey("SSinglePuzzleID");
                 });
 
-            modelBuilder.Entity("DVMN.Models.SinglePuzzleDetails", b =>
+            modelBuilder.Entity("DVMN.Models.Image", b =>
                 {
-                    b.HasOne("DVMN.Models.MultiPuzzle")
+                    b.HasOne("DVMN.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID");
+                });
+
+            modelBuilder.Entity("DVMN.Models.MMultiPuzzle", b =>
+                {
+                    b.HasOne("DVMN.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID");
+                });
+
+            modelBuilder.Entity("DVMN.Models.MSinglePuzzleDetails", b =>
+                {
+                    b.HasOne("DVMN.Models.MMultiPuzzle", "MultiPuzzle")
                         .WithMany("SinglePuzzleDetails")
-                        .HasForeignKey("MultiPuzzleID");
+                        .HasForeignKey("MMultiPuzzleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DVMN.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID");
+                });
+
+            modelBuilder.Entity("DVMN.Models.SSinglePuzzle", b =>
+                {
+                    b.HasOne("DVMN.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DVMN.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID");
                 });
 
             modelBuilder.Entity("DVMN.Models.Tag", b =>
                 {
-                    b.HasOne("DVMN.Models.SinglePuzzleDetails", "SinglePuzzleDetails")
+                    b.HasOne("DVMN.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID");
+
+                    b.HasOne("DVMN.Models.MSinglePuzzleDetails", "SinglePuzzleDetails")
                         .WithMany()
                         .HasForeignKey("SinglePuzzleDetailsID1");
                 });

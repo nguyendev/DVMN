@@ -15,7 +15,7 @@ namespace DVMN.Services
         {
             _context = context;
         }
-        public async Task Add(MultiPuzzle model)
+        public async Task Add(MMultiPuzzle model)
         {
             _context.Add(model);
             await Save();
@@ -31,12 +31,12 @@ namespace DVMN.Services
             throw new NotImplementedException();
         }
 
-        public Task<MultiPuzzle> Get(int? id)
+        public Task<MMultiPuzzle> Get(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<MultiPuzzle>> GetAll()
+        public async Task<List<MMultiPuzzle>> GetAll()
         {
             return await _context.MultiPuzzle.ToListAsync();
         }
@@ -47,7 +47,7 @@ namespace DVMN.Services
 
         //}
 
-        public Task Update(MultiPuzzle model)
+        public Task Update(MMultiPuzzle model)
         {
             throw new NotImplementedException();
         }
