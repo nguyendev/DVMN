@@ -73,11 +73,9 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Note");
 
-                    b.Property<string>("Pic1");
+                    b.Property<string>("Pic250x188");
 
-                    b.Property<string>("Pic2");
-
-                    b.Property<string>("Pic3");
+                    b.Property<string>("PicFull");
 
                     b.Property<string>("Title");
 
@@ -87,7 +85,7 @@ namespace DVMN.Migrations
 
                     b.HasIndex("MemberID");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("DVMN.Models.Member", b =>
@@ -166,7 +164,7 @@ namespace DVMN.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<string>("Image");
+                    b.Property<int?>("ImageID");
 
                     b.Property<bool>("IsDeleted");
 
@@ -189,6 +187,8 @@ namespace DVMN.Migrations
                     b.Property<DateTime?>("UpdateDT");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ImageID");
 
                     b.HasIndex("MemberID");
 
@@ -218,7 +218,7 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("ImageID");
+                    b.Property<int?>("ImageID");
 
                     b.Property<bool>("IsDeleted");
 
@@ -415,6 +415,10 @@ namespace DVMN.Migrations
 
             modelBuilder.Entity("DVMN.Models.MultiPuzzle", b =>
                 {
+                    b.HasOne("DVMN.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageID");
+
                     b.HasOne("DVMN.Models.Member", "Member")
                         .WithMany()
                         .HasForeignKey("MemberID");
@@ -424,8 +428,7 @@ namespace DVMN.Migrations
                 {
                     b.HasOne("DVMN.Models.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ImageID");
 
                     b.HasOne("DVMN.Models.Member", "Member")
                         .WithMany()

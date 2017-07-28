@@ -22,7 +22,9 @@ namespace DVMN.Models
         public string Slug { get; set; }
         [Required]
         public int NumberQuestion { get; set; }
-        public string Image { get; set; }
+
+        public int? ImageID { get; set; }
+        public Image Image { get; set; }
         public int Like { get; set; }
         public float Level { get; set; }
         public List<Comment> Comment { get; set; }

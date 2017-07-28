@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DVMN.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,7 +83,7 @@ namespace DVMN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -95,49 +95,16 @@ namespace DVMN.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     MemberID = table.Column<string>(nullable: true),
                     Note = table.Column<string>(nullable: true),
-                    Pic1 = table.Column<string>(nullable: true),
-                    Pic2 = table.Column<string>(nullable: true),
-                    Pic3 = table.Column<string>(nullable: true),
+                    Pic250x188 = table.Column<string>(nullable: true),
+                    PicFull = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     UpdateDT = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.ID);
+                    table.PrimaryKey("PK_Images", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Image_AspNetUsers_MemberID",
-                        column: x => x.MemberID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MultiPuzzle",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Active = table.Column<string>(nullable: true),
-                    Approved = table.Column<string>(nullable: true),
-                    CreateDT = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<string>(nullable: false),
-                    Image = table.Column<string>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    Level = table.Column<float>(nullable: false),
-                    Like = table.Column<int>(nullable: false),
-                    MemberID = table.Column<string>(nullable: true),
-                    Note = table.Column<string>(nullable: true),
-                    NumberQuestion = table.Column<int>(nullable: false),
-                    Slug = table.Column<string>(nullable: false),
-                    Title = table.Column<string>(nullable: false),
-                    UpdateDT = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MultiPuzzle", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_MultiPuzzle_AspNetUsers_MemberID",
+                        name: "FK_Images_AspNetUsers_MemberID",
                         column: x => x.MemberID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -231,6 +198,44 @@ namespace DVMN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MultiPuzzle",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<string>(nullable: true),
+                    Approved = table.Column<string>(nullable: true),
+                    CreateDT = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
+                    ImageID = table.Column<int>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Level = table.Column<float>(nullable: false),
+                    Like = table.Column<int>(nullable: false),
+                    MemberID = table.Column<string>(nullable: true),
+                    Note = table.Column<string>(nullable: true),
+                    NumberQuestion = table.Column<int>(nullable: false),
+                    Slug = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    UpdateDT = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultiPuzzle", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_MultiPuzzle_Images_ImageID",
+                        column: x => x.ImageID,
+                        principalTable: "Images",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MultiPuzzle_AspNetUsers_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SinglePuzzle",
                 columns: table => new
                 {
@@ -245,7 +250,7 @@ namespace DVMN.Migrations
                     Correct = table.Column<int>(nullable: false),
                     CreateDT = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    ImageID = table.Column<int>(nullable: false),
+                    ImageID = table.Column<int>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     IsMMultiPuzzle = table.Column<bool>(nullable: false),
                     IsYesNo = table.Column<bool>(nullable: false),
@@ -264,11 +269,11 @@ namespace DVMN.Migrations
                 {
                     table.PrimaryKey("PK_SinglePuzzle", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_SinglePuzzle_Image_ImageID",
+                        name: "FK_SinglePuzzle_Images_ImageID",
                         column: x => x.ImageID,
-                        principalTable: "Image",
+                        principalTable: "Images",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SinglePuzzle_AspNetUsers_MemberID",
                         column: x => x.MemberID,
@@ -364,8 +369,8 @@ namespace DVMN.Migrations
                 column: "SinglePuzzleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_MemberID",
-                table: "Image",
+                name: "IX_Images_MemberID",
+                table: "Images",
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
@@ -378,6 +383,11 @@ namespace DVMN.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MultiPuzzle_ImageID",
+                table: "MultiPuzzle",
+                column: "ImageID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MultiPuzzle_MemberID",
@@ -464,10 +474,10 @@ namespace DVMN.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "MultiPuzzle");
 
             migrationBuilder.DropTable(
-                name: "MultiPuzzle");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

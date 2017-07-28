@@ -21,7 +21,7 @@ namespace DVMN.Controllers
         [ResponseCache(CacheProfileName = "Default")]
         public async Task<IActionResult> Index()
         {
-            ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
+            //ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
             ViewData["listSinglePuzzle"] = await _context.SinglePuzzle.ToListAsync();
             return View();
         }

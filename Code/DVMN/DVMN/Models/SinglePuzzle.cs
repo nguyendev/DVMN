@@ -16,7 +16,7 @@ namespace DVMN.Models
         public string Description { get; set; }
 
         public string Slug { get; set; }
-        public int ImageID { get; set; }
+        public int? ImageID { get; set; }
         public Image Image { get; set; }
         public bool IsYesNo { get; set; }
         public string AnswerA { get; set; }
