@@ -1,17 +1,16 @@
-﻿using DVMN.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DVMN.Models
+namespace DVMN.Areas.WebManager.ViewModels.PuzzleViewModels
 {
-    public class MMultiPuzzle : Base
+    public enum Type { MultipleChoice, MultipleChoiceWithImage }
+    public class CreatePuzzleViewModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         [Required]
         public int ID { get; set; }
 
@@ -27,10 +26,19 @@ namespace DVMN.Models
         [Required]
         public int NumberQuestion { get; set; }
         public string Image { get; set; }
-        public int Like { get; set; }
-        public float Level { get; set; }
-        public List<Comment> Comment { get; set; }
 
-        public List<MSinglePuzzleDetails> SinglePuzzleDetails { get; set; }
+        [Required]
+        public Type Type{ get; set; }
+
+        
+        public int Level { get; set; }
+
+        public int MaxScore { get; set; }
+
+
+        public CreatePuzzleViewModel()
+        {
+
+        }
     }
 }

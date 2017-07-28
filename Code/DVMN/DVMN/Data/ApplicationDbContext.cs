@@ -21,14 +21,17 @@ namespace DVMN.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-            
+            builder.Entity<SinglePuzzleTag>().HasKey(t => new { t.SinglePuzzleID, t.TagID });
+
         }
 
-        public DbSet<MMultiPuzzle> MultiPuzzle { get; set; }
-        public DbSet<MSinglePuzzleDetails> SinglePuzzleDetails { get; set; }
+        public DbSet<MultiPuzzle> MultiPuzzle { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Tag> Tag { get; set; }
-        public DbSet<DVMN.Models.SSinglePuzzle> SSinglePuzzle { get; set; }
+
+        public DbSet<Image> Images { get; set;}
+        public DbSet<SinglePuzzleTag> SingPuzzleTag { get; set; }
+        public DbSet<DVMN.Models.SinglePuzzle> SinglePuzzle { get; set; }
 
     }
 }

@@ -14,8 +14,7 @@ namespace DVMN.Models
         public int ID { get; set; }
         public string ALT { get; set; }
         public string Title { get; set; }
-        public string Pic1 { get; set; }
-        public string Pic2 { get; set; }
-        public string Pic3 { get; set; }
+        public string Pic250x188 { get; set; }
+        public string PicFull { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace DVMN.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
-            ViewData["listSinglePuzzle"] = await _context.SSinglePuzzle.ToListAsync();
+            ViewData["listSinglePuzzle"] = await _context.SinglePuzzle.ToListAsync();
             return View();
         }
         

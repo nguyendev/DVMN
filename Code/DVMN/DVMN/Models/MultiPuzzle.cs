@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVMN.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,26 +8,24 @@ using System.Threading.Tasks;
 
 namespace DVMN.Models
 {
-    public class SSinglePuzzle : Base
+    public class MultiPuzzle : Base
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        [Required]
         public int ID { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
-
+        [Required]
         public string Slug { get; set; }
-        public int ImageID { get; set; }
-        public Image Image { get; set; }
-        public bool IsYesNo { get; set; }
-        public string AnswerA { get; set; }
-        public string AnswerB { get; set; }
-        public string AnswerC { get; set; }
-        public string AnswerD { get; set; }
-        public int Correct { get; set; }
-        public string Reason { get; set; }
-        public List<Comment> Comment { get; set; }
+        [Required]
+        public int NumberQuestion { get; set; }
+        public string Image { get; set; }
         public int Like { get; set; }
         public float Level { get; set; }
+        public List<Comment> Comment { get; set; }
+        public List<SinglePuzzle> SinglePuzzleDetails { get; set; }
     }
 }

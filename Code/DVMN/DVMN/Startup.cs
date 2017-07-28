@@ -20,13 +20,14 @@ namespace DVMN
 {
     public class Startup
     {
+        private readonly IHostingEnvironment env;
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+            this.env = env;
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -128,11 +129,25 @@ namespace DVMN
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
-            app.UseFacebookAuthentication(new FacebookOptions()
+            if (env.IsDevelopment())
             {
-                AppId = "283779168758487",
-                AppSecret = "16cbd9eafd6d2b5f6c1fb8b2fda3b1c6"
-            });
+                //connect facebook localhost
+                app.UseFacebookAuthentication(new FacebookOptions()
+                {
+                    AppId = "283779168758487",
+                    AppSecret = "16cbd9eafd6d2b5f6c1fb8b2fda3b1c6"
+                });
+
+            }
+            else
+            {
+                //connect facebook azure
+                app.UseFacebookAuthentication(new FacebookOptions()
+                {
+                    AppId = "107378839934718",
+                    AppSecret = "03a1fbbb98f50059c29c7d2bc209ec21"
+                });
+            }
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",
