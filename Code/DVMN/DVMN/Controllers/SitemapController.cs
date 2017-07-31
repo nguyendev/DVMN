@@ -17,7 +17,7 @@ namespace DVMN.Controllers
         }
 
         [Route("sitemap")]
-        public async Task<ActionResult> SitemapAsync()
+        public ActionResult Sitemap()
         {
             string baseUrl = "https://developingsoftware.com/";
 

@@ -64,7 +64,7 @@ namespace DVMN.Areas.WebManager.Controllers
                 {
                     Active = "1",
                     Approved = "1",
-                    MemberID = user.Id,
+                    AuthorID = user.Id,
                     CreateDT = DateTime.Now,
                     Description = sMultiPuzzle.Description,
                     Image = sMultiPuzzle.Image,

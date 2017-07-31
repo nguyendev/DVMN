@@ -26,7 +26,7 @@ function showHide( elements, show ) {
 			if ( display !== "none" ) {
 				values[ index ] = "none";
 
-				// Remember the value we're replacing
+				// ReAuthor the value we're replacing
 				dataPriv.set( elem, "display", display );
 			}
 		}

@@ -1,5 +1,5 @@
 ﻿@{ 
-    IEnumerable<SinglePuzzle> listSinglePuzzle = ViewData["listSinglePuzzle"] as IEnumerable<SinglePuzzle>;
+    IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel> listSinglePuzzle = ViewData["listSinglePuzzle"] as IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel>;
 }
 
 <div class="col-md-9">
@@ -20,28 +20,79 @@
     {
         if (item.ImageID.HasValue)
         {
+            if (item.IsMultiPuzzle)
+            {
             <article class="post blog_2 clearfix">
                 <div class="post-inner">
-                    <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a href="single_post.html">@item.Title</a></h2>
-                    <div class="post-img"><a href="single_post.html"><img src="/ask-me/images/demo/posts/loneliness-1440x900.jpg" alt=""></a></div>
+                    <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                    <div class="post-img"><a href="single_post.html"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                     <div class="post-meta">
                         <span class="meta-author"><i class="icon-user"></i><a href="#">Administrator</a></span>
                         <span class="meta-date"><i class="icon-time"></i>September 30 , 2013</span>
-                        <span class="meta-categories"><i class="icon-suitcase"></i><a href="#">Wordpress</a></span>
+                        <span class="meta-categories"><i class="icon-suitcase"></i><a href="#">Test</a></span>
                         <span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>
                     </div>
                     <div class="post-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat.</p>
-                        <a href="single_post.html" class="post-read-more button color small">Continue reading</a>
+                        <p>@item.Description</p>
+                        <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
                     </div><!-- End post-content -->
                 </div><!-- End post-inner -->
             </article>
+            }
+            else
+            {
+                <article class="post blog_2 clearfix">
+                    <div class="post-inner">
+                        <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                        <div class="post-img"><a href="single_post.html"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                        <div class="post-meta">
+                            <span class="meta-author"><i class="icon-user"></i><a href="#">Administrator</a></span>
+                            <span class="meta-date"><i class="icon-time"></i>September 30 , 2013</span>
+                            <span class="meta-categories"><i class="icon-suitcase"></i><a href="#">Test</a></span>
+                            <span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>
+                        </div>
+                        <div class="post-content">
+                            <p>@item.Description</p>
+                            <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                        </div><!-- End post-content -->
+                    </div><!-- End post-inner -->
+                </article>
+            }
         }
         else
         {
+            if (item.IsMultiPuzzle)
+            {
+                <article class="question question-type-normal">
+                    <h2>
+                        <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug">@item.Title</a>
+                    </h2>
+                    @*<a class="question-report" href="#">Report</a>
+                        <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                    <div class="question-author">
+                        <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
+                    </div>
+                    <div class="question-inner">
+                        <div class="clearfix"></div>
+                        <p class="question-desc">@item.Description.</p>
+                        <div class="question-details">
+                            @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                            @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                        </div>
+                        <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
+                        <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+                        <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+                        <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                        <div class="clearfix"></div>
+                    </div>
+                </article>
+
+            }
+            else
+            {
             <article class="question question-type-normal">
                 <h2>
-                    <a href="single_question.html">@item.Title</a>
+                    <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug">@item.Title</a>
                 </h2>
                 @*<a class="question-report" href="#">Report</a>
                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
@@ -58,10 +109,12 @@
                     <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
                     <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
                     <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                    <span class="question-view"><i class="icon-user"></i>70 views</span>
+                    <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
                     <div class="clearfix"></div>
                 </div>
             </article>
+
+            }
         }
 
     }
@@ -90,7 +143,7 @@
                 </article>*@
                 <!-- End article.post -->
 }
-                <a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>
+                @*<a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>*@
             </div>
             
         </div>

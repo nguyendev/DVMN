@@ -29,7 +29,7 @@ namespace DVMN.Data
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Tag> Tag { get; set; }
 
-        public DbSet<Image> Images { get; set;}
+        public DbSet<Images> Images { get; set;}
         public DbSet<SinglePuzzleTag> SingPuzzleTag { get; set; }
         public DbSet<DVMN.Models.SinglePuzzle> SinglePuzzle { get; set; }
 

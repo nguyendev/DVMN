@@ -23,7 +23,7 @@ namespace DVMN.Data
 
         public async Task<SinglePuzzle> Get(int? id)
         {
-            return await _context.SinglePuzzle.Where(c => c.ID == id).SingleOrDefaultAsync();
+            return await _context.SinglePuzzle.SingleOrDefaultAsync(c => c.ID == id);
         }
         public bool Exists(int id)
         {
@@ -32,7 +32,9 @@ namespace DVMN.Data
 
         public async Task<List<SinglePuzzle>> GetAll()
         {
-            return await _context.SinglePuzzle.ToListAsync();
+            return await _context.SinglePuzzle
+                .Include(p => p.Image)
+                .Include(p => p.Author).ToListAsync();
         }
 
         public async Task Update(SinglePuzzle Entity)

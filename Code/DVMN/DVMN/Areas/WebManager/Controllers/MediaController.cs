@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace DVMN.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
-    [Authorize(Roles = "Admin")]
     public class MediaController : Controller
     {
         public static string DIR_IMAGE = "images";
@@ -39,7 +38,7 @@ namespace DVMN.Areas.WebManager.Controllers
         [Route("/quan-ly-web/thu-vien")]
         public async Task<ActionResult> Index()
         {
-            return View(await _context.Images.Include(p => p.Member).ToListAsync());
+            return View(await _context.Images.Include(p => p.Author).ToListAsync());
         }
         [Route("/quan-ly-web/thu-vien/them-moi")]
         public IActionResult Create()
@@ -70,40 +69,21 @@ namespace DVMN.Areas.WebManager.Controllers
 
                         using (Image<Rgba32> image = ImageSharp.Image.Load(physicalPath))
                         {
-                            var folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\1300x500", fileName);
-                            image.Resize(1300, 500)
+                            var folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\1440X900", fileName);
+                            image.Resize(1440, 900)
                                  .Save(folderSave); // automatic encoder selected based on extension.
-                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\182x268", fileName);
-                            image.Resize(182, 268)
-                                 .Save(folderSave); // automatic encoder selected based on extension.
-                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\115x175", fileName);
-                            image.Resize(115, 175)
-                                 .Save(folderSave); // automatic encoder selected based on extension.
-                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\1140x641", fileName);
-                            image.Resize(1140, 641)
-                                 .Save(folderSave);
-                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\268x268", fileName);
-                            image.Resize(268, 268)
-                                 .Save(folderSave);
-                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\640x351", fileName);
-                            image.Resize(640, 351)
-                                 .Save(folderSave);
+                            
                             var user = await GetCurrentUserAsync();
-                            //_context.Add(new Images
-                            //{
-                            //    CreateDT = System.DateTime.Now,
-                            //    Name = fileName,
-                            //    Pic1300x500 = "\\" + DIR_IMAGE + "\\1300x500\\" + fileName,
-                            //    Pic182x268 = "\\" + DIR_IMAGE + "\\182x268\\" + fileName,
-                            //    Pic115x175 = "\\" + DIR_IMAGE + "\\115x175\\" + fileName,
-                            //    Pic1140x641 = "\\" + DIR_IMAGE + "\\1140x641\\" + fileName,
-                            //    Pic268x268 = "\\" + DIR_IMAGE + "\\268x268\\" + fileName,
-                            //    Pic640x351 = "\\" + DIR_IMAGE + "\\640x351\\" + fileName,
-                            //    Active = "A",
-                            //    Approved = "A",
-                            //    AuthorID = user.Id,
-                            //    IsDeleted = false
-                            //});
+                            _context.Add(new Models.Images
+                            {
+                                CreateDT = System.DateTime.Now,
+                                Name = fileName,
+                                PicFull = "\\" + DIR_IMAGE + "\\1440x900\\" + fileName,
+                                Active = "A",
+                                Approved = "A",
+                                AuthorID = user.Id,
+                                IsDeleted = false
+                            });
                             await _context.SaveChangesAsync();
                         }
                     }
@@ -125,12 +105,12 @@ namespace DVMN.Areas.WebManager.Controllers
             await _context.SaveChangesAsync();
 
             // Remove in folder
-            //var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic1140x641);
-            //if (System.IO.File.Exists(physicalPath))
-            //{
-            //    // The files are not actually removed in this demo
-            //    System.IO.File.Delete(physicalPath);
-            //}
+            var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.PicFull);
+            if (System.IO.File.Exists(physicalPath))
+            {
+                // The files are not actually removed in this demo
+                System.IO.File.Delete(physicalPath);
+            }
             //physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic115x175);
             //if (System.IO.File.Exists(physicalPath))
             //{

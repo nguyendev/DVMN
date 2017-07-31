@@ -119,6 +119,6 @@
 	 *
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
-	 * @member CKEDITOR.config
+	 * @Author CKEDITOR.config
 	 */
 } )();

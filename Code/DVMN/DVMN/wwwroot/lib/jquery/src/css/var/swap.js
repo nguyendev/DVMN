@@ -5,7 +5,7 @@ return function( elem, options, callback, args ) {
 	var ret, name,
 		old = {};
 
-	// Remember the old values, and insert the new ones
+	// ReAuthor the old values, and insert the new ones
 	for ( name in options ) {
 		old[ name ] = elem.style[ name ];
 		elem.style[ name ] = options[ name ];

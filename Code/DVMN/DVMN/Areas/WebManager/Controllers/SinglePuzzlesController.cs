@@ -13,18 +13,18 @@ namespace DVMN.Areas.WebManager.Controllers
     [Area("WebManager")]
     public class SinglePuzzlesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISinglePuzzle _repository;
 
-        public SinglePuzzlesController(ApplicationDbContext context)
+        public SinglePuzzlesController(ISinglePuzzle repository)
         {
-            _context = context;    
+            _repository = repository;    
         }
 
         // GET: WebManager/SinglePuzzles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.SinglePuzzle.Include(s => s.Image).Include(s => s.Member);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = await _repository.GetAll();
+            return View(applicationDbContext);
         }
 
         // GET: WebManager/SinglePuzzles/Details/5
@@ -37,7 +37,7 @@ namespace DVMN.Areas.WebManager.Controllers
 
             var singlePuzzle = await _context.SinglePuzzle
                 .Include(s => s.Image)
-                .Include(s => s.Member)
+                .Include(s => s.Author)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (singlePuzzle == null)
             {
@@ -51,7 +51,7 @@ namespace DVMN.Areas.WebManager.Controllers
         public IActionResult Create()
         {
             ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID");
-            ViewData["MemberID"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace DVMN.Areas.WebManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Description,Slug,ImageID,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,Like,Level,IsMMultiPuzzle,MMultiPuzzleID,CreateDT,UpdateDT,MemberID,Approved,Active,IsDeleted,Note")] SinglePuzzle singlePuzzle)
+        public async Task<IActionResult> Create([Bind("ID,Title,Description,Slug,ImageID,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,Like,Level,IsMMultiPuzzle,MMultiPuzzleID,Note")] SinglePuzzle singlePuzzle)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace DVMN.Areas.WebManager.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", singlePuzzle.ImageID);
-            ViewData["MemberID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.MemberID);
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.AuthorID);
             return View(singlePuzzle);
         }
 
@@ -87,7 +87,7 @@ namespace DVMN.Areas.WebManager.Controllers
                 return NotFound();
             }
             ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", singlePuzzle.ImageID);
-            ViewData["MemberID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.MemberID);
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.AuthorID);
             return View(singlePuzzle);
         }
 
@@ -96,7 +96,7 @@ namespace DVMN.Areas.WebManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,Slug,ImageID,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,Like,Level,IsMMultiPuzzle,MMultiPuzzleID,CreateDT,UpdateDT,MemberID,Approved,Active,IsDeleted,Note")] SinglePuzzle singlePuzzle)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,Slug,ImageID,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,Like,Level,IsMMultiPuzzle,MMultiPuzzleID,CreateDT,UpdateDT,AuthorID,Approved,Active,IsDeleted,Note")] SinglePuzzle singlePuzzle)
         {
             if (id != singlePuzzle.ID)
             {
@@ -124,7 +124,7 @@ namespace DVMN.Areas.WebManager.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", singlePuzzle.ImageID);
-            ViewData["MemberID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.MemberID);
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.AuthorID);
             return View(singlePuzzle);
         }
 
@@ -138,7 +138,7 @@ namespace DVMN.Areas.WebManager.Controllers
 
             var singlePuzzle = await _context.SinglePuzzle
                 .Include(s => s.Image)
-                .Include(s => s.Member)
+                .Include(s => s.Author)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (singlePuzzle == null)
             {

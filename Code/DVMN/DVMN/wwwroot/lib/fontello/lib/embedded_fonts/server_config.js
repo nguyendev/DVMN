@@ -14204,7 +14204,7 @@ module.exports = {
       "uid": "b9cd6e266f74ac97272b2fabbfbd0b85",
       "search": [
         "user",
-        "member",
+        "Author",
         "add"
       ],
       "charRef": 62405,
@@ -14220,7 +14220,7 @@ module.exports = {
       "uid": "076f940ac56adee91dd43d6fd77dd0cf",
       "search": [
         "user",
-        "member",
+        "Author",
         "add"
       ],
       "charRef": 62406,
@@ -14236,7 +14236,7 @@ module.exports = {
       "uid": "344c1c070cd0018ced51d3f051c6f4dd",
       "search": [
         "user",
-        "member",
+        "Author",
         "delete",
         "remove"
       ],
@@ -14253,7 +14253,7 @@ module.exports = {
       "uid": "d139ce97a43aedd333fa40f776328c3c",
       "search": [
         "user",
-        "member",
+        "Author",
         "delete",
         "remove"
       ],

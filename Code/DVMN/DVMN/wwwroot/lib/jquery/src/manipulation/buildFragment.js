@@ -51,7 +51,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 				// push.apply(_, arraylike) throws on ancient WebKit
 				jQuery.merge( nodes, tmp.childNodes );
 
-				// Remember the top-level container
+				// ReAuthor the top-level container
 				tmp = fragment.firstChild;
 
 				// Ensure the created nodes are orphaned (#12392)

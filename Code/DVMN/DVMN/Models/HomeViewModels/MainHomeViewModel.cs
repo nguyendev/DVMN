@@ -7,17 +7,16 @@ namespace DVMN.Models.HomeViewModels
 {
     public class MainHomeViewModel
     {
-        public MainHomeViewModel(Image image, Member actor)
-        {
-            Image = image;
-            Actor = actor;
-        }
+        public string Title { get; set; }
         public string Slug { get; set; }
-
+        public int? ImageID { get; set; }
         public string Description { get; set; }
 
-        public Image Image { get; set; }
+        public Images Image { get; set; }
+        public DateTime? DateTime { get; set; }
+        public Member Author { get; set; }
+        public int Views { get; set; }
 
-        public Member Actor { get; set; }
+        public bool IsMultiPuzzle { get; set; }
     }
 }

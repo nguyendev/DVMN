@@ -1,0 +1,171 @@
+﻿@model SinglePuzzle
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Member> signInManager
+<div class="col-md-9">
+    <article class="question single-question question-type-poll">
+        <h2>
+            <a href="single_question.html">@Model.Title</a>
+        </h2>
+        <a class="question-report" href="#">Report</a>
+        <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
+        <div class="question-inner">
+            <div class="clearfix"></div>
+            <div class="question-desc">
+                <div class="poll_2">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <p>@Model.Description</p>
+                            <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="display: none" id="all-answer">
+                                <div class="form-inputs clearfix">
+                                    <p>
+                                        <input id="poll-1" name="poll-radio" type="radio">
+                                        <label for="poll-1">@Model.AnswerA</label>
+                                    </p>
+                                    <p>
+                                        <input id="poll-2" name="poll-radio" type="radio">
+                                        <label for="poll-2">@Model.AnswerB</label>
+                                    </p>
+                                    <p>
+                                        <input id="poll-3" name="poll-radio" type="radio">
+                                        <label for="poll-3">@Model.AnswerC</label>
+                                    </p>
+                                    <p>
+                                        <input id="poll-4" name="poll-radio" type="radio">
+                                        <label for="poll-4">@Model.AnswerD</label>
+                                    </p>
+                                </div>
+                            </form>
+                            @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                            <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
+                            <button style="display:none" id="submitAnswer" type="submit" class="color button small">Gửi</button>
+                            }
+                            else
+                            {
+                            <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <div class="clock pull-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix height_20"></div>
+                @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
+                <div class="alert-message error" style="display:none">
+                    <i class="icon-flag"></i>
+                    <p>
+                        <span>Bạn đã trả lời sai. Đáp án đúng @Model.Correct</span><br>
+                        Vì: @Model.Reason
+                    </p>
+                </div>
+                <div class="alert-message success" style="display:none">
+                    <i class="icon-ok"></i>
+                    <p>
+                        <span>Chúc mừng bạn</span><br>
+                        Vì: @Model.Reason
+                    </p>
+                </div>
+            </div>
+            <div class="question-details">
+                <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                <span class="question-favorite"><i class="icon-star"></i>5</span>
+            </div>
+            <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
+            <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+            <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+            <span class="question-view"><i class="icon-user"></i>70 views</span>
+            <span class="single-question-vote-result">+22</span>
+            <ul class="single-question-vote">
+                <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
+                <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+    </article>
+</div>
+<aside class="col-md-3 sidebar">
+    @Html.Partial("_SidebarPartial")
+</aside>
+@section Style {
+    <link href="~/plugins/flipclock/compiled/flipclock.css" rel="stylesheet" />
+}
+@section Scripts {
+
+    <script src="~/plugins/flipclock/compiled/flipclock.min.js"></script>
+
+    <script type="text/javascript">
+        var clock;
+        $(document).ready(function () {
+            $('.start').click(function (e) {
+                clock = $('.clock').FlipClock(30, {
+                    clockFace: 'Counter',
+                    countdown: true,
+                    autoStart: true,
+                    callbacks: {
+                        start: function () {
+                            $('.message').html('The clock has started!');
+
+                            $('#all-answer').css("display", "block");
+                            $('#submitAnswer').css("display", "block");
+
+                        },
+                        stop: function () {
+                            $('.error').css("display", "block");
+                            //$('.poll_results').css("display", "none");
+                        }
+                    },
+                });
+                $('.start').css("display", "none");
+                //$('.poll_results').css("display", "block");
+            });
+
+        });
+        $("#submitAnswer").click(function (e) { // changed.
+        e.preventDefault();
+        AnswerA = $('#poll-1:checked').val();
+        AnswerB = $('#poll-2:checked').val();
+        AnswerC = $('#poll-3:checked').val();
+        AnswerD = $('#poll-4:checked').val();
+            Select = 0;
+            if (AnswerA == "on")
+                Select = 0;
+            else if (AnswerB == "on")
+                Select = 1;
+            else if (AnswerC == "on")
+                Select = 2;
+            else
+                Select = 3;
+
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("checkAnswer", "Puzzle"))",
+                data: {
+                    select: Select
+                    },
+                dataType: "json",
+                success: function (data) {
+                    clock.stop();
+                    if (data == true) {
+                        $('.success').css("display", "block");
+                        $('.error').css("display", "none");
+                    }
+                    else
+                    {
+                        $('.success').css("display", "none");
+                        $('.error').css("display", "block");
+                    }
+                    $('#submitAnswer').css("display", "none");
+
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+         });
+    </script>
+}
+@*<div class="clock" style="margin:2em;"></div>
+    <div class="message"></div>
+    <button class="start">Start Clock</button>*@

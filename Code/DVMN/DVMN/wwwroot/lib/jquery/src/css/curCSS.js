@@ -29,7 +29,7 @@ function curCSS( elem, name, computed ) {
 		// http://dev.w3.org/csswg/cssom/#resolved-values
 		if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
 
-			// Remember the original values
+			// ReAuthor the original values
 			width = style.width;
 			minWidth = style.minWidth;
 			maxWidth = style.maxWidth;

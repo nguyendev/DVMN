@@ -164,7 +164,7 @@ rules:
   no-confusing-arrow:     [ 1, { allowParens: true } ]
   no-const-assign:        2
   #no-constant-condition:  2
-  no-dupe-class-members:  2
+  no-dupe-class-Authors:  2
   no-this-before-super:   2
   # Postponed
   #no-var:                 2

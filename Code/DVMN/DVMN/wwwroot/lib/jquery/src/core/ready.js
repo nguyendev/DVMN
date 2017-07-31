@@ -42,7 +42,7 @@ jQuery.extend( {
 			return;
 		}
 
-		// Remember that the DOM is ready
+		// ReAuthor that the DOM is ready
 		jQuery.isReady = true;
 
 		// If a normal DOM Ready event fired, decrement, and wait if need be

@@ -11,18 +11,18 @@ namespace DVMN.Controllers
     [ResponseCache(Duration = 30)]
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IHomeRepository _repository;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IHomeRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [ResponseCache(CacheProfileName = "Default")]
         public async Task<IActionResult> Index()
         {
             //ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
-            ViewData["listSinglePuzzle"] = await _context.SinglePuzzle.ToListAsync();
+            ViewData["listSinglePuzzle"] = await _repository.GetIndex();
             return View();
         }
         

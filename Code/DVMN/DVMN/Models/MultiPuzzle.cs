@@ -24,9 +24,10 @@ namespace DVMN.Models
         public int NumberQuestion { get; set; }
 
         public int? ImageID { get; set; }
-        public Image Image { get; set; }
+        public Images Image { get; set; }
         public int Like { get; set; }
         public float Level { get; set; }
+        public int Views { get; set; }
         public List<Comment> Comment { get; set; }
         public List<SinglePuzzle> SinglePuzzleDetails { get; set; }
     }

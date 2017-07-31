@@ -17,7 +17,7 @@ namespace DVMN.Models
 
         public string Slug { get; set; }
         public int? ImageID { get; set; }
-        public Image Image { get; set; }
+        public Images Image { get; set; }
         public bool IsYesNo { get; set; }
         public string AnswerA { get; set; }
         public string AnswerB { get; set; }
@@ -25,6 +25,7 @@ namespace DVMN.Models
         public string AnswerD { get; set; }
         public int Correct { get; set; }
         public string Reason { get; set; }
+        public int Views { get; set; }
         public List<Comment> Comment { get; set; }
         public int Like { get; set; }
         public float Level { get; set; }

@@ -36,6 +36,15 @@
         <li class="header">Danh mục câu hỏi</li>
         <!-- Optionally, you can add icons to the links -->
         <li>
+            <a asp-action="Index" asp-controller="MediaPuzzle" asp-area="WebManager">
+                <i class="fa fa-puzzle-piece"></i>
+                <span class="">Câu đố đặc biệt</span>
+                @*<span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>*@
+            </a>
+        </li>
+        <li>
             <a asp-action="Index" asp-controller="MultiPuzzle" asp-area="WebManager">
                 <i class="fa fa-puzzle-piece"></i>
                 <span class="">Câu đố đặc biệt</span>

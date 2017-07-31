@@ -107,7 +107,7 @@ Editor preferences are available in the [editor config](https://github.com/twbs/
 
 ## Community
 
-Get updates on Bootstrap's development and chat with the project maintainers and community members.
+Get updates on Bootstrap's development and chat with the project maintainers and community Authors.
 
 * Follow [@getbootstrap on Twitter](https://twitter.com/getbootstrap).
 * Read and subscribe to [The Official Bootstrap Blog](http://blog.getbootstrap.com).

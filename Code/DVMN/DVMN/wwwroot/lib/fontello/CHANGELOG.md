@@ -136,7 +136,7 @@
 - Removed default opacity
 - Rearranged toolbar controls, to show `search` better
 - Added random number to generated CSS font paths, to avoid cache issues (#127)
-- Font collapse state now remembered
+- Font collapse state now reAuthored
 - Added `font-variant` & `text-transforms` styles reset (#135)
 - New modularized architecture (all as `blocks` + knockout.js on client side)
 
