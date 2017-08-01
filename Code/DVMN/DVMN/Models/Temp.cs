@@ -10,7 +10,7 @@ namespace DVMN.Models
         public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        public int Image { get; set; }
         public bool IsYesNo { get; set; }
         public string AnswerA { get; set; }
         public string AnswerB { get; set; }

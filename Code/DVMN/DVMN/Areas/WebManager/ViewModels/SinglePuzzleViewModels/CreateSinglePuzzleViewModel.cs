@@ -1,22 +1,19 @@
-﻿using System;
+﻿using DVMN.Models;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DVMN.Models
+namespace DVMN.Areas.WebManager.ViewModels.SinglePuzzleViewModels
 {
-    public class SinglePuzzle : Base
+    public class CreateSinglePuzzleViewModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Slug { get; set; }
         public int? ImageID { get; set; }
         public Images Image { get; set; }
+        public string AuthorID { get; set; }
         public bool IsYesNo { get; set; }
         public string AnswerA { get; set; }
         public string AnswerB { get; set; }
@@ -24,12 +21,6 @@ namespace DVMN.Models
         public string AnswerD { get; set; }
         public int Correct { get; set; }
         public string Reason { get; set; }
-        public int Views { get; set; }
-        public List<Comment> Comment { get; set; }
-        public int Like { get; set; }
-        public float Level { get; set; }
-        public bool IsMMultiPuzzle { get; set; }
-        public int? MMultiPuzzleID { get; set; }
-        public MultiPuzzle MultiPuzzle { get; set; }
+        public string Note { get; set; }
     }
 }

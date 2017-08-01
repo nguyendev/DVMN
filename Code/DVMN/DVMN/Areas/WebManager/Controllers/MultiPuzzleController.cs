@@ -10,6 +10,7 @@ using DVMN.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DVMN.Areas.WebManager.Controllers
 {
@@ -38,11 +39,12 @@ namespace DVMN.Areas.WebManager.Controllers
         [Route("/quan-ly-web/nhieu-cau-hoi/tao")]
         public IActionResult Create()
         {
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name");
             return View();
         }
         [Route("/quan-ly-web/nhieu-cau-hoi/tao")]
         [HttpPost]
-        public IActionResult Create([Bind("Title,Description,NumberQuestion,Image,Slug")] MultiPuzzle model)
+        public IActionResult Create(MultiPuzzle model)
         {
             if (ModelState.IsValid)
             {
@@ -50,63 +52,64 @@ namespace DVMN.Areas.WebManager.Controllers
                 
                 return RedirectToAction("CreateMulti");
             }
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name",model.ImageID);
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> SaveAll()
         {
-            try
+            var sMultiPuzzle = HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
+            var sListSinglePuzzleDetails = HttpContext.Session.GetObjectFromJson<List<Temp>>("listSinglePuzzleDetails");
+            var user = await GetCurrentUserAsync();
+            MultiPuzzle multipuzzle = new MultiPuzzle
             {
-                var sMultiPuzzle = HttpContext.Session.GetObjectFromJson<MultiPuzzle>("MultiPuzzle");
-                var sListSinglePuzzleDetails = HttpContext.Session.GetObjectFromJson<List<Temp>>("listSinglePuzzleDetails");
-                var user = await GetCurrentUserAsync();
-                MultiPuzzle multipuzzle = new MultiPuzzle
+                Active = "1",
+                Approved = "1",
+                ImageID = sMultiPuzzle.ImageID,
+                AuthorID = user.Id,
+                CreateDT = DateTime.Now,
+                Description = sMultiPuzzle.Description,
+                Image = sMultiPuzzle.Image,
+                IsDeleted = false,
+                Like = 0,
+                UpdateDT = DateTime.Now,
+                Title = sMultiPuzzle.Title,
+                NumberQuestion = sMultiPuzzle.NumberQuestion,
+                Slug = sMultiPuzzle.Slug,
+                Note = sMultiPuzzle.Note,
+                Level = 1
+            };
+            List<SinglePuzzle> listSinglePuzzleDetails = new List<SinglePuzzle>(multipuzzle.NumberQuestion - 1);
+            await _context.AddAsync(multipuzzle);
+            foreach (var item in sListSinglePuzzleDetails)
+            {
+                SinglePuzzle singlePuzzleDetails = new SinglePuzzle
                 {
-                    Active = "1",
-                    Approved = "1",
-                    AuthorID = user.Id,
-                    CreateDT = DateTime.Now,
-                    Description = sMultiPuzzle.Description,
-                    Image = sMultiPuzzle.Image,
+                    ImageID = item.Image,
+                    IsMMultiPuzzle = true,
+                    Reason = item.Reason,
+                    AuthorID = (await GetCurrentUserAsync()).Id,
+                    Active = multipuzzle.Active,
+                    Note = multipuzzle.Note,
+                    Title = item.Title,
+                    Description = item.Description,
+                    IsYesNo = item.IsYesNo,
+                    MMultiPuzzleID = multipuzzle.ID,
+                    AnswerA = item.AnswerA,
+                    AnswerB = item.AnswerB,
+                    AnswerC = item.AnswerC,
+                    AnswerD = item.AnswerD,
+                    Correct = item.Correct,
                     IsDeleted = false,
-                    Like = 0,
+                    CreateDT = DateTime.Now,
                     UpdateDT = DateTime.Now,
-                    Title = sMultiPuzzle.Title,
-                    NumberQuestion = sMultiPuzzle.NumberQuestion,
-                    Slug = sMultiPuzzle.Slug,
-                    Note = "",
-                    Level = 1
+                    Approved = "A",
                 };
-                List<SinglePuzzle> listSinglePuzzleDetails = new List<SinglePuzzle>(multipuzzle.NumberQuestion - 1);
-                _context.Add(multipuzzle);
-                foreach (var item in sListSinglePuzzleDetails)
-                {
-                    SinglePuzzle singlePuzzleDetails = new SinglePuzzle
-                    {
-                        Active = multipuzzle.Active,
-                        Note = multipuzzle.Note,
-                        Title = item.Title,
-                        Description = item.Description,
-                        IsYesNo = item.IsYesNo,
-                        MMultiPuzzleID = multipuzzle.ID,
-                        AnswerA = item.AnswerA,
-                        AnswerB = item.AnswerB,
-                        AnswerC = item.AnswerC,
-                        AnswerD = item.AnswerD,
-                        Correct = item.Correct,
-                        //Image = item.Image,
-                        IsDeleted = false,
-                        CreateDT = DateTime.Now,
-                        Approved = "A",
-                    };
-                    _context.Add(singlePuzzleDetails);
-                }
-                await _context.SaveChangesAsync();
+                if (singlePuzzleDetails.ImageID == 0)
+                    singlePuzzleDetails.Image = null;
+                await _context.AddAsync(singlePuzzleDetails);
             }
-            catch (Exception e)
-            {
-                string error = e.StackTrace;
-            }
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "MultiPuzzle");
         }
 
@@ -130,6 +133,7 @@ namespace DVMN.Areas.WebManager.Controllers
                 ViewData["listSinglePuzzleDetails"] = listSinglePuzzleDetails.ToList();
             }
             ViewData["NumberQuestion"] = multiPuzzle.NumberQuestion;
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name");
             return View();
         }
         [HttpPost]
@@ -165,9 +169,9 @@ namespace DVMN.Areas.WebManager.Controllers
         }
 
 
-        private Task<Member> GetCurrentUserAsync()
+        private async Task<Member> GetCurrentUserAsync()
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return await _userManager.GetUserAsync(HttpContext.User);
         }
     }
     

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DVMN.Data;
 using DVMN.Models;
+using DVMN.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace DVMN.Areas.WebManager.Controllers
 {
@@ -14,10 +16,16 @@ namespace DVMN.Areas.WebManager.Controllers
     public class SinglePuzzlesController : Controller
     {
         private readonly ISinglePuzzle _repository;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<Member> _userManager;
 
-        public SinglePuzzlesController(ISinglePuzzle repository)
+        public SinglePuzzlesController(ISinglePuzzle repository,
+            ApplicationDbContext context,
+            UserManager<Member> userManager)
         {
-            _repository = repository;    
+            _repository = repository;
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: WebManager/SinglePuzzles
@@ -60,19 +68,21 @@ namespace DVMN.Areas.WebManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Description,Slug,ImageID,IsYesNo,AnswerA,AnswerB,AnswerC,AnswerD,Correct,Reason,Like,Level,IsMMultiPuzzle,MMultiPuzzleID,Note")] SinglePuzzle singlePuzzle)
+        public async Task<IActionResult> Create(CreateSinglePuzzleViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(singlePuzzle);
-                await _context.SaveChangesAsync();
+                model.AuthorID = (await GetCurrentUser()).Id;
+                await _repository.Add(model);
                 return RedirectToAction("Index");
             }
-            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", singlePuzzle.ImageID);
-            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", singlePuzzle.AuthorID);
-            return View(singlePuzzle);
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", model.ImageID);
+            return View(model);
         }
-
+        private async Task<Member> GetCurrentUser()
+        {
+            return await _userManager.GetUserAsync(HttpContext.User);
+        }
         // GET: WebManager/SinglePuzzles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

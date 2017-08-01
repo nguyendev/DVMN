@@ -26,7 +26,7 @@ namespace DVMN.Controllers
             this._context = _context;
         }
         [Route("/cau-hoi-don/{slug}")]
-        public async Task<IActionResult> SingleSinglePuzzle(string slug, string returnUrl = null)
+        public async Task<IActionResult> SingleSinglePuzzle(string slug)
         {
             var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.Slug == slug);
             HttpContext.Session.SetInt32("Id", single.ID);
@@ -37,17 +37,17 @@ namespace DVMN.Controllers
             }
             return View(single);
         }
-        [Route("/cau-hoi-don/{slug}")]
-        public async Task<IActionResult> SingleMultiPuzzle(string slug, string returnUrl = null)
+        [Route("/cau-hoi-da/{slug}")]
+        public async Task<IActionResult> SingleMultiPuzzle(string slug)
         {
             var multi = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.Slug == slug);
-            HttpContext.Session.SetInt32("Id", multi.ID);
+            var listSingle = await _context.SinglePuzzle.Where(p => p.MMultiPuzzleID == multi.ID).ToListAsync();
             if (!_signInManager.IsSignedIn(HttpContext.User))
             {
                 string path = HttpContext.Request.Path.ToString();
                 HttpContext.Session.SetString("currentUrl", path);
             }
-            return View(multi);
+            return View(listSingle);
         }
 
 
@@ -62,5 +62,16 @@ namespace DVMN.Controllers
             }
             return false;
         }
+        [HttpPost]
+        public async Task<bool> checkAnswerMulti(int select, int id)
+        {
+            var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == id);
+            if (single.Correct == select)
+            {
+                return true;
+            }
+            return false;
+        }
     }
+        
 }

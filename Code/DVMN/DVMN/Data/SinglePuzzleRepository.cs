@@ -1,4 +1,5 @@
-﻿using DVMN.Models;
+﻿using DVMN.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
+using DVMN.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,31 @@ namespace DVMN.Data
         {
             _context = context;
         }
-        public async Task Add(SinglePuzzle model)
+        public async Task Add(CreateSinglePuzzleViewModel model)
         {
-            _context.Add(model);
+            _context.Add(new SinglePuzzle
+            {
+                CreateDT = DateTime.Now,
+                Approved = "A",
+                IsDeleted = false,
+                Active = "A",
+                AnswerA = model.AnswerA,
+                AnswerB = model.AnswerB,
+                AnswerC = model.AnswerC,
+                AnswerD = model.AnswerD,
+                Correct = model.Correct,
+                Title = model.Title,
+                Slug = model.Slug,
+                IsYesNo = model.IsYesNo,
+                Like = 0,
+                Reason = model.Reason,
+                Note = model.Note,
+                Level = 0,
+                Description = model.Description,
+                ImageID = model.ImageID,
+                AuthorID = model.AuthorID,
+                
+            });
             await Save();
         }
 

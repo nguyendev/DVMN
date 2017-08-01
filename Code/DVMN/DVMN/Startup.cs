@@ -77,6 +77,7 @@ namespace DVMN
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IMultiPuzzle, MultiPuzzleRepository>();
             services.AddScoped<IHomeRepository, HomeRepository>();
+            services.AddScoped<ISinglePuzzle, SinglePuzzleRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

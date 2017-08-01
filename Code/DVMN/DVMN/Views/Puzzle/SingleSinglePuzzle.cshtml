@@ -1,93 +1,116 @@
 ﻿@model SinglePuzzle
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Member> signInManager
-<div class="col-md-9">
-    <article class="question single-question question-type-poll">
-        <h2>
-            <a href="single_question.html">@Model.Title</a>
-        </h2>
-        <a class="question-report" href="#">Report</a>
-        <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
-        <div class="question-inner">
-            <div class="clearfix"></div>
-            <div class="question-desc">
-                <div class="poll_2">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <p>@Model.Description</p>
-                            <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="display: none" id="all-answer">
-                                <div class="form-inputs clearfix">
-                                    <p>
-                                        <input id="poll-1" name="poll-radio" type="radio">
-                                        <label for="poll-1">@Model.AnswerA</label>
-                                    </p>
-                                    <p>
-                                        <input id="poll-2" name="poll-radio" type="radio">
-                                        <label for="poll-2">@Model.AnswerB</label>
-                                    </p>
-                                    <p>
-                                        <input id="poll-3" name="poll-radio" type="radio">
-                                        <label for="poll-3">@Model.AnswerC</label>
-                                    </p>
-                                    <p>
-                                        <input id="poll-4" name="poll-radio" type="radio">
-                                        <label for="poll-4">@Model.AnswerD</label>
-                                    </p>
-                                </div>
-                            </form>
-                            @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
-                            @if (signInManager.IsSignedIn(User))
+
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Beautiful Gallery Post.</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a href="#">Home</a>
+                    <span class="crumbs-span">/</span>
+                    <a href="#">Blog</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Beautiful Gallery Post.</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+            <article class="question single-question question-type-poll">
+                <h2>
+                    <a href="single_question.html">@Model.Title</a>
+                </h2>
+                <a class="question-report" href="#">Report</a>
+                <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
+                <div class="question-inner">
+                    <div class="clearfix"></div>
+                    <div class="question-desc">
+                        <div class="poll_2">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <p>@Model.Description</p>
+                                    <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="display: none" id="all-answer">
+                                        <div class="form-inputs clearfix">
+                                            <p>
+                                                <input id="poll-1" name="poll-radio" type="radio">
+                                                <label for="poll-1">@Model.AnswerA</label>
+                                            </p>
+                                            <p>
+                                                <input id="poll-2" name="poll-radio" type="radio">
+                                                <label for="poll-2">@Model.AnswerB</label>
+                                            </p>
+                                            <p>
+                                                <input id="poll-3" name="poll-radio" type="radio">
+                                                <label for="poll-3">@Model.AnswerC</label>
+                                            </p>
+                                            <p>
+                                                <input id="poll-4" name="poll-radio" type="radio">
+                                                <label for="poll-4">@Model.AnswerD</label>
+                                            </p>
+                                        </div>
+                                    </form>
+                                    @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
+                                    @if (signInManager.IsSignedIn(User))
                             {
-                            <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
-                            <button style="display:none" id="submitAnswer" type="submit" class="color button small">Gửi</button>
+                                    <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
+                                    <button style="display:none" id="submitAnswer" type="submit" class="color button small">Gửi</button>
                             }
                             else
                             {
-                            <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
+                                    <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
                             }
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clock pull-right"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="clock pull-right"></div>
+                        <div class="clearfix height_20"></div>
+                        @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
+                        <div class="alert-message error" style="display:none">
+                            <i class="icon-flag"></i>
+                            <p>
+                                <span>Bạn đã trả lời sai. Đáp án đúng @Model.Correct</span><br>
+                                Vì: @Model.Reason
+                            </p>
+                        </div>
+                        <div class="alert-message success" style="display:none">
+                            <i class="icon-ok"></i>
+                            <p>
+                                <span>Chúc mừng bạn</span><br>
+                                Vì: @Model.Reason
+                            </p>
                         </div>
                     </div>
+                    <div class="question-details">
+                        <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                        <span class="question-favorite"><i class="icon-star"></i>5</span>
+                    </div>
+                    <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
+                    <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+                    <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+                    <span class="question-view"><i class="icon-user"></i>70 views</span>
+                    <span class="single-question-vote-result">+22</span>
+                    <ul class="single-question-vote">
+                        <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
+                        <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix height_20"></div>
-                @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
-                <div class="alert-message error" style="display:none">
-                    <i class="icon-flag"></i>
-                    <p>
-                        <span>Bạn đã trả lời sai. Đáp án đúng @Model.Correct</span><br>
-                        Vì: @Model.Reason
-                    </p>
-                </div>
-                <div class="alert-message success" style="display:none">
-                    <i class="icon-ok"></i>
-                    <p>
-                        <span>Chúc mừng bạn</span><br>
-                        Vì: @Model.Reason
-                    </p>
-                </div>
-            </div>
-            <div class="question-details">
-                <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-                <span class="question-favorite"><i class="icon-star"></i>5</span>
-            </div>
-            <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-            <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-            <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-            <span class="question-view"><i class="icon-user"></i>70 views</span>
-            <span class="single-question-vote-result">+22</span>
-            <ul class="single-question-vote">
-                <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
-                <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
-            </ul>
-            <div class="clearfix"></div>
+            </article>
         </div>
-    </article>
-</div>
-<aside class="col-md-3 sidebar">
-    @Html.Partial("_SidebarPartial")
-</aside>
+        <aside class="col-md-3 sidebar">
+            @Html.Partial("_SidebarPartial")
+        </aside>
+    </div>
+</section>
 @section Style {
     <link href="~/plugins/flipclock/compiled/flipclock.css" rel="stylesheet" />
 }

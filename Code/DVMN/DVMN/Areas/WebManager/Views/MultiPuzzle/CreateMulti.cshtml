@@ -61,7 +61,9 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Hình ảnh minh hoa</label>
                                     <div class="col-md-10">
-                                        <input id="Image_@i" class="form-control" />
+                                        <select id="Image_@i" class="form-control" asp-items="ViewBag.ImageID">
+                                            <option disabled selected>--- Chọn ---</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -105,12 +107,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-2 control-label">Đáp án chính xác</label>
+                                    <label class="col-md-2 control-label">Lý do</label>
                                     <div class="col-md-10">
                                         <textarea class="ckeditor" id="Reason_@i"></textarea>
                                     </div>
                                 </div>
-                                Reason
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Lưu câu này" id="@i" class="btn btn-success update_form pull-right" />
@@ -165,6 +166,7 @@
             var AnswerB = 'AnswerB_' + Id;
             var AnswerC = 'AnswerC_' + Id;
             var AnswerD = 'AnswerD_' + Id;
+            var Correct = 'Correct_' + Id;
             var Reason = 'Reason_' + Id;
             var Temp = {
                 ID: Id,
