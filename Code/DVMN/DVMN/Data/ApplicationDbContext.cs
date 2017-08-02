@@ -32,6 +32,6 @@ namespace DVMN.Data
         public DbSet<Images> Images { get; set;}
         public DbSet<SinglePuzzleTag> SingPuzzleTag { get; set; }
         public DbSet<DVMN.Models.SinglePuzzle> SinglePuzzle { get; set; }
-
+        public DbSet<HistoryAnswerPuzzle> HistoryAnswerPuzzle { get; set; }
     }
 }

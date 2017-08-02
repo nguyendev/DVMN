@@ -12,10 +12,13 @@ namespace DVMN.Controllers
     public class HomeController : Controller
     {
         private readonly IHomeRepository _repository;
+        private readonly ISidebarRepository _sidebarRepository;
 
-        public HomeController(IHomeRepository repository)
+        public HomeController(IHomeRepository repository,
+            ISidebarRepository sidebarRepository)
         {
             _repository = repository;
+            _sidebarRepository = sidebarRepository;
         }
 
         [ResponseCache(CacheProfileName = "Default")]
@@ -23,6 +26,7 @@ namespace DVMN.Controllers
         {
             //ViewData["listPuzzleNormal"] = await _context.MultiPuzzle.ToListAsync();
             ViewData["listSinglePuzzle"] = await _repository.GetIndex();
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View();
         }
         

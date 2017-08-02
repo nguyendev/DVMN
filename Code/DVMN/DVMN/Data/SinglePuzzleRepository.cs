@@ -1,5 +1,6 @@
 ﻿using DVMN.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 using DVMN.Models;
+using DVMN.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace DVMN.Data
         }
         public async Task Add(CreateSinglePuzzleViewModel model)
         {
-            _context.Add(new SinglePuzzle
+            SinglePuzzle single = new SinglePuzzle
             {
                 CreateDT = DateTime.Now,
                 Approved = "A",
@@ -39,8 +40,25 @@ namespace DVMN.Data
                 Description = model.Description,
                 ImageID = model.ImageID,
                 AuthorID = model.AuthorID,
-                
-            });
+
+            };
+            _context.SinglePuzzle.Add(single);
+            // Get and convert string to create tag
+            List<string> listString = StringExtensions.ConvertStringToListString(model.TempTag);
+            List<Tag> listTag = new List<Tag>(listString.Capacity - 1);
+
+            // Save all tag
+            foreach (var item in listString)
+            {
+                Tag tag = new Tag
+                {
+                    Title = item,
+                    Slug = StringExtensions.ConvertToUnSign3(item)
+                };
+                _context.Add(tag);
+                _context.Add(new SinglePuzzleTag { TagID = tag.ID, SinglePuzzleID = single.ID });
+            }
+
             await Save();
         }
 

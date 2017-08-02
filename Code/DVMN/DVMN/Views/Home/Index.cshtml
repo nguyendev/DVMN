@@ -1,6 +1,9 @@
 ﻿@{
     IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel> listSinglePuzzle = ViewData["listSinglePuzzle"] as IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel>;
+    IEnumerable<DVMN.Models.SidebarViewModels.AllSidebarViewModel> sidebar = ViewData["sidebar"] as IEnumerable<DVMN.Models.SidebarViewModels.AllSidebarViewModel>;
+
 }
+<br /><br />
 <section class="container main-content">
     <div class="row">
         <div class="col-md-9">
@@ -528,7 +531,7 @@
         </div><!-- End main -->
 
         <aside class="col-md-3 sidebar">
-            @Html.Partial("_SidebarPartial")
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
         </aside>
     </div>
 </section>

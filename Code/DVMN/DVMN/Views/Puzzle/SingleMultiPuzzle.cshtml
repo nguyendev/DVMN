@@ -1,9 +1,15 @@
-﻿@model IEnumerable<SinglePuzzle>
+﻿@model IEnumerable<DVMN.Models.PuzzleViewModels.SingleSinglePuzzleViewModel>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Member> signInManager
 @{
+    ViewData["Title"] = "";
     int id = 0;
     int sequence = 1;
+    string scheme = Context.Request.Scheme;
+    string host = Context.Request.Host.Host;
+    string port = Context.Request.Host.Port.ToString();
+    string path = Context.Request.Path;
+    string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, path);
 }
 <div class="breadcrumbs">
     <section class="container">
@@ -26,108 +32,225 @@
 
 <section class="container main-content">
     <div class="row">
-
-
         <div class="col-md-9">
-            <div class="tabs-warp">
+            <div class="tabs-warp question-tab">
                 <ul class="tabs">
                     @foreach (var item in Model)
             {
-                    <li class="tab"><a href="#" class="">Câu @sequence</a></li>
+                        <li class="tab"><a href="#" class="">Câu @sequence</a></li>
                         sequence++;
                     }
                 </ul>
-                @foreach (var item in Model)
-                {
-                    id = item.ID;
-                <div class="tab-inner-warp">
-                    <div class="tab-inner">
-                        <article class="question single-question question-type-poll">
-                            <h2>
-                                <a href="single_question.html">@item.Title</a>
-                            </h2>
-                            <a class="question-report" href="#">Báo cáo</a>
-                            <div class="question-type-main"><i class="icon-signal"></i>Trắc nghiệm</div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <div class="question-desc">
-                                    <div class="poll_2">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                @Html.Raw(item.Description)
-                                                <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="display: none" id="all-answer_@id">
-                                                    <div class="form-inputs clearfix">
-                                                        <p>
-                                                            <input id="poll-1_@id" name="poll-radio" type="radio">
-                                                            <label for="poll-1">@item.AnswerA</label>
-                                                        </p>
-                                                        <p>
-                                                            <input id="poll-2_@id" name="poll-radio" type="radio">
-                                                            <label for="poll-2">@item.AnswerB</label>
-                                                        </p>
-                                                        <p>
-                                                            <input id="poll-3_@id" name="poll-radio" type="radio">
-                                                            <label for="poll-3">@item.AnswerC</label>
-                                                        </p>
-                                                        <p>
-                                                            <input id="poll-4_@id" name="poll-radio" type="radio">
-                                                            <label for="poll-4">@item.AnswerD</label>
-                                                        </p>
+
+               
+                    @foreach (var item in Model)
+                    {
+                        if (!item.IsAnswered)
+                        {
+                            ViewData["Display"] = "display: none";
+                        }
+                        else
+                        {
+                            ViewData["Display"] = "";
+                        }
+
+                        id = item.ID;
+                        <div class="tab-inner-warp">
+                            <div class="tab-inner">
+                                <article class="question single-question question-type-poll">
+                                    <h2>
+                                        <a href="single_question.html">@item.Title</a>
+                                    </h2>
+                                    <a class="question-report" href="#">Báo cáo</a>
+                                    <div class="question-type-main"><i class="icon-signal"></i>Trắc nghiệm</div>
+                                    <div class="question-inner">
+                                        <div class="clearfix"></div>
+                                        <div class="question-desc">
+                                            <div class="poll_2">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        @Html.Raw(item.Description)
+                                                        <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="@ViewData["Display"]" id="all-answer_@id">
+                                                            <div class="form-inputs clearfix">
+                                                                <p>
+                                                                    <input id="poll-1_@id" name="poll-radio" type="radio">
+                                                                    <label for="poll-1">@item.AnswerA</label>
+                                                                </p>
+                                                                <p>
+                                                                    <input id="poll-2_@id" name="poll-radio" type="radio">
+                                                                    <label for="poll-2">@item.AnswerB</label>
+                                                                </p>
+                                                                <p>
+                                                                    <input id="poll-3_@id" name="poll-radio" type="radio">
+                                                                    <label for="poll-3">@item.AnswerC</label>
+                                                                </p>
+                                                                <p>
+                                                                    <input id="poll-4_@id" name="poll-radio" type="radio">
+                                                                    <label for="poll-4">@item.AnswerD</label>
+                                                                </p>
+                                                            </div>
+                                                        </form>
+                                                        @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
+                                                        @if (signInManager.IsSignedIn(User))
+                                                        {
+                                                            if (!item.IsAnswered)
+                                                            {
+                                                                <button class="color button small margin_0 start" id="@id">Bắt đầu trả lời</button>
+                                                                <button style="display:none" id="@id-submitAnswer" type="submit" class="submitAnswer color button small">Gửi</button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
+                                                        }
                                                     </div>
-                                                </form>
-                                                @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
-                                                @if (signInManager.IsSignedIn(User))
-                                                    {
-                                                    <button class="color button small margin_0 start" id="@id">Bắt đầu trả lời</button>
-                                                    <button style="display:none" id="@id-submitAnswer" type="submit" class="submitAnswer color button small">Gửi</button>
-                                                    }
-                                                    else
-                                                    {
-                                                    <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
-                                                    }
+                                                    <div class="col-md-3">
+                                                        <div id="clock_@id" class="clock pull-right"></div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <div id="clock_@id" class="clock pull-right"></div>
-                                            </div>
+                                            <div class="clearfix height_20"></div>
+                                            @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
+                                            @if (!item.IsAnswered)
+                                            {
+                                                <div class="alert-message error" id="error_@id" style="display:none">
+                                                    <i class="icon-flag"></i>
+                                                    <p>
+                                                        <span>Bạn đã trả lời sai. Đáp án đúng @item.Correct</span><br>
+                                                        Vì: @item.Reason
+                                                    </p>
+                                                </div>
+                                                <div class="alert-message success" id="success_@id" style="display:none">
+                                                    <i class="icon-ok"></i>
+                                                    <p>
+                                                        <span>Chúc mừng bạn</span><br>
+                                                        Vì: @item.Reason
+                                                    </p>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="alert-message success" id="success_@id">
+                                                    <i class="icon-ok"></i>
+                                                    <p>
+                                                        <span>Đáp án đúng @item.Correct</span><br>
+                                                        Vì: @item.Reason
+                                                    </p>
+                                                </div>
+                                            }
                                         </div>
+                                        <div class="question-details">
+                                            <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                                            <span class="question-favorite"><i class="icon-star"></i>5</span>
+                                        </div>
+                                        <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
+                                        <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+                                        <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+                                        <span class="question-view"><i class="icon-user"></i>70 views</span>
+                                        <span class="single-question-vote-result">+22</span>
+                                        <ul class="single-question-vote">
+                                            <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
+                                            <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
+                                        </ul>
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="clearfix height_20"></div>
-                                    @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
-                                    <div class="alert-message error" id="error_@id" style="display:none">
-                                        <i class="icon-flag"></i>
-                                        <p>
-                                            <span>Bạn đã trả lời sai. Đáp án đúng @item.Correct</span><br>
-                                            Vì: @item.Reason
-                                        </p>
+                                </article>
+                                <div class="share-tags page-content">
+                                    <div class="question-tags">
+                                        <i class="icon-tags"></i>
+                                        @if (item.Tags.Any()) { 
+                                            foreach (var itemDetail in item.Tags)
+                                            {
+                                                <a asp-action="tag" asp-controller="Tag" asp-route-slug="@itemDetail.Tag.Slug">@itemDetail.Tag.Title</a><i>, </i>
+                                            }
+                                        }
                                     </div>
-                                    <div class="alert-message success" id="success_@id" style="display:none">
-                                        <i class="icon-ok"></i>
-                                        <p>
-                                            <span>Chúc mừng bạn</span><br>
-                                            Vì: @item.Reason
-                                        </p>
-                                    </div>
+                                    <div class="share-inside-warp">
+                                        <ul>
+                                            <li>
+                                                <a href="#" original-title="Facebook">
+                                                    <span class="icon_i">
+                                                        <span class="icon_square" icon_size="20" span_bg="#3b5997" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(59, 89, 151); border-style: solid;">
+                                                            <i i_color="#FFF" class="social_icon-facebook" style="color: rgb(255, 255, 255);"></i>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" target="_blank">Facebook</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank">
+                                                    <span class="icon_i">
+                                                        <span class="icon_square" icon_size="20" span_bg="#00baf0" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(0, 186, 240); border-style: solid;">
+                                                            <i i_color="#FFF" class="social_icon-twitter" style="color: rgb(255, 255, 255);"></i>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                                <a target="_blank" href="#">Twitter</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank">
+                                                    <span class="icon_i">
+                                                        <span class="icon_square" icon_size="20" span_bg="#ca2c24" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(202, 44, 36); border-style: solid;">
+                                                            <i i_color="#FFF" class="social_icon-gplus" style="color: rgb(255, 255, 255);"></i>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" target="_blank">Google plus</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank">
+                                                    <span class="icon_i">
+                                                        <span class="icon_square" icon_size="20" span_bg="#e64281" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(230, 66, 129); border-style: solid;">
+                                                            <i i_color="#FFF" class="social_icon-dribbble" style="color: rgb(255, 255, 255);"></i>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" target="_blank">Dribbble</a>
+                                            </li>
+                                            <li>
+                                                <a target="_blank" href="#">
+                                                    <span class="icon_i">
+                                                        <span class="icon_square" icon_size="20" span_bg="#c7151a" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(199, 21, 26); border-style: solid;">
+                                                            <i i_color="#FFF" class="icon-pinterest" style="color: rgb(255, 255, 255);"></i>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                                <a href="#" target="_blank">Pinterest</a>
+                                            </li>
+                                        </ul>
+                                        <span class="share-inside-f-arrow"></span>
+                                        <span class="share-inside-l-arrow"></span>
+                                    </div><!-- End share-inside-warp -->
+                                    <div class="share-inside"><i class="icon-share-alt"></i>Share</div>
+                                    <div class="clearfix"></div>
                                 </div>
-                                <div class="question-details">
-                                    <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <span class="single-question-vote-result">+22</span>
-                                <ul class="single-question-vote">
-                                    <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
-                                    <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
-                                </ul>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                }
+                                @*<div class="about-author clearfix">
+            <div class="author-image">
+                <a href="#" original-title="admin" class="tooltip-n"><img alt="" src="http://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
             </div>
+            <div class="author-bio">
+                <h4>About the Author</h4>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra auctor neque. Nullam lobortis, sapien vitae lobortis tristique.
+            </div>
+        </div>*@<!-- End about-author -->
+                                <!-- End Share-tags -->
+                                <div id="related-posts">
+                                    <h2>Related questions</h2>
+                                    <ul class="related-posts">
+                                        <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This Is My Second Poll Question</a></h3></li>
+                                        <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my third Question</a></h3></li>
+                                        <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fourth Question</a></h3></li>
+                                        <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fifth Question</a></h3></li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- End related-posts -->
+                            </div>
+                            </div>
+                            }
+                <div class="fb-comments" data-width="100%" data-href="@string.Format("{0}",@url)" data-numposts="7"></div>
+                        </div>
+            
         </div>
         <aside class="col-md-3 sidebar">
             @Html.Partial("_SidebarPartial")

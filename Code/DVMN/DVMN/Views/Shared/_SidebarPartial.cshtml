@@ -1,15 +1,17 @@
+﻿@model DVMN.Models.SidebarViewModels.AllSidebarViewModel
+
 <div class="widget widget_stats">
-    <h3 class="widget_title">Stats</h3>
+    <h3 class="widget_title">Thống kê</h3>
     <div class="ul_list ul_list-icon-ok">
         <ul>
-            <li><i class="icon-question-sign"></i>Questions ( <span>20</span> )</li>
-            <li><i class="icon-comment"></i>Answers ( <span>50</span> )</li>
+            <li><a asp-controller="Puzzle" asp-action="ListSinglePuzzle"><i class="icon-question-sign"></i>Câu hỏi đơn ( <span>20</span> )</a></li>
+            <li><a asp-controller="Puzzle" asp-action="ListMultiPuzzle"><i class="icon-comment"></i>Câu hỏi đa ( <span>50</span> )</a></li>
         </ul>
     </div>
 </div>
 
 <div class="widget widget_social">
-    <h3 class="widget_title">Find Us</h3>
+    <h3 class="widget_title">Tìm chúng tôi</h3>
     <ul>
         <li class="rss-subscribers">
             <a href="#" target="_blank">
@@ -50,7 +52,7 @@
     </ul>
 </div>
 
-<div class="widget widget_login">
+@*<div class="widget widget_login">
     <h3 class="widget_title">Login</h3>
     <div class="form-style form-style-2">
         <form>
@@ -77,32 +79,21 @@
         </ul>
         <div class="clearfix"></div>
     </div>
-</div>
+</div>*@
 
 <div class="widget widget_highest_points">
-    <h3 class="widget_title">Highest points</h3>
+    <h3 class="widget_title">Vua giải đố</h3>
     <ul>
+        @foreach(var item in Model.TopUser)
+        { 
         <li>
             <div class="author-img">
-                <a href="#"><img width="60" height="60" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg" alt=""></a>
+                <a href="#"><img width="60" height="60" src="@item.Image" alt="@item.FullName"></a>
             </div>
-            <h6><a href="#">admin</a></h6>
-            <span class="comment">12 Points</span>
+            <h6><a href="#">@item.FullName</a></h6>
+            <span class="comment">@item.Point điểm</span>
         </li>
-        <li>
-            <div class="author-img">
-                <a href="#"><img width="60" height="60" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png" alt=""></a>
-            </div>
-            <h6><a href="#">vbegy</a></h6>
-            <span class="comment">10 Points</span>
-        </li>
-        <li>
-            <div class="author-img">
-                <a href="#"><img width="60" height="60" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png" alt=""></a>
-            </div>
-            <h6><a href="#">ahmed</a></h6>
-            <span class="comment">5 Points</span>
-        </li>
+        }
     </ul>
 </div>
 
@@ -119,7 +110,7 @@
 </div>
 
 <div class="widget">
-    <h3 class="widget_title">Recent Questions</h3>
+    <h3 class="widget_title">Câu hỏi gần đây</h3>
     <ul class="related-posts">
         <li class="related-item">
             <h3><a href="#">This is my first Question</a></h3>

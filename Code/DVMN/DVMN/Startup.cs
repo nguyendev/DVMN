@@ -78,6 +78,8 @@ namespace DVMN
             services.AddScoped<IMultiPuzzle, MultiPuzzleRepository>();
             services.AddScoped<IHomeRepository, HomeRepository>();
             services.AddScoped<ISinglePuzzle, SinglePuzzleRepository>();
+            services.AddScoped<IPuzzleRepository, PuzzleRepository>();
+            services.AddScoped<ISidebarRepository, SidebarRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

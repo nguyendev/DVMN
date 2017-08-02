@@ -1,0 +1,77 @@
+﻿@model IEnumerable<DVMN.Models.PuzzleViewModels.SingleSinglePuzzleViewModel>
+    <div class="breadcrumbs">
+        <section class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Blog 2</h1>
+                </div>
+                <div class="col-md-12">
+                    <div class="crumbs">
+                        <a href="#">Home</a>
+                        <span class="crumbs-span">/</span>
+                        <span class="current">Blog 2</span>
+                    </div>
+                </div>
+            </div><!-- End row -->
+        </section><!-- End container -->
+    </div><!-- End breadcrumbs -->
+
+    <section class="container main-content">
+        <div class="row">
+            <div class="col-md-9">
+                @foreach (var item in Model)
+                {
+                    if (item.ImageID.HasValue)
+                    {
+                        <article class="post blog_2 clearfix">
+                            <div class="post-inner">
+                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                <div class="post-img"><a href="single_post.html"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                <div class="post-meta">
+                                    <span class="meta-author"><i class="icon-user"></i><a href="#">Administrator</a></span>
+                                    <span class="meta-date"><i class="icon-time"></i>September 30 , 2013</span>
+                                    <span class="meta-categories"><i class="icon-suitcase"></i><a href="#">Test</a></span>
+                                    <span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>
+                                </div>
+                                <div class="post-content">
+                                    <p>@item.Description</p>
+                                    <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                </div><!-- End post-content -->
+                            </div><!-- End post-inner -->
+                        </article>
+                    }
+                    else
+                    {
+                        <article class="question question-type-normal">
+                            <h2>
+                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                            </h2>
+                            @*<a class="question-report" href="#">Report</a>
+                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                            <div class="question-author">
+                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
+                            </div>
+                            <div class="question-inner">
+                                <div class="clearfix"></div>
+                                <p class="question-desc">@item.Description.</p>
+                                <div class="question-details">
+                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                </div>
+                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
+                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </article>
+
+                    }
+                }
+
+            </div><!-- End main -->
+            <aside class="col-md-3 sidebar">
+                @Html.Partial("_SidebarPartial")
+            </aside><!-- End sidebar -->
+        </div><!-- End row -->
+    </section><!-- End container -->
