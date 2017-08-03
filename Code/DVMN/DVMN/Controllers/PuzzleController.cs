@@ -39,6 +39,7 @@ namespace DVMN.Controllers
         {
             var single = await _context.SinglePuzzle.Include(p => p.Image)
                 .Where(p => !p.IsMMultiPuzzle) .ToListAsync();
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
 
@@ -47,6 +48,7 @@ namespace DVMN.Controllers
         {
             var single = await _context.MultiPuzzle.Include(p => p.Image)
                 .ToListAsync();
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
 
@@ -57,8 +59,7 @@ namespace DVMN.Controllers
             SingleSinglePuzzleViewModel single = await _repository.GetSingleSinglePuzzle(slug);
             var user = await GetCurrentUser();
 
-            // Kiem tra thu da tra loi cau hoi nay chua
-            single.IsAnswered =  await _repository.IsAnswerPuzzle(single.ID,user.Id);
+            
             HttpContext.Session.SetInt32("Id", single.ID);
 
             // save currentURL to return after login
@@ -67,9 +68,15 @@ namespace DVMN.Controllers
                 string path = HttpContext.Request.Path.ToString();
                 HttpContext.Session.SetString("currentUrl", path);
             }
+            else
+            {
+                // Kiem tra thu da tra loi cau hoi nay chua
+                single.IsAnswered = await _repository.IsAnswerPuzzle(single.ID, user.Id);
+            }
 
             // increase View
             await _repository.IsWatchedSingleSinglePuzzle(slug);
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
         [Route("/cau-hoi-da/{slug}")]
@@ -78,19 +85,22 @@ namespace DVMN.Controllers
             IEnumerable<SingleSinglePuzzleViewModel> listSingle = await _repository.GetSingleMultiPuzzle(slug);
             var user = await GetCurrentUser();
 
-            // Kiem tra thu da tra loi cau hoi nay chua
-            foreach(var item in listSingle)
-            { 
-                item.IsAnswered = await _repository.IsAnswerPuzzle(item.ID, user.Id);
-            }
-
             if (!_signInManager.IsSignedIn(HttpContext.User))
             {
                 string path = HttpContext.Request.Path.ToString();
                 HttpContext.Session.SetString("currentUrl", path);
             }
+            else
+            {
+                // Kiem tra thu da tra loi cau hoi nay chua
+                foreach (var item in listSingle)
+                {
+                    item.IsAnswered = await _repository.IsAnswerPuzzle(item.ID, user.Id);
+                }
+            }
 
             await _repository.IsWatchedSingleMultiPuzzle(slug);
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(listSingle);
         }
 

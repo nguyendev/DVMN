@@ -26,7 +26,13 @@ namespace DVMN.Models.PuzzleViewModels
         public int Like { get; set; }
         public string DateTime { get; set; }
         public float Level { get; set; }
-
         public bool IsAnswered { get; set; }
+        public IEnumerable<SimplePostPuzzle> RelatedPuzzle { get; set; }
+    }
+    public class SimplePostPuzzle
+    {
+        public string Title { get; set; }
+        public string Slug { get; set; }
+
     }
 }

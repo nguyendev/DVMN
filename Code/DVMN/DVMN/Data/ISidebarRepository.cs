@@ -12,5 +12,7 @@ namespace DVMN.Data
 
         Task<IEnumerable<TopUserViewModel>> GetTopMemberPuzzle();
         Task<IEnumerable<TopTagViewModel>> GetTopTagPuzzle();
+
+        Task<IEnumerable<TopPuzzleViewModel>> GetTopRecentPuzzle();
     }
 }

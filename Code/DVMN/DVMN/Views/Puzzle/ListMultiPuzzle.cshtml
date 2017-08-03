@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<DVMN.Models.PuzzleViewModels.SingleSinglePuzzleViewModel>
+@{
+    DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
+}
     <div class="breadcrumbs">
         <section class="container">
             <div class="row">
@@ -71,7 +74,7 @@
 
             </div><!-- End main -->
             <aside class="col-md-3 sidebar">
-                @Html.Partial("_SidebarPartial")
+                @await Html.PartialAsync("_SidebarPartial", sidebar)
             </aside><!-- End sidebar -->
         </div><!-- End row -->
     </section><!-- End container -->

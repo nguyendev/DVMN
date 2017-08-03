@@ -10,5 +10,10 @@ namespace DVMN.Models.SidebarViewModels
         public IEnumerable<TopUserViewModel> TopUser { get; set; }
 
         public IEnumerable<TopTagViewModel> TopTag { get; set; }
+
+        public IEnumerable<TopPuzzleViewModel> RecentPuzzle { get; set; }
+
+        public long CountSinglePuzzle { get; set; }
+        public long CountMultiPuzzle { get; set; }
     }
 }

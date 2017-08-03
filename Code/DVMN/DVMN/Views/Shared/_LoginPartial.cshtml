@@ -7,7 +7,7 @@
 }
 
 <div class="panel-pop" id="signup">
-    <h2>Register Now<i class="icon-remove"></i></h2>
+    <h2>Đăng nhập<i class="icon-remove"></i></h2>
     <div class="form-style form-style-3">
         @{
 
@@ -24,21 +24,23 @@
             else
             {
                 <form asp-area="webmanager" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                    <div class="social-auth-links text-center">
                         @foreach (var provider in loginProviders)
                         {
-                            <p>- Hoặc -</p>
+
                             if (provider.DisplayName == "Facebook")
                             {
-                                <button type="submit" class="btn btn-block btn-social btn-facebook btn-flat" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-facebook"></i>Đăng nhập với @provider.AuthenticationScheme</button>
+                                <p>
+                                    <button type="submit" class="button small blue-button" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-facebook"></i> Đăng nhập với @provider.AuthenticationScheme</button>
+                                </p>
                             }
                             else
                             {
-                                <button type="submit" class="btn btn-block btn-social btn-google btn-flat" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-google-plus"></i>Đăng nhập với @provider.AuthenticationScheme</button>
+                                <p>
+                                    <button type="submit" class="btn btn-block btn-social btn-google btn-flat" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-google-plus"></i> Đăng nhập với @provider.AuthenticationScheme</button>
+                                </p>
                             }
                         }
-                    </div>
-                </form>
+</form>
             }
         }
     </div>

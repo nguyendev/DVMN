@@ -34,6 +34,16 @@ namespace DVMN.Data
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .SingleOrDefaultAsync(p => p.Slug == slug);
+            var bestSingle = await _context.SinglePuzzle
+                .Take(4)
+                .Where(p => !p.IsMMultiPuzzle)
+                .OrderByDescending(p => p.Like)
+                .ToListAsync();
+            List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
+            foreach(var item in bestSingle)
+            {
+                listbestPuzzle.Add(new SimplePostPuzzle { Slug = item.Slug, Title = item.Title });
+            }
             var tags = await _context.SingPuzzleTag
                .Include(p => p.SinglePuzzle)
                .Include(p => p.Tag)
@@ -61,7 +71,8 @@ namespace DVMN.Data
                 Correct = single.Correct,
                 Description = single.Description,
                 Image = single.Image,
-                DateTime = DateTimeExtension.CurrentDay(single.CreateDT.Value)
+                DateTime = DateTimeExtension.CurrentDay(single.CreateDT.Value),
+                RelatedPuzzle = listbestPuzzle
             };
             return model;
         }

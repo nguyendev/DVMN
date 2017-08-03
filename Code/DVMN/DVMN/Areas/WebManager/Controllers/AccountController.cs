@@ -214,7 +214,7 @@ namespace DVMN.Areas.Admin.Controllers
                 var pictureSmall = $"https://graph.facebook.com/{identifier}/picture?width=128&height=128";
                 var pictureBig = $"https://graph.facebook.com/{identifier}/picture?width=160&height=160";
                 info = await _signInManager.GetExternalLoginInfoAsync();
-                var user = new Member { UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName), FullName = fullName, Email = email, PictureSmall = pictureSmall, PictureBig = pictureBig, DateofBirth = dateOfBirth };
+                var user = new Member { UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName) + "-"+StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, PictureBig = pictureBig, DateofBirth = dateOfBirth };
                 var createResult = await _userManager.CreateAsync(user);
                 if (createResult.Succeeded)
                 {

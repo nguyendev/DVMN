@@ -17,7 +17,7 @@
     {
         ViewData["Display"] = "";
     }
-
+    DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
 }
 <div class="breadcrumbs">
     <section class="container">
@@ -217,19 +217,19 @@
             </div>*@<!-- End about-author -->
             <!-- End Share-tags -->
             <div id="related-posts">
-                <h2>Related questions</h2>
+                <h2>Câu đố hay</h2>
                 <ul class="related-posts">
-                    <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This Is My Second Poll Question</a></h3></li>
-                    <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my third Question</a></h3></li>
-                    <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fourth Question</a></h3></li>
-                    <li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fifth Question</a></h3></li>
+                    @foreach (var item in Model.RelatedPuzzle)
+                    { 
+                    <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                    }
                 </ul>
             </div>
             <div class="fb-comments" data-width="100%" data-href="@string.Format("{0}",@url)" data-numposts="7"></div>
             <!-- End related-posts -->
         </div>
         <aside class="col-md-3 sidebar">
-            @Html.Partial("_SidebarPartial")
+            @await Html.PartialAsync("_SidebarPartial",sidebar)
         </aside>
     </div>
 </section>

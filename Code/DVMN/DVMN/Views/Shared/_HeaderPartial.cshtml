@@ -8,13 +8,12 @@
     <section class="container clearfix">
         <nav class="header-top-nav">
             <ul>
-                <li><a href="contact_us.html"><i class="icon-envelope"></i>Liên hệ</a></li>
+                <li><a asp-action="Contact" asp-controller="Home"><i class="icon-envelope"></i>Liên hệ</a></li>
                 <li><a href="#"><i class="icon-headphones"></i>Hỗ trợ</a></li>
                 @if (SignInManager.IsSignedIn(User))
                 {
-
                     <li>
-                        <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Xin chào @UserManager.GetUserName(User)!</a>
+                        <a href="#">Xin chào @UserManager.GetUserName(User)!</a>
                     </li>
                     <li>
                         @*<form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
@@ -38,10 +37,13 @@
 </div><!-- End header-top -->
 <header id="header">
     <section class="container clearfix">
-        <div class="logo"><a href="index.html"><img alt="" src="~/images/logo.png"></a></div>
+        <div class="logo"><a asp-controller="Home" asp-action="Index"><img alt="" src="~/images/logo.png"></a></div>
         <nav class="navigation">
             <ul>
-                <li class="current_page_item">
+                <li><a asp-action="ListSinglePuzzle" asp-controller="Puzzle">Mỗi ngày một câu đố</a></li>
+                <li><a asp-action="ListMultiPuzzle" asp-controller="Puzzle">Câu đố đặc biệt</a></li>
+                @*<li class="ask_question"><a href="ask_question.html">Ask Question</a></li>*@
+                @*<li class="current_page_item">
                     <a href="index.html">Home</a>
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -50,9 +52,9 @@
                         <li><a href="index_boxed_2.html">Home Boxed 2</a></li>
                         <li class="current_page_item"><a href="index_no_box.html">Home No Box</a></li>
                     </ul>
-                </li>
-                <li class="ask_question"><a href="ask_question.html">Ask Question</a></li>
-                <li>
+                </li>*@
+                
+                @*<li>
                     <a href="cat_question.html">Questions</a>
                     <ul>
                         <li><a href="cat_question.html">Questions Category</a></li>
@@ -111,8 +113,8 @@
                         <li><a href="full_width.html">Full Width</a></li>
                         <li><a href="404.html">404</a></li>
                     </ul>
-                </li>
-                <li><a asp-controller="Home" asp-action="Index">Shortcodes</a></li>
+                </li>*@
+                @*<li><a asp-controller="Home" asp-action="Index">Shortcodes</a></li>*@
                 @*<li><a href="shortcodes.html">Shortcodes</a></li>
                     <li><a asp-controller="Home" asp-action>Contact Us</a></li>*@
             </ul>

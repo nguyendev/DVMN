@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DVMN.Models.HomeViewModels;
 using Microsoft.EntityFrameworkCore;
+using DVMN.Services;
 
 namespace DVMN.Data
 {
@@ -43,6 +44,9 @@ namespace DVMN.Data
                         ImageID = item.ImageID,
                         Description = item.Description,
                         IsMultiPuzzle = false,
+                        DateTime = item.CreateDT,
+                        ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                        Like = item.Like,
                         Title = item.Title
                     });
                 }
@@ -57,7 +61,10 @@ namespace DVMN.Data
                         ImageID = item.ImageID,
                         Description = item.Description,
                         Title = item.Title,
-                        IsMultiPuzzle = true
+                        DateTime = item.CreateDT,
+                        Like = item.Like,
+                        ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                        IsMultiPuzzle = true,
                     });
                 }
                 return model.OrderByDescending(p => p.DateTime);

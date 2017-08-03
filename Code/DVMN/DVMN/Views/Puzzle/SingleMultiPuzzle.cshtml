@@ -10,6 +10,7 @@
     string port = Context.Request.Host.Port.ToString();
     string path = Context.Request.Path;
     string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, path);
+    DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
 }
 <div class="breadcrumbs">
     <section class="container">
@@ -253,7 +254,7 @@
             
         </div>
         <aside class="col-md-3 sidebar">
-            @Html.Partial("_SidebarPartial")
+            @await Html.PartialAsync("_SidebarPartial",sidebar)
         </aside>
     </div>
 </section>

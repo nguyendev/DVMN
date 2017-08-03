@@ -14,7 +14,10 @@ namespace DVMN.Models.HomeViewModels
 
         public Images Image { get; set; }
         public DateTime? DateTime { get; set; }
+
+        public string ShowTime { get; set; }
         public Member Author { get; set; }
+        public int Like { get; set; }
         public int Views { get; set; }
 
         public bool IsMultiPuzzle { get; set; }

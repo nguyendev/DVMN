@@ -1260,6 +1260,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Member\" />
     <Folder Include="Views\TestCache\" />
     <Folder Include="wwwroot\lib\kendo-ui\" />
     <Folder Include="wwwroot\plugins\flipclock\" />

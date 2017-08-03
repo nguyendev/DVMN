@@ -58,7 +58,7 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    <div class="loader"><div class="loader_html"></div></div>
+    @*<div class="loader"><div class="loader_html"></div></div>*@
     <div id="wrap">
         @Html.Partial("_LoginPartial")
         @Html.Partial("_HeaderPartial")        
@@ -69,22 +69,22 @@
     <!-- js -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     @*<script src="~/js/jquery.min.js"></script>*@
-    <script src="~/js/jquery-ui-1.10.3.custom.min.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.easing.1.3.min.js" asp-append-version="true"></script>
-    <script src="~/js/html5.js" asp-append-version="true"></script>
-    <script src="~/js/twitter/jquery.tweet.js" asp-append-version="true"></script>
-    <script src="~/js/jflickrfeed.min.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.inview.min.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.tipsy.js" asp-append-version="true"></script>
-    <script src="~/js/tabs.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.flexslider.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.prettyPhoto.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.carouFredSel-6.2.1-packed.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.scrollTo.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.nav.js" asp-append-version="true"></script>
-    <script src="~/js/tags.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.bxslider.min.js" asp-append-version="true"></script>
-    <script src="~/js/custom.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery-ui-1.10.3.custom.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.easing.1.3.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/html5.js" asp-append-version="true"></script>
+    <script defer src="~/js/twitter/jquery.tweet.js" asp-append-version="true"></script>
+    <script defer src="~/js/jflickrfeed.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.inview.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.tipsy.js" asp-append-version="true"></script>
+    <script defer src="~/js/tabs.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.flexslider.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.prettyPhoto.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.carouFredSel-6.2.1-packed.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.scrollTo.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.nav.js" asp-append-version="true"></script>
+    <script defer  src="~/js/tags.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.bxslider.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/custom.js" asp-append-version="true"></script>
     <!-- End js -->
 
     @RenderSection("Scripts", required: false)
