@@ -12,7 +12,8 @@
 
 <div class="widget widget_social">
     <h3 class="widget_title">Tìm chúng tôi</h3>
-    <ul>
+    <div class="fb-page" data-href="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0">Đố vui hại não</a></blockquote></div>
+    @*<ul>
         <li class="rss-subscribers">
             <a href="#" target="_blank">
                 <strong>
@@ -49,7 +50,7 @@
                 </strong>
             </a>
         </li>
-    </ul>
+    </ul>*@
 </div>
 
 @*<div class="widget widget_login">
@@ -84,11 +85,15 @@
 <div class="widget widget_highest_points">
     <h3 class="widget_title">Vua giải đố</h3>
     <ul>
+        @if (!Model.TopUser.Any())
+        { 
+            <li>Chưa có thành viên nào</li>
+        }
         @foreach (var item in Model.TopUser)
         {
             <li>
                 <div class="author-img">
-                    <a href="#"><img width="60" height="60" src="@item.Image" alt="@item.FullName"></a>
+                    <a href="#"><img width="60" height="60" src="@item.Image" alt="@item.FullName" asp-append-version="true"></a>
                 </div>
                 <h6><a href="#">@item.FullName</a></h6>
                 <span class="comment">@item.Point điểm</span>
@@ -99,6 +104,10 @@
 
 <div class="widget widget_tag_cloud">
     <h3 class="widget_title">Tags</h3>
+    @if (!Model.TopTag.Any())
+    {
+        <a href="#">Chưa có thẻ nào</a>
+    }
     @foreach (var item in Model.TopTag)
     {
         <a href="#">@item.Name</a>
@@ -106,8 +115,12 @@
 </div>
 
 <div class="widget">
-    <h3 class="widget_title">Câu hỏi gần đây</h3>
+    <h3 class="widget_title">Câu đố nỗi bật</h3>
     <ul class="related-posts">
+        @if (!Model.TopTag.Any())
+        {
+            <li href="#">Chưa có câu đố nào</li>
+        }
         @foreach (var item in Model.RecentPuzzle)
         {
             <li class="related-item">

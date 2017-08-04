@@ -113,6 +113,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-md-2 control-label">Thẻ</label>
+                                    <div class="col-md-10">
+                                        <input id="TempTag_@i" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Lưu câu này" id="@i" class="btn btn-success update_form pull-right" />
                                     </div>
@@ -168,6 +174,7 @@
             var AnswerD = 'AnswerD_' + Id;
             var Correct = 'Correct_' + Id;
             var Reason = 'Reason_' + Id;
+            var TempTag = 'TempTag_' + Id;
             var Temp = {
                 ID: Id,
                 Title: $('#' + Title).val(),
@@ -180,6 +187,7 @@
                 AnswerD: $('#' + AnswerD).val(),
                 Correct: $('#' + Correct).val(),
                 Reason: $('#' + Reason).val(),
+                TempTag: $('#' + TempTag).val(),
             };
 
             $.ajax({
@@ -203,6 +211,7 @@
                         var AnswerD = 'AnswerD_' + i;
                         var Correct = 'Correct_' + i;
                         var Reason = 'Reason_' + i;
+                        var TempTag = 'TempTag_' + i;
                         $('#' + Title).val(item[i].Title);
                         $('#' + Description).val(item[i].Description);
                         $('#' + Image).val(item[i].Image);
@@ -213,6 +222,7 @@
                         $('#' + AnswerD).val(item[i].AnswerD);
                         $('#' + Correct).val(item[i].Correct);
                         $('#' + Reason).val(item[i].Reason);
+                        $('#' + TempTag).val(item[i].TempTag);
                         
                     }
                 },

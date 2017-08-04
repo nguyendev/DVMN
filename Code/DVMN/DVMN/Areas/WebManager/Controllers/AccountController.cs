@@ -13,6 +13,7 @@ using DVMN.Models;
 using DVMN.Services;
 using DVMN.Models.AccountViewModels;
 using Microsoft.AspNetCore.Http;
+using DVMN.Controllers;
 
 namespace DVMN.Areas.Admin.Controllers
 {
@@ -189,7 +190,7 @@ namespace DVMN.Areas.Admin.Controllers
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
                 string currentUrl = HttpContext.Session.GetString("currentUrl");
                 if (String.IsNullOrEmpty(currentUrl))
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 return RedirectToLocal(currentUrl);
             }
             if (result.RequiresTwoFactor)
@@ -213,23 +214,24 @@ namespace DVMN.Areas.Admin.Controllers
                 var dateOfBirth = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth);
                 var pictureSmall = $"https://graph.facebook.com/{identifier}/picture?width=128&height=128";
                 var pictureBig = $"https://graph.facebook.com/{identifier}/picture?width=160&height=160";
+                var picture65x65 = $"https://graph.facebook.com/{identifier}/picture?width=65&height=65";
                 info = await _signInManager.GetExternalLoginInfoAsync();
-                var user = new Member { UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName) + "-"+StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, PictureBig = pictureBig, DateofBirth = dateOfBirth };
+                var user = new Member { UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName) + "-"+StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, Picture65x65 = picture65x65, PictureBig = pictureBig, DateofBirth = dateOfBirth };
                 var createResult = await _userManager.CreateAsync(user);
                 if (createResult.Succeeded)
                 {
                     createResult = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
+                    if (createResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
                         string currentUrl = HttpContext.Session.GetString("currentUrl");
                         if (String.IsNullOrEmpty(currentUrl))
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction(nameof(HomeController.Index), "Home"); ;
                         return RedirectToLocal(currentUrl);
                     }
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(HomeController.Index), "Home"); 
             }
         }
 

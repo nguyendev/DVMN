@@ -1,7 +1,7 @@
 ﻿@model DVMN.Models.PuzzleViewModels.SingleSinglePuzzleViewModel
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Member> signInManager
-@{ 
+@{
     ViewData["Title"] = Model.Title + " | Đố vui";
     string scheme = Context.Request.Scheme;
     string host = Context.Request.Host.Host;
@@ -27,9 +27,9 @@
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
-                    <a href="#">Trang chủ</a>
+                    <a asp-controller="Home" asp-action="index">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <a href="#">Câu hỏi đơn</a>
+                    <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu hỏi đơn</a>
                     <span class="crumbs-span">/</span>
                     <span class="current">@Model.Title.</span>
                 </div>
@@ -45,46 +45,57 @@
                     <a href="single_question.html">@Model.Title</a>
                 </h2>
                 @*<a class="question-report" href="#">Report</a>
-                <div class="question-type-main"><i class="icon-signal"></i>Poll</div>*@
+                    <div class="question-type-main"><i class="icon-signal"></i>Poll</div>*@
                 <div class="question-inner">
                     <div class="question-desc">
-                        <div class="poll_2">
+                        <div class="poll_2" style="text-align: justify">
+                            <p>@Model.Description</p>
                             <div class="row">
                                 <div class="col-md-9">
-                                    <p>@Model.Description</p>
-                                    
                                     <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="@ViewData["Display"]" id="all-answer">
                                         <div class="form-inputs clearfix">
                                             <p>
-                                                <input id="poll-1" name="poll-radio" type="radio">
-                                                <label for="poll-1">@Model.AnswerA</label>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerA))
+                                                {
+                                                    <input id="poll-1" name="poll-radio" type="radio">
+                                                    <label for="poll-1">@Model.AnswerA</label>
+                                                }
                                             </p>
                                             <p>
-                                                <input id="poll-2" name="poll-radio" type="radio">
-                                                <label for="poll-2">@Model.AnswerB</label>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerB))
+                                                {
+                                                    <input id="poll-2" name="poll-radio" type="radio">
+                                                    <label for="poll-2">@Model.AnswerB</label>
+                                                }
                                             </p>
                                             <p>
-                                                <input id="poll-3" name="poll-radio" type="radio">
-                                                <label for="poll-3">@Model.AnswerC</label>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerC))
+                                                {
+                                                    <input id="poll-3" name="poll-radio" type="radio">
+                                                    <label for="poll-3">@Model.AnswerC</label>
+                                                }
                                             </p>
                                             <p>
-                                                <input id="poll-4" name="poll-radio" type="radio">
-                                                <label for="poll-4">@Model.AnswerD</label>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerD))
+                                                {
+                                                    <input id="poll-4" name="poll-radio" type="radio">
+                                                    <label for="poll-4">@Model.AnswerD</label>
+                                                }
                                             </p>
                                         </div>
                                     </form>
                                     @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
                                     @if (signInManager.IsSignedIn(User))
                                     {
-                                        if(!Model.IsAnswered)
+                                        if (!Model.IsAnswered)
                                         {
-                                    <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
-                                    <button style="display:none" id="submitAnswer" type="submit" class="button small red-button">Gửi</button>
+                                            <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
+                                            <button style="display:none" id="submitAnswer" type="submit" class="button small red-button">Gửi</button>
                                         }
                                     }
                                     else
                                     {
-                                    <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập</a>
+                                        <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập</a>
                                     }
                                 </div>
                                 <div class="col-md-3">
@@ -96,53 +107,62 @@
                         @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
                         @if (!Model.IsAnswered)
                         {
-                        <div class="alert-message error" style="display:none">
-                            <i class="icon-flag"></i>
-                            <p>
-                                <span>Bạn đã trả lời sai. Đáp án đúng @Model.Correct</span><br>
-                                Vì: @Model.Reason
-                            </p>
-                        </div>
-                        <div class="alert-message success" style="display:none">
-                            <i class="icon-ok"></i>
-                            <p>
-                                <span>Chúc mừng bạn</span><br>
-                                Vì: @Model.Reason
-                            </p>
-                        </div>
+                            <div class="alert-message error" style="display:none">
+                                <i class="icon-flag"></i>
+                                <p>
+                                    <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
+                                    Vì: @Model.Reason
+                                </p>
+                            </div>
+                            <div class="alert-message success" style="display:none">
+                                <i class="icon-ok"></i>
+                                <p>
+                                    <span>Chúc mừng bạn</span><br>
+                                    Vì: @Model.Reason
+                                </p>
+                            </div>
                         }
                         else
                         {
                             <div class="alert-message success">
-                                <i class="icon-ok"></i>
-                                <p>
-                                    <span>Đáp án đúng @Model.Correct</span><br>
-                                    Vì: @Model.Reason
-                                </p>
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-ok"></i>
+                                    <p>
+                                        <span>Đáp án đúng câu @Model.Correct</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Đáp án đúng câu @Model.Correct</span><br />
+                                    </p>
+                                }
                             </div>
 
                         }
                     </div>
                     @*<div class="question-details">
-                        <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-                        <span class="question-favorite"><i class="icon-star"></i>5</span>
-                    </div>*@
+                            <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                            <span class="question-favorite"><i class="icon-star"></i>5</span>
+                        </div>*@
                     <span class="question-category"><a asp-action="listsinglepuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu hỏi đơn</a></span>
                     <span class="question-date"><i class="icon-time"></i>@Model.DateTime</span>
                     @*<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>*@
                     <span class="question-view"><i class="icon-user"></i>@Model.Views lượt xem</span>
-                    <span class="single-question-vote-result">+22</span>
+                    <span class="single-question-vote-result">@Model.Like</span>
                     <ul class="single-question-vote">
-                        <li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
+                        <li><a href="@url" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
                         <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
                     </ul>
                     <div class="clearfix"></div>
-                 </div>
+                </div>
             </article>
             <div class="share-tags page-content">
                 <div class="question-tags">
                     <i class="icon-tags"></i>
-                    @foreach(var item in Model.Tags)
+                    @foreach (var item in Model.Tags)
                     {
                         <a asp-action="tag" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
                     }
@@ -207,21 +227,21 @@
                 <div class="clearfix"></div>
             </div>
             @*<div class="about-author clearfix">
-                <div class="author-image">
-                    <a href="#" original-title="admin" class="tooltip-n"><img alt="" src="http://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                </div>
-                <div class="author-bio">
-                    <h4>About the Author</h4>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra auctor neque. Nullam lobortis, sapien vitae lobortis tristique.
-                </div>
-            </div>*@<!-- End about-author -->
+                    <div class="author-image">
+                        <a href="#" original-title="admin" class="tooltip-n"><img alt="" src="http://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
+                    </div>
+                    <div class="author-bio">
+                        <h4>About the Author</h4>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra auctor neque. Nullam lobortis, sapien vitae lobortis tristique.
+                    </div>
+                </div>*@<!-- End about-author -->
             <!-- End Share-tags -->
             <div id="related-posts">
                 <h2>Câu đố hay</h2>
                 <ul class="related-posts">
                     @foreach (var item in Model.RelatedPuzzle)
-                    { 
-                    <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                    {
+                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
                     }
                 </ul>
             </div>
@@ -229,7 +249,7 @@
             <!-- End related-posts -->
         </div>
         <aside class="col-md-3 sidebar">
-            @await Html.PartialAsync("_SidebarPartial",sidebar)
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
         </aside>
     </div>
 </section>
@@ -267,6 +287,49 @@
             });
 
         });
+        $('.single-question-vote-down').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("VoteDown", "Puzzle"))",
+                data: {
+                    },
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                    if (data == true) {
+                        likeCurrent = $('.single-question-vote-result').html();
+                        likeCurrent--;
+                        $('.single-question-vote-result').html(likeCurrent);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        });
+        $('.single-question-vote-up').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("VoteUp", "Puzzle"))",
+                data: {
+                    },
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                    if (data == true) {
+                        likeCurrent = $('.single-question-vote-result').html();
+                        likeCurrent++;
+                        $('.single-question-vote-result').html(likeCurrent);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        });
+
         $("#submitAnswer").click(function (e) { // changed.
         e.preventDefault();
         AnswerA = $('#poll-1:checked').val();
@@ -288,7 +351,7 @@
                 url: "@(Url.Action("checkAnswer", "Puzzle"))",
                 data: {
                     select: Select
-                    },
+                },
                 dataType: "json",
                 success: function (data) {
                     clock.stop();
@@ -296,8 +359,7 @@
                         $('.success').css("display", "block");
                         $('.error').css("display", "none");
                     }
-                    else
-                    {
+                    else {
                         $('.success').css("display", "none");
                         $('.error').css("display", "block");
                     }
@@ -308,7 +370,7 @@
                     alert(data);
                 }
             });
-         });
+        });
     </script>
 }
 @*<div class="clock" style="margin:2em;"></div>

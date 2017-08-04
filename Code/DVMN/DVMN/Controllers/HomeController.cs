@@ -20,6 +20,7 @@ namespace DVMN.Controllers
             _repository = repository;
             _sidebarRepository = sidebarRepository;
         }
+        [Route("")]
 
         [ResponseCache(CacheProfileName = "Default")]
         public async Task<IActionResult> Index()

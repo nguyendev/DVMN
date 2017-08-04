@@ -37,11 +37,11 @@
     <link rel="canonical" href="@url">
     @*<link rel="apple-touch-icon" href="/favicon.ico" />
     <link rel="icon" sizes="192x192" href="/favicon.ico" />*@
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true"/>
     <environment names="Development">
-        <link href="~/style.css" rel="stylesheet" />
-        <link href="~/css/skins/blue.css" rel="stylesheet" />
-        <link href="/css/responsive.css" rel="stylesheet" />
+        <link href="~/style.css" rel="stylesheet" asp-append-version="true"/>
+        <link href="~/css/skins/blue.css" rel="stylesheet" asp-append-version="true"/>
+        <link href="/css/responsive.css" rel="stylesheet" asp-append-version="true"/>
         <link rel="shortcut icon" href="http://2code.info/demo/html/ask-me/images/favicon.ico">
     </environment>
     <environment names="Staging,Production">
@@ -86,16 +86,17 @@
     <script defer src="~/js/jquery.bxslider.min.js" asp-append-version="true"></script>
     <script defer src="~/js/custom.js" asp-append-version="true"></script>
     <!-- End js -->
-
-    @RenderSection("Scripts", required: false)
     <div id="fb-root"></div>
-    <script>
+    <script defer>
 (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=283779168758487";
+            js.src = "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=283779168758487";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
+    @RenderSection("Scripts", required: false)
+    
+   
 </body>
 </html>

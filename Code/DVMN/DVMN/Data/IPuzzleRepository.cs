@@ -10,7 +10,7 @@ namespace DVMN.Data
     {
         // Xem chi tiet cau do don
         Task<SingleSinglePuzzleViewModel> GetSingleSinglePuzzle(string slug);
-        Task<IEnumerable<SingleSinglePuzzleViewModel>> GetSingleMultiPuzzle(string slug);
+        Task<MultiPuzzleViewModel> GetSingleMultiPuzzle(string slug);
         // Da xem cau nay
         Task IsWatchedSingleSinglePuzzle(string slug);
         Task IsWatchedSingleMultiPuzzle(string slug);
@@ -22,5 +22,10 @@ namespace DVMN.Data
 
         // Tang diem khi tra loi dung
         Task IncreasePoint(string userID, int point);
+
+
+        // Giam luot like
+        Task<bool> VoteDownPuzzle(int puzzle, string UserId);
+        Task<bool> VoteUpPuzzle(int puzzle, string UserId);
     }
 }

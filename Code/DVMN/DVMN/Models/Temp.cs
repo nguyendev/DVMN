@@ -16,6 +16,8 @@ namespace DVMN.Models
         public string AnswerB { get; set; }
         public string AnswerC { get; set; }
         public string AnswerD { get; set; }
+
+        public string TempTag { get; set; }
         public int Correct { get; set; }
         public string Reason { get; set; }
     }

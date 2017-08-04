@@ -80,7 +80,8 @@ namespace DVMN.Areas.WebManager.Controllers
                 Level = 1
             };
             List<SinglePuzzle> listSinglePuzzleDetails = new List<SinglePuzzle>(multipuzzle.NumberQuestion - 1);
-            await _context.AddAsync(multipuzzle);
+            await _context.MultiPuzzle.AddAsync(multipuzzle);
+            await _context.SaveChangesAsync();
             foreach (var item in sListSinglePuzzleDetails)
             {
                 SinglePuzzle singlePuzzleDetails = new SinglePuzzle
@@ -106,10 +107,27 @@ namespace DVMN.Areas.WebManager.Controllers
                     Approved = "A",
                 };
                 if (singlePuzzleDetails.ImageID == 0)
-                    singlePuzzleDetails.Image = null;
-                await _context.AddAsync(singlePuzzleDetails);
+                    singlePuzzleDetails.ImageID = null;
+                _context.SinglePuzzle.Add(singlePuzzleDetails);
+                _context.SaveChanges();
+                List<string> listString = StringExtensions.ConvertStringToListString(item.TempTag);
+                List<Tag> listTag = new List<Tag>(listString.Capacity - 1);
+
+                // Save all tag
+                foreach (var itemTag in listString)
+                {
+                    Tag tag = new Tag
+                    {
+                        Title = itemTag,
+                        Slug = StringExtensions.ConvertToUnSign3(itemTag)
+                    };
+
+                     _context.Tag.Add(tag);
+                     _context.SaveChanges();
+                     _context.SingPuzzleTag.Add(new SinglePuzzleTag { TagID = tag.ID, SinglePuzzleID = item.ID });
+                    await _context.SaveChangesAsync();
+                }
             }
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "MultiPuzzle");
         }
 
@@ -158,6 +176,7 @@ namespace DVMN.Areas.WebManager.Controllers
                     item.AnswerD = temp.AnswerD;
                     item.Correct = temp.Correct;
                     item.IsYesNo = temp.IsYesNo;
+                    item.TempTag = temp.TempTag;
                 }
                 newListSinglePuzzleDetails.Add(item);
             }

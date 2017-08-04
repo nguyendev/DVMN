@@ -84,6 +84,36 @@ namespace DVMN.Migrations
                     b.ToTable("HistoryAnswerPuzzle");
                 });
 
+            modelBuilder.Entity("DVMN.Models.HistoryLikePuzzle", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Active");
+
+                    b.Property<string>("Approved");
+
+                    b.Property<string>("AuthorID");
+
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsMultiPuzzle");
+
+                    b.Property<string>("Note");
+
+                    b.Property<int>("PuzzleID");
+
+                    b.Property<DateTime?>("UpdateDT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.ToTable("HistoryLikePuzzle");
+                });
+
             modelBuilder.Entity("DVMN.Models.Images", b =>
                 {
                     b.Property<int>("ID")
@@ -156,6 +186,8 @@ namespace DVMN.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("Picture65x65");
 
                     b.Property<string>("PictureBig");
 
@@ -445,6 +477,13 @@ namespace DVMN.Migrations
                 });
 
             modelBuilder.Entity("DVMN.Models.HistoryAnswerPuzzle", b =>
+                {
+                    b.HasOne("DVMN.Models.Member", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
+                });
+
+            modelBuilder.Entity("DVMN.Models.HistoryLikePuzzle", b =>
                 {
                     b.HasOne("DVMN.Models.Member", "Author")
                         .WithMany()

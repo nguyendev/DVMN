@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DVMN.Migrations
 {
-    public partial class History : Migration
+    public partial class Init231 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "HistoryAnswerPuzzle",
+                name: "HistoryLikePuzzle",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -27,9 +27,9 @@ namespace DVMN.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HistoryAnswerPuzzle", x => x.ID);
+                    table.PrimaryKey("PK_HistoryLikePuzzle", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_HistoryAnswerPuzzle_AspNetUsers_AuthorID",
+                        name: "FK_HistoryLikePuzzle_AspNetUsers_AuthorID",
                         column: x => x.AuthorID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -37,15 +37,15 @@ namespace DVMN.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HistoryAnswerPuzzle_AuthorID",
-                table: "HistoryAnswerPuzzle",
+                name: "IX_HistoryLikePuzzle_AuthorID",
+                table: "HistoryLikePuzzle",
                 column: "AuthorID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "HistoryAnswerPuzzle");
+                name: "HistoryLikePuzzle");
         }
     }
 }

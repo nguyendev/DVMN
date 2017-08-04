@@ -29,7 +29,7 @@
                                         <article class="post blog_2 clearfix">
                                             <div class="post-inner">
                                                 <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
-                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                                                 <div class="post-meta">
                                                     <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
                                                     <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
@@ -48,7 +48,7 @@
                                         <article class="post blog_2 clearfix">
                                             <div class="post-inner">
                                                 <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
-                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                                                 <div class="post-meta">
                                                     <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
                                                     <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
@@ -75,7 +75,7 @@
                                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                                             <div class="question-author">
                                                 <a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
-                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.PictureBig">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                                                 </a>
                                             </div>
                                             <div class="question-inner">
@@ -104,7 +104,7 @@
                                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                                             <div class="question-author">
                                                 <a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
-                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.PictureBig">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                             </a>
                         </div>
                         <div class="question-inner">

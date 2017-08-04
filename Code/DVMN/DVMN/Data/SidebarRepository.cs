@@ -35,36 +35,52 @@ namespace DVMN.Data
 
         public async Task<IEnumerable<TopUserViewModel>> GetTopMemberPuzzle()
         {
-            var topUser = await _context.Users.OrderByDescending(p => p.Score).Take(5).ToListAsync();
-            List<TopUserViewModel> model = new List<TopUserViewModel>(topUser.Capacity - 1);
-            foreach (var item in topUser)
+            try
             {
-                model.Add(new TopUserViewModel
+                var topUser = await _context.Users.OrderByDescending(p => p.Score).Take(5).ToListAsync();
+                List<TopUserViewModel> model = new List<TopUserViewModel>(topUser.Capacity - 1);
+                foreach (var item in topUser)
                 {
-                    FullName = item.FullName,
-                    Image = item.PictureSmall,
-                    Point = item.Score,
-                    Slug = item.Slug
-                });
+                    model.Add(new TopUserViewModel
+                    {
+                        FullName = item.FullName,
+                        Image = item.Picture65x65,
+                        Point = item.Score,
+                        Slug = item.Slug
+                    });
+                }
+                return model;
             }
-            return model;
+            catch (Exception e)
+            {
+                return new List<TopUserViewModel>();
+            }
+            
         }
 
         public async Task<IEnumerable<TopTagViewModel>> GetTopTagPuzzle()
         {
-            var topTags = await _context.SingPuzzleTag
+            try
+            {
+                var topTags = await _context.SingPuzzleTag
                 .Include(p => p.Tag)
                 .OrderByDescending(p => p.Tag).Take(5).ToListAsync();
-            List<TopTagViewModel> model = new List<TopTagViewModel>(topTags.Capacity - 1);
-            foreach (var item in topTags)
-            {
-                model.Add(new TopTagViewModel
+                List<TopTagViewModel> model = new List<TopTagViewModel>(topTags.Capacity - 1);
+                foreach (var item in topTags)
                 {
-                    Name = item.Tag.Title,
-                    Slug = item.Tag.Slug
-                });
+                    model.Add(new TopTagViewModel
+                    {
+                        Name = item.Tag.Title,
+                        Slug = item.Tag.Slug
+                    });
+                }
+                return model;
             }
-            return model;
+            catch
+            {
+                return new List<TopTagViewModel>();
+            }
+           
         }
 
         public async Task<IEnumerable<TopPuzzleViewModel>> GetTopRecentPuzzle()

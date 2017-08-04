@@ -33,5 +33,6 @@ namespace DVMN.Data
         public DbSet<SinglePuzzleTag> SingPuzzleTag { get; set; }
         public DbSet<DVMN.Models.SinglePuzzle> SinglePuzzle { get; set; }
         public DbSet<HistoryAnswerPuzzle> HistoryAnswerPuzzle { get; set; }
+        public DbSet<HistoryLikePuzzle> HistoryLikePuzzle { get; set; }
     }
 }

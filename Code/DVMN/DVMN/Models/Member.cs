@@ -11,7 +11,7 @@ namespace DVMN.Models
     {
         public string FullName { get; set; }
         public string PictureSmall { get; set; }
-
+        public string Picture65x65 { get; set; }
         public string Slug { get; set; }
         public string PictureBig { get; set; }
         public string DateofBirth { get; set; }

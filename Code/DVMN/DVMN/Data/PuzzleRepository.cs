@@ -68,7 +68,7 @@ namespace DVMN.Data
                 AnswerC = single.AnswerC,
                 AnswerD = single.AnswerD,
                 Author = single.Author,
-                Correct = single.Correct,
+                Correct = ShowCorrectAnswer(single.Correct),
                 Description = single.Description,
                 Image = single.Image,
                 DateTime = DateTimeExtension.CurrentDay(single.CreateDT.Value),
@@ -90,15 +90,7 @@ namespace DVMN.Data
 
         public async Task<bool> IsAnswerPuzzle(int PuzzleID, string UserID)
         {
-            try
-            {
-                var result = await _context.HistoryAnswerPuzzle
-                    .Include(p => p.Author)
-                    .SingleAsync(p => p.PuzzleID == PuzzleID && p.Author.Id == UserID);
-
-                return true;
-            }
-            catch { return false; }
+           return await _context.HistoryAnswerPuzzle.AnyAsync(p => p.PuzzleID == PuzzleID && p.AuthorID == UserID);
         }
 
         public async Task IncreasePoint(string userID, int point)
@@ -124,13 +116,22 @@ namespace DVMN.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<SingleSinglePuzzleViewModel>> GetSingleMultiPuzzle(string slug)
+        public async Task<MultiPuzzleViewModel> GetSingleMultiPuzzle(string slug)
         {
             var multi = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.Slug == slug);
             //multi.IsAnswered = await _repository.IsAnswerPuzzle(multi.ID, true);
+            var bestSingle = await _context.MultiPuzzle
+                .Take(4)
+                .ToListAsync();
+            List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
+            foreach (var item in bestSingle)
+            {
+                listbestPuzzle.Add(new SimplePostPuzzle { Slug = item.Slug, Title = item.Title });
+            }
+
             var listSingle = await _context.SinglePuzzle.Where(p => p.MMultiPuzzleID == multi.ID).ToListAsync();
 
-            List<SingleSinglePuzzleViewModel> model = new List<SingleSinglePuzzleViewModel>(listSingle.Capacity - 1);
+            List<SingleSinglePuzzleViewModel> listSingleViewModel = new List<SingleSinglePuzzleViewModel>(listSingle.Capacity - 1);
             foreach (var item in listSingle)
             {
                 List<SinglePuzzleTag> tags = null;
@@ -160,16 +161,81 @@ namespace DVMN.Data
                     AnswerC = item.AnswerC,
                     AnswerD = item.AnswerD,
                     Author = item.Author,
-                    Correct = item.Correct,
+                    Correct = ShowCorrectAnswer(item.Correct),
                     Description = item.Description,
                     Image = item.Image,
                     DateTime = DateTimeExtension.CurrentDay(item.CreateDT.Value)
                 };
                 if (tags != null)
                     temp.Tags = tags;
-                model.Add(temp);
+                listSingleViewModel.Add(temp);
             }
+            MultiPuzzleViewModel model = new MultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
             return model;
+        }
+
+
+        private int ShowCorrectAnswer(int number)
+        {
+            return number++;
+        }
+
+        public async Task<bool> VoteDownPuzzle(int puzzle, string UserId)
+        {
+            bool IsExists = await _context.HistoryLikePuzzle.AnyAsync(p => p.PuzzleID == puzzle && p.AuthorID == UserId);
+
+            // neu chua vote lan nao thi tien hanh vote
+            if(!IsExists)
+            {
+                HistoryLikePuzzle model = new HistoryLikePuzzle
+                {
+                    Active = "A",
+                    Approved = "A",
+                    AuthorID = UserId,
+                    CreateDT = DateTime.Now,
+                    IsDeleted = false,
+                    IsMultiPuzzle = false,
+                    PuzzleID = puzzle,
+                    UpdateDT = DateTime.Now,
+                };
+                await _context.HistoryLikePuzzle.AddAsync(model);
+
+                var singlePuzzle = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == puzzle);
+                singlePuzzle.Like--;
+                _context.SinglePuzzle.Update(singlePuzzle);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> VoteUpPuzzle(int puzzle, string UserId)
+        {
+            bool IsExists = await _context.HistoryLikePuzzle.AnyAsync(p => p.PuzzleID == puzzle && p.AuthorID == UserId);
+
+            // neu chua vote lan nao thi tien hanh vote
+            if (!IsExists)
+            {
+                HistoryLikePuzzle model = new HistoryLikePuzzle
+                {
+                    Active = "A",
+                    Approved = "A",
+                    AuthorID = UserId,
+                    CreateDT = DateTime.Now,
+                    IsDeleted = false,
+                    IsMultiPuzzle = false,
+                    PuzzleID = puzzle,
+                    UpdateDT = DateTime.Now,
+                };
+                await _context.HistoryLikePuzzle.AddAsync(model);
+
+                var singlePuzzle = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == puzzle);
+                singlePuzzle.Like++;
+                _context.SinglePuzzle.Update(singlePuzzle);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

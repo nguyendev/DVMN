@@ -82,7 +82,7 @@ namespace DVMN.Controllers
         [Route("/cau-hoi-da/{slug}")]
         public async Task<IActionResult> SingleMultiPuzzle(string slug)
         {
-            IEnumerable<SingleSinglePuzzleViewModel> listSingle = await _repository.GetSingleMultiPuzzle(slug);
+            MultiPuzzleViewModel listSingle = await _repository.GetSingleMultiPuzzle(slug);
             var user = await GetCurrentUser();
 
             if (!_signInManager.IsSignedIn(HttpContext.User))
@@ -93,7 +93,7 @@ namespace DVMN.Controllers
             else
             {
                 // Kiem tra thu da tra loi cau hoi nay chua
-                foreach (var item in listSingle)
+                foreach (var item in listSingle.listSinglePuzzle)
                 {
                     item.IsAnswered = await _repository.IsAnswerPuzzle(item.ID, user.Id);
                 }
@@ -138,6 +138,38 @@ namespace DVMN.Controllers
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> VoteDown()
+        {
+            int Id = HttpContext.Session.GetInt32("Id").Value;
+            var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == Id);
+            var user = await GetCurrentUser();
+
+            return await _repository.VoteDownPuzzle(Id, user.Id);
+        }
+
+        public async Task<bool> VoteUp()
+        {
+            int Id = HttpContext.Session.GetInt32("Id").Value;
+            var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == Id);
+            var user = await GetCurrentUser();
+
+            return await _repository.VoteUpPuzzle(Id, user.Id);
+        }
+
+        public async Task<bool> VoteDownMulti(int id)
+        {
+            var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == id);
+            var user = await GetCurrentUser();
+            return await _repository.VoteDownPuzzle(id, user.Id);
+        }
+
+        public async Task<bool> VoteUpMulti(int id)
+        {
+            var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == id);
+            var user = await GetCurrentUser();
+            return await _repository.VoteUpPuzzle(id, user.Id);
         }
     }
         

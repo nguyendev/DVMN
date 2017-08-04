@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DVMN.Migrations
 {
-    public partial class Init1111 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,10 +28,12 @@ namespace DVMN.Migrations
                     PasswordHash = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    Picture65x65 = table.Column<string>(nullable: true),
                     PictureBig = table.Column<string>(nullable: true),
                     PictureSmall = table.Column<string>(nullable: true),
                     Score = table.Column<int>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -80,6 +82,33 @@ namespace DVMN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HistoryAnswerPuzzle",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<string>(nullable: true),
+                    Approved = table.Column<string>(nullable: true),
+                    AuthorID = table.Column<string>(nullable: true),
+                    CreateDT = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsMultiPuzzle = table.Column<bool>(nullable: false),
+                    Note = table.Column<string>(nullable: true),
+                    PuzzleID = table.Column<int>(nullable: false),
+                    UpdateDT = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistoryAnswerPuzzle", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_HistoryAnswerPuzzle_AspNetUsers_AuthorID",
+                        column: x => x.AuthorID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,6 +401,11 @@ namespace DVMN.Migrations
                 column: "SinglePuzzleID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HistoryAnswerPuzzle_AuthorID",
+                table: "HistoryAnswerPuzzle",
+                column: "AuthorID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_AuthorID",
                 table: "Images",
                 column: "AuthorID");
@@ -448,6 +482,9 @@ namespace DVMN.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "HistoryAnswerPuzzle");
 
             migrationBuilder.DropTable(
                 name: "SingPuzzleTag");

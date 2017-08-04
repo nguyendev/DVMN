@@ -15,6 +15,7 @@ using DVMN.Services;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace DVMN
 {
@@ -45,11 +46,17 @@ namespace DVMN
         {
             // Add framework services.
             services.AddMemoryCache();
-           
+            //if (env.IsDevelopment())
+            //{
+            //    services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //}
+            //else
+            //{ 
             //services.AddResponseCaching();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+                options.UseSqlServer(Configuration.GetConnectionString("VPSConnection")));
+            //}
             services.AddIdentity<Member, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -70,6 +77,26 @@ namespace DVMN
                     });
             })
             .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = new[]
+                {
+            // Default
+            "text/plain",
+            "text/css",
+            "application/javascript",
+            "text/html",
+            "application/xml",
+            "text/xml",
+            "application/json",
+            "text/json",
+            // Custom
+            "image/svg+xml"
+        };
+            });
+
+
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
             // Add application services.
@@ -100,6 +127,8 @@ namespace DVMN
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseResponseCompression();
+
 
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -108,7 +137,7 @@ namespace DVMN
                     var headers = context.Context.Response.GetTypedHeaders();
                     headers.CacheControl = new CacheControlHeaderValue()
                     {
-                        MaxAge = TimeSpan.FromSeconds(120),
+                        MaxAge = TimeSpan.FromSeconds(63072000),
                         
 
                     };

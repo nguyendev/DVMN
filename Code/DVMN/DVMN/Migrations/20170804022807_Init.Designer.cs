@@ -8,8 +8,8 @@ using DVMN.Data;
 namespace DVMN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170731063416_Init2222")]
-    partial class Init2222
+    [Migration("20170804022807_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,36 @@ namespace DVMN.Migrations
                     b.HasIndex("SinglePuzzleID");
 
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("DVMN.Models.HistoryAnswerPuzzle", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Active");
+
+                    b.Property<string>("Approved");
+
+                    b.Property<string>("AuthorID");
+
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsMultiPuzzle");
+
+                    b.Property<string>("Note");
+
+                    b.Property<int>("PuzzleID");
+
+                    b.Property<DateTime?>("UpdateDT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.ToTable("HistoryAnswerPuzzle");
                 });
 
             modelBuilder.Entity("DVMN.Models.Images", b =>
@@ -127,6 +157,8 @@ namespace DVMN.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("Picture65x65");
 
                     b.Property<string>("PictureBig");
 
@@ -413,6 +445,13 @@ namespace DVMN.Migrations
                     b.HasOne("DVMN.Models.SinglePuzzle")
                         .WithMany("Comment")
                         .HasForeignKey("SinglePuzzleID");
+                });
+
+            modelBuilder.Entity("DVMN.Models.HistoryAnswerPuzzle", b =>
+                {
+                    b.HasOne("DVMN.Models.Member", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
                 });
 
             modelBuilder.Entity("DVMN.Models.Images", b =>
