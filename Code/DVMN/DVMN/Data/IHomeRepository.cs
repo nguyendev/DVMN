@@ -8,6 +8,6 @@ namespace DVMN.Data
 {
     public interface IHomeRepository
     {
-        Task<IEnumerable<MainHomeViewModel>> GetIndex();
+        Task<HomeViewModel> GetIndex();
     }
 }

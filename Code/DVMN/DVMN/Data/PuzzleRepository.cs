@@ -103,17 +103,21 @@ namespace DVMN.Data
 
         public async Task SetIsAnsweredPuzzle(int PuzzleID, string AuthorID)
         {
-            _context.HistoryAnswerPuzzle.Add(new Models.HistoryAnswerPuzzle
+            bool IsExits = _context.HistoryAnswerPuzzle.Any(p => p.PuzzleID == PuzzleID && p.AuthorID == AuthorID);
+            if (!IsExits)
             {
-                 Active = "A",
-                 Approved = "A",
-                 AuthorID = AuthorID,
-                 CreateDT = DateTime.Now,
-                 IsDeleted = false,
-                 PuzzleID = PuzzleID,
-                 UpdateDT = DateTime.Now,
-            });
-            await _context.SaveChangesAsync();
+                _context.HistoryAnswerPuzzle.Add(new Models.HistoryAnswerPuzzle
+                {
+                    Active = "A",
+                    Approved = "A",
+                    AuthorID = AuthorID,
+                    CreateDT = DateTime.Now,
+                    IsDeleted = false,
+                    PuzzleID = PuzzleID,
+                    UpdateDT = DateTime.Now,
+                });
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<MultiPuzzleViewModel> GetSingleMultiPuzzle(string slug)

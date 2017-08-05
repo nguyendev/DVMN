@@ -50,12 +50,22 @@ namespace DVMN.Data
             // Save all tag
             foreach (var item in listString)
             {
-                Tag tag = new Tag
+                bool IsExitsTag = await _context.Tag.AnyAsync(p => p.Slug == StringExtensions.ConvertToUnSign3(item));
+                Tag tag;
+                if (IsExitsTag)
                 {
-                    Title = item,
-                    Slug = StringExtensions.ConvertToUnSign3(item)
-                };
-                _context.Add(tag);
+                    tag = await _context.Tag.SingleOrDefaultAsync(p => p.Slug == StringExtensions.ConvertToUnSign3(item));
+                }
+                else
+                { 
+                    tag = new Tag
+                    {
+                        Title = item,
+                        Slug = StringExtensions.ConvertToUnSign3(item)
+                    };
+                    _context.Add(tag);
+                }
+               
                 _context.Add(new SinglePuzzleTag { TagID = tag.ID, SinglePuzzleID = single.ID });
             }
 

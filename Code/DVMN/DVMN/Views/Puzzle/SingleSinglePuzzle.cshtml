@@ -29,7 +29,7 @@
                 <div class="crumbs">
                     <a asp-controller="Home" asp-action="index">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu hỏi đơn</a>
+                    <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a>
                     <span class="crumbs-span">/</span>
                     <span class="current">@Model.Title.</span>
                 </div>
@@ -57,29 +57,29 @@
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerA))
                                                 {
-                                                    <input id="poll-1" name="poll-radio" type="radio">
-                                                    <label for="poll-1">@Model.AnswerA</label>
+                                                <input id="poll-1" name="poll-radio" type="radio">
+                                                <label for="poll-1">@Model.AnswerA</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerB))
                                                 {
-                                                    <input id="poll-2" name="poll-radio" type="radio">
-                                                    <label for="poll-2">@Model.AnswerB</label>
+                                                <input id="poll-2" name="poll-radio" type="radio">
+                                                <label for="poll-2">@Model.AnswerB</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerC))
                                                 {
-                                                    <input id="poll-3" name="poll-radio" type="radio">
-                                                    <label for="poll-3">@Model.AnswerC</label>
+                                                <input id="poll-3" name="poll-radio" type="radio">
+                                                <label for="poll-3">@Model.AnswerC</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerD))
                                                 {
-                                                    <input id="poll-4" name="poll-radio" type="radio">
-                                                    <label for="poll-4">@Model.AnswerD</label>
+                                                <input id="poll-4" name="poll-radio" type="radio">
+                                                <label for="poll-4">@Model.AnswerD</label>
                                                 }
                                             </p>
                                         </div>
@@ -108,18 +108,36 @@
                         @if (!Model.IsAnswered)
                         {
                             <div class="alert-message error" style="display:none">
-                                <i class="icon-flag"></i>
-                                <p>
-                                    <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
-                                    Vì: @Model.Reason
-                                </p>
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-flag"></i>
+                                    <p>
+                                        <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
+                                    </p>
+                                }
                             </div>
                             <div class="alert-message success" style="display:none">
-                                <i class="icon-ok"></i>
-                                <p>
-                                    <span>Chúc mừng bạn</span><br>
-                                    Vì: @Model.Reason
-                                </p>
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-ok"></i>
+                                    <p>
+                                        <span>Chúc mừng bạn</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Chúc mừng bạn</span><br>
+                                    </p>
+                                }
                             </div>
                         }
                         else
@@ -147,7 +165,7 @@
                             <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
                             <span class="question-favorite"><i class="icon-star"></i>5</span>
                         </div>*@
-                    <span class="question-category"><a asp-action="listsinglepuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu hỏi đơn</a></span>
+                    <span class="question-category"><a asp-action="listsinglepuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
                     <span class="question-date"><i class="icon-time"></i>@Model.DateTime</span>
                     @*<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>*@
                     <span class="question-view"><i class="icon-user"></i>@Model.Views lượt xem</span>
@@ -264,6 +282,7 @@
         var clock;
         $(document).ready(function () {
             $('.start').click(function (e) {
+                var isStop = false;
                 clock = $('.clock').FlipClock(30, {
                     clockFace: 'Counter',
                     countdown: true,
@@ -271,19 +290,59 @@
                     callbacks: {
                         start: function () {
                             $('.message').html('The clock has started!');
-
                             $('#all-answer').css("display", "block");
                             $('#submitAnswer').css("display", "block");
-
+                            $('.start').css("display", "none");
                         },
                         stop: function () {
-                            $('.error').css("display", "block");
-                            //$('.poll_results').css("display", "none");
+                            $('.start').css("display", "none");
+                            if (!isStop) {
+                                isStop = true;
+                                e.preventDefault();
+                                AnswerA = $('#poll-1:checked').val();
+                                AnswerB = $('#poll-2:checked').val();
+                                AnswerC = $('#poll-3:checked').val();
+                                AnswerD = $('#poll-4:checked').val();
+                                Select = 0;
+                                if (AnswerA == "on")
+                                    Select = 0;
+                                else if (AnswerB == "on")
+                                    Select = 1;
+                                else if (AnswerC == "on")
+                                    Select = 2;
+                                else
+                                    Select = 3;
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@(Url.Action("checkAnswer", "Puzzle"))",
+                                    data: {
+                                        select: Select
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        clock.stop();
+                                        if (data == true) {
+                                            $('.success').css("display", "block");
+                                            $('.error').css("display", "none");
+                                        }
+                                        else {
+                                            $('.success').css("display", "none");
+                                            $('.error').css("display", "block");
+                                        }
+                                        $('#submitAnswer').css("display", "none");
+
+                                    },
+                                    error: function (data) {
+                                    }
+                                });
+                            }
+
                         }
-                    },
-                });
-                $('.start').css("display", "none");
-                //$('.poll_results').css("display", "block");
+                    }
+                },
+                )
+               
             });
 
         });
@@ -304,7 +363,6 @@
                     }
                 },
                 error: function (data) {
-                    alert(data);
                 }
             });
         });
@@ -317,7 +375,6 @@
                     },
                 dataType: "json",
                 success: function (data) {
-                    alert(data);
                     if (data == true) {
                         likeCurrent = $('.single-question-vote-result').html();
                         likeCurrent++;
@@ -325,7 +382,6 @@
                     }
                 },
                 error: function (data) {
-                    alert(data);
                 }
             });
         });
@@ -367,7 +423,6 @@
 
                 },
                 error: function (data) {
-                    alert(data);
                 }
             });
         });

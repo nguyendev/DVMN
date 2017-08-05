@@ -10,6 +10,8 @@ namespace DVMN.Services
     public static class StringExtensions
     {
         private static Random random = new Random();
+        private const int MaxDescriptionSEO = 150;
+        private const int MaxDescriptionNormal = 300;
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -83,6 +85,8 @@ namespace DVMN.Services
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D').Replace(" ", "-");
         }
+
+       
     }
 
 }

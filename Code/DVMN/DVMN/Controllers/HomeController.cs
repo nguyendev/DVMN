@@ -30,7 +30,7 @@ namespace DVMN.Controllers
             return View();
         }
         
-
+        [Route("/ve-chung-toi")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -38,7 +38,7 @@ namespace DVMN.Controllers
             return View();
         }
         [ResponseCache(Duration = 60)]
-
+        [Route("/lien-he")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

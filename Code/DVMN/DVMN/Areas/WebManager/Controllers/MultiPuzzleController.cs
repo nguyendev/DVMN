@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DVMN.Areas.WebManager.Controllers
 {
@@ -109,23 +110,29 @@ namespace DVMN.Areas.WebManager.Controllers
                 if (singlePuzzleDetails.ImageID == 0)
                     singlePuzzleDetails.ImageID = null;
                 _context.SinglePuzzle.Add(singlePuzzleDetails);
-                _context.SaveChanges();
                 List<string> listString = StringExtensions.ConvertStringToListString(item.TempTag);
                 List<Tag> listTag = new List<Tag>(listString.Capacity - 1);
 
                 // Save all tag
                 foreach (var itemTag in listString)
                 {
-                    Tag tag = new Tag
+                    bool IsExitsTag = await _context.Tag.AnyAsync(p => p.Slug == StringExtensions.ConvertToUnSign3(itemTag));
+                    Tag tag;
+                    if (IsExitsTag)
                     {
-                        Title = itemTag,
-                        Slug = StringExtensions.ConvertToUnSign3(itemTag)
-                    };
-
-                     _context.Tag.Add(tag);
-                     _context.SaveChanges();
-                     _context.SingPuzzleTag.Add(new SinglePuzzleTag { TagID = tag.ID, SinglePuzzleID = item.ID });
-                    await _context.SaveChangesAsync();
+                        tag = await _context.Tag.SingleOrDefaultAsync(p => p.Slug == StringExtensions.ConvertToUnSign3(itemTag));
+                    }
+                    else
+                    {
+                        tag = new Tag
+                        {
+                            Title = itemTag,
+                            Slug = StringExtensions.ConvertToUnSign3(itemTag)
+                        };
+                        _context.Tag.Add(tag);
+                    }
+                     _context.SingPuzzleTag.Add(new SinglePuzzleTag { TagID = tag.ID, SinglePuzzleID = singlePuzzleDetails.ID });
+                     await _context.SaveChangesAsync();
                 }
             }
             return RedirectToAction("Index", "MultiPuzzle");

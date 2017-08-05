@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DVMN.Models.SidebarViewModels;
 using Microsoft.EntityFrameworkCore;
+using DVMN.Services;
 
 namespace DVMN.Data
 {
@@ -90,13 +91,13 @@ namespace DVMN.Data
                 .Include(p => p.Author)
                 .Where(p => !p.IsMMultiPuzzle)
                 .Take(2)
-                .OrderByDescending(p => p.CreateDT)
+                .OrderByDescending(p => p.Like)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .Take(2)
-                .OrderByDescending(p => p.CreateDT)
+                .OrderByDescending(p => p.Like)
                 .ToListAsync();
             try
             {
@@ -106,7 +107,8 @@ namespace DVMN.Data
                     model.Add(new TopPuzzleViewModel
                     {
                         Slug = item.Slug,
-                        Description = item.Description,
+                        Like = item.Like,
+                        Description = SEOExtension.GetStringToLength(item.Description, SEOExtension.MaxDescriptionSEO),
                         IsMultiPuzzle = false,
                         Title = item.Title
                     });
@@ -116,12 +118,13 @@ namespace DVMN.Data
                     model.Add(new TopPuzzleViewModel
                     {
                         Slug = item.Slug,
-                        Description = item.Description,
+                        Like = item.Like,
+                        Description = SEOExtension.GetStringToLength(item.Description, SEOExtension.MaxDescriptionSEO),
                         Title = item.Title,
                         IsMultiPuzzle = true
                     });
                 }
-                return model;
+                return model.OrderByDescending(p => p.Like);
 
             }
             catch

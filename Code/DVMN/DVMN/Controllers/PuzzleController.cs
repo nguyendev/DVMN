@@ -34,7 +34,7 @@ namespace DVMN.Controllers
             this._sidebarRepository = _sidebarRepository;
         }
 
-        [Route("/cau-hoi-don")]
+        [Route("/cau-do-moi-ngay")]
         public async Task<IActionResult> ListSinglePuzzle()
         {
             var single = await _context.SinglePuzzle.Include(p => p.Image)
@@ -43,7 +43,7 @@ namespace DVMN.Controllers
             return View(single);
         }
 
-        [Route("/cau-hoi-da")]
+        [Route("/cau-hoi-dac-biet")]
         public async Task<IActionResult> ListMultiPuzzle()
         {
             var single = await _context.MultiPuzzle.Include(p => p.Image)
@@ -53,7 +53,7 @@ namespace DVMN.Controllers
         }
 
 
-        [Route("/cau-hoi-don/{slug}")]
+        [Route("/cau-do-moi-ngay/{slug}")]
         public async Task<IActionResult> SingleSinglePuzzle(string slug)
         {
             SingleSinglePuzzleViewModel single = await _repository.GetSingleSinglePuzzle(slug);
@@ -79,7 +79,7 @@ namespace DVMN.Controllers
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
-        [Route("/cau-hoi-da/{slug}")]
+        [Route("/cau-do-dac-biet/{slug}")]
         public async Task<IActionResult> SingleMultiPuzzle(string slug)
         {
             MultiPuzzleViewModel listSingle = await _repository.GetSingleMultiPuzzle(slug);

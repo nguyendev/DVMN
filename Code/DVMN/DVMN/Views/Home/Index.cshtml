@@ -1,5 +1,5 @@
 ﻿@{
-    IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel> listSinglePuzzle = ViewData["listSinglePuzzle"] as IEnumerable<DVMN.Models.HomeViewModels.MainHomeViewModel>;
+    DVMN.Models.HomeViewModels.HomeViewModel model = ViewData["listSinglePuzzle"] as DVMN.Models.HomeViewModels.HomeViewModel;
     DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
 
 }
@@ -12,15 +12,15 @@
                 <ul class="tabs">
                     <li class="tab"><a href="#" class="current">Câu đố gần đây</a></li>
                     <li class="tab"><a href="#">Phổ biến nhất</a></li>
-                    <li class="tab"><a href="#">Đố và đáp</a></li>
+                    <li class="tab"><a href="#">Ưu thích nhất</a></li>
                     @*<li class="tab"><a href="#">No answers</a></li>*@
                 </ul>
                 <div class="tab-inner-warp">
 
                     <div class="tab-inner">
-                        @if (listSinglePuzzle.Any())
+                        @if (model.RecentPuzzle.Any())
                         {
-                            foreach (var item in listSinglePuzzle)
+                            foreach (var item in model.RecentPuzzle)
                             {
                                 if (item.ImageID.HasValue)
                                 {
@@ -31,7 +31,7 @@
                                                 <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
                                                 <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                                                 <div class="post-meta">
-                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
                                                     <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
                                                     <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
                                                     <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
@@ -50,9 +50,9 @@
                                                 <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
                                                 <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                                                 <div class="post-meta">
-                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
                                                     <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
-                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Mỗi ngày một câu đố</a></span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
                                                     <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
                                                 </div>
                                                 <div class="post-content">
@@ -74,13 +74,13 @@
                                             @*<a class="question-report" href="#">Report</a>
                                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                                             <div class="question-author">
-                                                <a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
                                                     <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                                                 </a>
                                             </div>
                                             <div class="question-inner">
                                                 <div class="clearfix"></div>
-                                                <p class="question-desc">@item.Description.</p>
+                                                <p class="question-desc">@item.Description</p>
                                                 <div class="question-details">
                                                     @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
                                                     @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
@@ -103,53 +103,29 @@
                                             @*<a class="question-report" href="#">Report</a>
                                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                                             <div class="question-author">
-                                                <a asp-controller="Member" asp-action="Member" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
                                                     <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
-                            </a>
-                        </div>
-                        <div class="question-inner">
-                            <div class="clearfix"></div>
-                            <p class="question-desc">@item.Description.</p>
-                            <div class="question-details">
-                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
-                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
-                            </div>
-                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Mỗi ngày một câu đố</a></span>
-                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
-                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
-                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </article>
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
 
                                     }
                                 }
 
                             }
-
-                            @*<article class="question question-type-poll">
-                                    <h2>
-                                        <a href="single_question_poll.html">This Is My Second Poll Question</a>
-                                    </h2>
-                                    <a class="question-report" href="#">Report</a>
-                                    <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
-                                    <div class="question-author">
-                                        <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                                    </div>
-                                    <div class="question-inner">
-                                        <div class="clearfix"></div>
-                                        <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                        <div class="question-details">
-                                            <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                        </div>
-                                        <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                        <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                        <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                        <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </article>*@
-                <!-- End article.post -->
                         }
                         @*<a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>*@
                     </div>
@@ -157,378 +133,228 @@
                 </div>
                 <div class="tab-inner-warp">
                     <div class="tab-inner">
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This is my first Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-poll">
-                            <h2>
-                                <a href="single_question_poll.html">This Is My Second Poll Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Third Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Fourth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Fifth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Sixth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My seventh Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Eighth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>
+                       @if (model.Mostpopular.Any())
+                       {
+                           foreach (var item in model.Mostpopular)
+                           {
+                               if (item.ImageID.HasValue)
+                               {
+                                   if (item.IsMultiPuzzle)
+                                   {
+                                    <article class="post blog_2 clearfix">
+                                        <div class="post-inner">
+                                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                            <div class="post-meta">
+                                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
+                                                <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                            </div>
+                                            <div class="post-content">
+                                                <p>@item.Description</p>
+                                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                            </div><!-- End post-content -->
+                                        </div><!-- End post-inner -->
+                                    </article>
+                                   }
+                                   else
+                                   {
+                                    <article class="post blog_2 clearfix">
+                                        <div class="post-inner">
+                                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                            <div class="post-meta">
+                                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                                <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                            </div>
+                                            <div class="post-content">
+                                                <p>@item.Description</p>
+                                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                            </div><!-- End post-content -->
+                                        </div><!-- End post-inner -->
+                                    </article>
+                                   }
+                               }
+                               else
+                               {
+                                   if (item.IsMultiPuzzle)
+                                   {
+                                    <article class="question question-type-normal">
+                                        <h2>
+                                            <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                        </h2>
+                                        @*<a class="question-report" href="#">Report</a>
+                                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                        <div class="question-author">
+                                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                            </a>
+                                        </div>
+                                        <div class="question-inner">
+                                            <div class="clearfix"></div>
+                                            <p class="question-desc">@item.Description</p>
+                                            <div class="question-details">
+                                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                            </div>
+                                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
+                                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+
+                                   }
+                                   else
+                                   {
+                                    <article class="question question-type-normal">
+                                        <h2>
+                                            <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                        </h2>
+                                        @*<a class="question-report" href="#">Report</a>
+                                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                        <div class="question-author">
+                                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                            </a>
+                                        </div>
+                                        <div class="question-inner">
+                                            <div class="clearfix"></div>
+                                            <p class="question-desc">@item.Description</p>
+                                            <div class="question-details">
+                                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                            </div>
+                                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+
+                                   }
+                               }
+
+                           }
+                       }
                     </div>
                 </div>
                 <div class="tab-inner-warp">
                     <div class="tab-inner">
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This is my first Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-poll">
-                            <h2>
-                                <a href="single_question_poll.html">This Is My Second Poll Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-signal"></i>Poll</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Third Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Fourth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Fifth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Sixth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My seventh Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <article class="question question-type-normal">
-                            <h2>
-                                <a href="single_question.html">This Is My Eighth Question</a>
-                            </h2>
-                            <a class="question-report" href="#">Report</a>
-                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
-                            <div class="question-author">
-                                <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
-                            </div>
-                            <div class="question-inner">
-                                <div class="clearfix"></div>
-                                <p class="question-desc">Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                                <div class="question-details">
-                                    <span class="question-answered"><i class="icon-ok"></i>in progress</span>
-                                    <span class="question-favorite"><i class="icon-star"></i>5</span>
-                                </div>
-                                <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                                <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                                <span class="question-view"><i class="icon-user"></i>70 views</span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </article>
-                        <a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>
+                       @if (model.MostFavorite.Any())
+                       {
+                           foreach (var item in model.MostFavorite)
+                           {
+                               if (item.ImageID.HasValue)
+                               {
+                                   if (item.IsMultiPuzzle)
+                                   {
+                                    <article class="post blog_2 clearfix">
+                                        <div class="post-inner">
+                                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                            <div class="post-meta">
+                                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
+                                                <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                            </div>
+                                            <div class="post-content">
+                                                <p>@item.Description</p>
+                                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                            </div><!-- End post-content -->
+                                        </div><!-- End post-inner -->
+                                    </article>
+                                   }
+                                   else
+                                   {
+                                    <article class="post blog_2 clearfix">
+                                        <div class="post-inner">
+                                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                            <div class="post-meta">
+                                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                                <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                            </div>
+                                            <div class="post-content">
+                                                <p>@item.Description</p>
+                                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                            </div><!-- End post-content -->
+                                        </div><!-- End post-inner -->
+                                    </article>
+                                   }
+                               }
+                               else
+                               {
+                                   if (item.IsMultiPuzzle)
+                                   {
+                                    <article class="question question-type-normal">
+                                        <h2>
+                                            <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                        </h2>
+                                        @*<a class="question-report" href="#">Report</a>
+                                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                        <div class="question-author">
+                                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                            </a>
+                                        </div>
+                                        <div class="question-inner">
+                                            <div class="clearfix"></div>
+                                            <p class="question-desc">@item.Description</p>
+                                            <div class="question-details">
+                                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                            </div>
+                                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
+                                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+
+                                   }
+                                   else
+                                   {
+                                    <article class="question question-type-normal">
+                                        <h2>
+                                            <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                        </h2>
+                                        @*<a class="question-report" href="#">Report</a>
+                                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                        <div class="question-author">
+                                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                            </a>
+                                        </div>
+                                        <div class="question-inner">
+                                            <div class="clearfix"></div>
+                                            <p class="question-desc">@item.Description</p>
+                                            <div class="question-details">
+                                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                            </div>
+                                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+
+                                   }
+                               }
+
+                           }
+                       }
                     </div>
                 </div>
             </div><!-- End page-content -->
