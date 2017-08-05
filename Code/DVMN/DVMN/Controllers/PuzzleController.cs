@@ -35,21 +35,19 @@ namespace DVMN.Controllers
         }
 
         [Route("/cau-do-moi-ngay")]
-        public async Task<IActionResult> ListSinglePuzzle()
+        public async Task<IActionResult> ListSinglePuzzle(int? page)
         {
-            var single = await _context.SinglePuzzle.Include(p => p.Image)
-                .Where(p => !p.IsMMultiPuzzle) .ToListAsync();
+            var single = await _repository.ListSinglePuzzle(page, 10);
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
 
         [Route("/cau-hoi-dac-biet")]
-        public async Task<IActionResult> ListMultiPuzzle()
+        public async Task<IActionResult> ListMultiPuzzle(int? page)
         {
-            var single = await _context.MultiPuzzle.Include(p => p.Image)
-                .ToListAsync();
+            var multi = await _repository.ListMultiPuzzle(page, 10);
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
-            return View(single);
+            return View(multi);
         }
 
 
@@ -82,7 +80,7 @@ namespace DVMN.Controllers
         [Route("/cau-do-dac-biet/{slug}")]
         public async Task<IActionResult> SingleMultiPuzzle(string slug)
         {
-            MultiPuzzleViewModel listSingle = await _repository.GetSingleMultiPuzzle(slug);
+            SingleMultiPuzzleViewModel listSingle = await _repository.GetSingleMultiPuzzle(slug);
             var user = await GetCurrentUser();
 
             if (!_signInManager.IsSignedIn(HttpContext.User))

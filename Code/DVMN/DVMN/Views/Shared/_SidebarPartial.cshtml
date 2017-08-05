@@ -6,6 +6,7 @@
         <ul>
             <li><a asp-controller="Puzzle" asp-action="ListSinglePuzzle"><i class="icon-question-sign"></i>Câu đố mỗi ngày ( <span>@Model.CountSinglePuzzle</span> )</a></li>
             <li><a asp-controller="Puzzle" asp-action="ListMultiPuzzle"><i class="icon-comment"></i>Câu đố đặc biệt ( <span>@Model.CountMultiPuzzle</span> )</a></li>
+            <li><a asp-controller="Member" asp-action="Index"><i class="icon-user"></i>Thành viên ( <span>@Model.CountMemberPuzzle</span> )</a></li>
         </ul>
     </div>
 </div>
@@ -83,7 +84,7 @@
     </div>*@
 
 <div class="widget widget_highest_points">
-    <h3 class="widget_title">Vua giải đố</h3>
+    <h3 class="widget_title"><a asp-controller="Member" asp-action="TopMember" style="color:#3498db">Vua giải đố</a></h3>
     <ul>
         @if (!Model.TopUser.Any())
         { 

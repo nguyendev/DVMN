@@ -1,4 +1,6 @@
-﻿using DVMN.Models.PuzzleViewModels;
+﻿using DVMN.Extension;
+using DVMN.Models;
+using DVMN.Models.PuzzleViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,12 @@ namespace DVMN.Data
 {
     public interface IPuzzleRepository
     {
+        Task<ListSinglePuzzleViewModel> ListSinglePuzzle(int? page, int? pageSize);
+        Task<ListMultiPuzzleViewModel> ListMultiPuzzle(int? page, int? pageSize);
         // Xem chi tiet cau do don
+
         Task<SingleSinglePuzzleViewModel> GetSingleSinglePuzzle(string slug);
-        Task<MultiPuzzleViewModel> GetSingleMultiPuzzle(string slug);
+        Task<SingleMultiPuzzleViewModel> GetSingleMultiPuzzle(string slug);
         // Da xem cau nay
         Task IsWatchedSingleSinglePuzzle(string slug);
         Task IsWatchedSingleMultiPuzzle(string slug);

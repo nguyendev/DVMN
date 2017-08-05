@@ -50,6 +50,15 @@
                     <div class="question-desc">
                         <div class="poll_2" style="text-align: justify">
                             <p>@Model.Description</p>
+                            @if (Model.ImageID != null)
+                            {
+                                <div class="post-img">
+                                    <a href="single_post.html">
+                                            <img src="@Model.Image.PicFull" alt="@Model.Image.ALT" title="@Model.Image.Title">
+                                    </a>
+                                </div>
+                                <br />
+                            }
                             <div class="row">
                                 <div class="col-md-9">
                                     <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="@ViewData["Display"]" id="all-answer">

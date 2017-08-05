@@ -212,11 +212,12 @@ namespace DVMN.Areas.Admin.Controllers
                 //var info = await _signInManager.GetExternalLoginInfoAsync();
                 var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                 var dateOfBirth = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth);
+                var facebook = $"https://www.facebook.com/{identifier}/";
                 var pictureSmall = $"https://graph.facebook.com/{identifier}/picture?width=128&height=128";
                 var pictureBig = $"https://graph.facebook.com/{identifier}/picture?width=160&height=160";
                 var picture65x65 = $"https://graph.facebook.com/{identifier}/picture?width=65&height=65";
                 info = await _signInManager.GetExternalLoginInfoAsync();
-                var user = new Member { UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName) + "-"+StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, Picture65x65 = picture65x65, PictureBig = pictureBig, DateofBirth = dateOfBirth };
+                var user = new Member {IdentityFacebook = identifier,Facebook = facebook, UserName = email,Slug = StringExtensions.ConvertToUnSign3(fullName) + "-"+StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, Picture65x65 = picture65x65, PictureBig = pictureBig, DateofBirth = dateOfBirth };
                 var createResult = await _userManager.CreateAsync(user);
                 if (createResult.Succeeded)
                 {

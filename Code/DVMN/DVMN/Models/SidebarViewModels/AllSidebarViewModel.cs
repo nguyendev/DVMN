@@ -15,5 +15,6 @@ namespace DVMN.Models.SidebarViewModels
 
         public long CountSinglePuzzle { get; set; }
         public long CountMultiPuzzle { get; set; }
+        public long CountMemberPuzzle { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DVMN.Models.PuzzleViewModels
 {
-    public class MultiPuzzleViewModel
+    public class SingleMultiPuzzleViewModel
     {
         public IEnumerable<SingleSinglePuzzleViewModel> listSinglePuzzle { get; set; }
         public string Title { get; set; }

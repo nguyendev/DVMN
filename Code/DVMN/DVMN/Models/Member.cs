@@ -16,6 +16,7 @@ namespace DVMN.Models
         public string PictureBig { get; set; }
         public string DateofBirth { get; set; }
         public string Facebook { get; set; }
+        public string IdentityFacebook { get; set; }
         public int Score { get; set; }
     }
 }

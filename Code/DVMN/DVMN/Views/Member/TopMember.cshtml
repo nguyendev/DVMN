@@ -1,4 +1,4 @@
-﻿@model DVMN.Models.MemberViewModels.ListMemberViewModel
+﻿@model DVMN.Models.MemberViewModels.ListTopMemberViewModel
 @{
     DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
 }
@@ -12,7 +12,7 @@
                 <div class="crumbs">
                     <a asp-action="Index" asp-controller="Home">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Danh sách thành viên</span>
+                    <span class="current">Xếp hạng giải đố</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -31,12 +31,12 @@
                     </div>
                     <div class="author-bio">
                         <h4>
-                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug"">@item.FullName</a>
+                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug">@item.FullName</a>
                             @*<span class="badge-span">Người mới</span>*@
                         </h4>
                         <p>Điểm: @item.Score</p>
                         @*<div class="clearfix"></div>
-                        <br>*@
+                            <br>*@
                         <span class="user-follow-me">Theo dõi tôi</span>
                         <a href="@item.Facebook" original-title="Facebook" class="tooltip-n">
                             <span class="icon_i">

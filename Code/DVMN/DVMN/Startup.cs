@@ -107,6 +107,7 @@ namespace DVMN
             services.AddScoped<ISinglePuzzle, SinglePuzzleRepository>();
             services.AddScoped<IPuzzleRepository, PuzzleRepository>();
             services.AddScoped<ISidebarRepository, SidebarRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

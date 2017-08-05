@@ -6,6 +6,7 @@ using DVMN.Models.PuzzleViewModels;
 using Microsoft.EntityFrameworkCore;
 using DVMN.Services;
 using DVMN.Models;
+using DVMN.Extension;
 
 namespace DVMN.Data
 {
@@ -120,7 +121,7 @@ namespace DVMN.Data
             }
         }
 
-        public async Task<MultiPuzzleViewModel> GetSingleMultiPuzzle(string slug)
+        public async Task<SingleMultiPuzzleViewModel> GetSingleMultiPuzzle(string slug)
         {
             var multi = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.Slug == slug);
             //multi.IsAnswered = await _repository.IsAnswerPuzzle(multi.ID, true);
@@ -174,7 +175,7 @@ namespace DVMN.Data
                     temp.Tags = tags;
                 listSingleViewModel.Add(temp);
             }
-            MultiPuzzleViewModel model = new MultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
+            SingleMultiPuzzleViewModel model = new SingleMultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
             return model;
         }
 
@@ -240,6 +241,82 @@ namespace DVMN.Data
                 return true;
             }
             return false;
+        }
+
+        public async Task<ListSinglePuzzleViewModel> ListSinglePuzzle(int? page, int? pageSize)
+        {
+            var listSingle = _context.SinglePuzzle.Include(p =>p.Author)
+                                                  .Include(p =>p.Image);
+            
+           
+            var pagelist = await PaginatedList<SinglePuzzle>.CreateAsync(listSingle.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10);
+
+            
+            List<SinglePuzzleViewModel> list = new List<SinglePuzzleViewModel>();
+            foreach (var item in pagelist)
+            {
+                SinglePuzzleViewModel temp = new SinglePuzzleViewModel
+                {
+                    Image = item.Image,
+                    Author = item.Author,
+                    Slug = item.Slug,
+                    Views = item.Views,
+                    ImageID = item.ImageID,
+                    Description = SEOExtension.GetStringToLength(item.Description, SEOExtension.MaxDescriptionNormal),
+                    DateTime = item.CreateDT,
+                    ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                    Like = item.Like,
+                    Title = item.Title
+                };
+                list.Add(temp);
+            }
+            ListSinglePuzzleViewModel model = new ListSinglePuzzleViewModel
+            {
+                Count = pagelist.Count,
+                PageIndex = pagelist.PageIndex,
+                PageSize = pagelist.PageSize,
+                List = list,
+                TotalPages = pagelist.TotalPages
+            };
+            return model;
+        }
+
+        public async Task<ListMultiPuzzleViewModel> ListMultiPuzzle(int? page, int? pageSize)
+        {
+            var listMulti = _context.MultiPuzzle.Include(p => p.Author)
+                                                  .Include(p => p.Image);
+
+
+            var pagelist = await PaginatedList<MultiPuzzle>.CreateAsync(listMulti.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10);
+
+
+            List<MultiPuzzleViewModel> list = new List<MultiPuzzleViewModel>();
+            foreach (var item in pagelist)
+            {
+                MultiPuzzleViewModel temp = new MultiPuzzleViewModel
+                {
+                    Image = item.Image,
+                    Author = item.Author,
+                    Slug = item.Slug,
+                    Views = item.Views,
+                    ImageID = item.ImageID,
+                    Description = SEOExtension.GetStringToLength(item.Description, SEOExtension.MaxDescriptionNormal),
+                    DateTime = item.CreateDT,
+                    ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                    Like = item.Like,
+                    Title = item.Title
+                };
+                list.Add(temp);
+            }
+            ListMultiPuzzleViewModel model = new ListMultiPuzzleViewModel
+            {
+                Count = pagelist.Count,
+                PageIndex = pagelist.PageIndex,
+                PageSize = pagelist.PageSize,
+                List = list,
+                TotalPages = pagelist.TotalPages
+            };
+            return model;
         }
     }
 }

@@ -1,18 +1,18 @@
-﻿@model IEnumerable<SinglePuzzle>
-@{ 
+﻿@model DVMN.Models.PuzzleViewModels.ListSinglePuzzleViewModel
+@{
     DVMN.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DVMN.Models.SidebarViewModels.AllSidebarViewModel;
 }
 <div class="breadcrumbs">
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Blog 2</h1>
+                <h1>Câu đố mỗi ngày</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
-                    <a href="#">Home</a>
+                    <a asp-action="Index" asp-controller="Home">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Blog 2</span>
+                    <span class="current">Danh sách câu đố mỗi ngày</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -22,56 +22,111 @@
 <section class="container main-content">
     <div class="row">
         <div class="col-md-9">
-        @foreach (var item in Model)
-        {
-            if (item.ImageID.HasValue)
+            @foreach (var item in Model.List)
             {
-                <article class="post blog_2 clearfix">
-                    <div class="post-inner">
-                        <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
-                        <div class="post-img"><a href="single_post.html"><img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
-                        <div class="post-meta">
-                            <span class="meta-author"><i class="icon-user"></i><a href="#">Administrator</a></span>
-                            <span class="meta-date"><i class="icon-time"></i>September 30 , 2013</span>
-                            <span class="meta-categories"><i class="icon-suitcase"></i><a href="#">Test</a></span>
-                            <span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>
+                if (item.ImageID.HasValue)
+                {
+                    <article class="post blog_2 clearfix">
+                        <div class="post-inner">
+                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                            <div class="post-meta">
+                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                            </div>
+                            <div class="post-content">
+                                <p>@item.Description</p>
+                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                            </div><!-- End post-content -->
+                        </div><!-- End post-inner -->
+                    </article>
+                }
+                else
+                {
+                    <article class="question question-type-normal">
+                        <h2>
+                            <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                        </h2>
+                        @*<a class="question-report" href="#">Report</a>
+                            <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                        <div class="question-author">
+                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                            </a>
                         </div>
-                        <div class="post-content">
-                            <p>@item.Description</p>
-                            <a asp-controller="puzzle" asp-action="single" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
-                        </div><!-- End post-content -->
-                    </div><!-- End post-inner -->
-                </article>
-            }
-            else
-            {
-                <article class="question question-type-normal">
-                    <h2>
-                        <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
-                    </h2>
-                    @*<a class="question-report" href="#">Report</a>
-                        <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
-                    <div class="question-author">
-                        <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="https://2code.info/demo/html/ask-me/images/demo/avatar.png"></a>
-                    </div>
-                    <div class="question-inner">
-                        <div class="clearfix"></div>
-                        <p class="question-desc">@item.Description.</p>
-                        <div class="question-details">
-                            @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
-                            @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                        <div class="question-inner">
+                            <div class="clearfix"></div>
+                            <p class="question-desc">@item.Description</p>
+                            <div class="question-details">
+                                @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                            </div>
+                            <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                            <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                            <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                            <div class="clearfix"></div>
                         </div>
-                        <span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-                        <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-                        <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
-                        <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
-                        <div class="clearfix"></div>
-                    </div>
-                </article>
+                    </article>
 
+                }
             }
-        }
-            
+            <div class="pagination">
+                @*@{
+                    int Min = (@Model.PageIndex - 1) * @Model.PageSize;
+                    int Max = (@Model.PageIndex) * @Model.PageSize;
+                }
+                Hiển thị @Min to @Max trong @Model.Count phần tử*@
+                <style>
+                    .current {
+                        background-color: #3498db !important;
+                        color: white !important;
+                    }
+                </style>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "none" : "block";
+                    var nextDisabled = !Model.HasNextPage ? "none" : "block";
+                }
+                @if (Model.PageIndex - 1 > 0)
+                {
+                    <a asp-action="ListSinglePuzzle"
+                       asp-route-page="@(Model.PageIndex - 1)"
+                       style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
+                }
+                @if (Model.PageIndex - 2 > 0)
+                {
+                    <a asp-action="ListSinglePuzzle"
+                       asp-route-page="@(Model.PageIndex - 2)"
+                       style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
+                }
+                @if (Model.PageIndex - 1 > 0)
+                {
+                    <a asp-action="ListSinglePuzzle"
+                       asp-route-page="@(Model.PageIndex - 1)"
+                       style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
+                }
+
+                <a asp-action="ListSinglePuzzle"
+                   asp-route-page="@(Model.PageIndex)"
+                   class="current">@Model.PageIndex</a>
+                <a asp-action="ListSinglePuzzle"
+                   asp-route-page="@(Model.PageIndex + 1)"
+                   style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
+                <a asp-action="ListSinglePuzzle"
+                   asp-route-page="@(Model.PageIndex + 2)"
+                   style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
+                @*<span>...</span>
+                    <a href="#">11</a>
+                    <a href="#">12</a>
+                    <a href="#">13</a>*@
+                <a asp-action="ListSinglePuzzle"
+                   asp-route-page="@(Model.PageIndex + 1)"
+                   style="display: @nextDisabled">
+                    <i class="icon-angle-right"></i>
+                </a>
+            </div><!-- End pagination -->
         </div><!-- End main -->
         <aside class="col-md-3 sidebar">
             @Html.Partial("_SidebarPartial", sidebar)

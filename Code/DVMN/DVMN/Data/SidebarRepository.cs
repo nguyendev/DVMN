@@ -30,6 +30,7 @@ namespace DVMN.Data
             };
             getAllSibar.CountSinglePuzzle = _context.SinglePuzzle.Where(p => !p.IsMMultiPuzzle).Count();
             getAllSibar.CountMultiPuzzle = _context.MultiPuzzle.Count();
+            getAllSibar.CountMemberPuzzle = _context.Users.Count();
             return getAllSibar;
 
         }
