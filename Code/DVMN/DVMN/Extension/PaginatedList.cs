@@ -12,7 +12,7 @@ namespace DVMN.Extension
         public int TotalPages { get; private set; }
 
         public int PageSize { get; set; }
-        public int Count { get; set; }
+        public new int Count { get; set; }
         public T t { get; set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)

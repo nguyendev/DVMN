@@ -133,6 +133,13 @@ namespace DVMN.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> LogoutHref()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
         //
         // POST: /Account/Logout
         [HttpPost]

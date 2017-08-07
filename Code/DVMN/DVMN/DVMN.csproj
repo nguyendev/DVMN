@@ -13,9 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\images\demo\**" />
     <Compile Remove="wwwroot\styles\**" />
+    <Content Remove="wwwroot\images\demo\**" />
     <Content Remove="wwwroot\styles\**" />
+    <EmbeddedResource Remove="wwwroot\images\demo\**" />
     <EmbeddedResource Remove="wwwroot\styles\**" />
+    <None Remove="wwwroot\images\demo\**" />
     <None Remove="wwwroot\styles\**" />
   </ItemGroup>
 
@@ -183,32 +187,16 @@
     <Content Include="wwwroot\dist\js\demo.js" />
     <Content Include="wwwroot\dist\js\pages\dashboard.js" />
     <Content Include="wwwroot\dist\js\pages\dashboard2.js" />
-    <Content Include="wwwroot\images\addbanner_728x90_V1.jpg" />
-    <Content Include="wwwroot\images\add_img.jpg" />
     <Content Include="wwwroot\images\chrome.png">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\images\demo\admin.jpeg" />
-    <Content Include="wwwroot\images\demo\avatar.png" />
-    <Content Include="wwwroot\images\favicon.png" />
-    <Content Include="wwwroot\images\featured_img1.jpg" />
-    <Content Include="wwwroot\images\featured_img2.jpg" />
-    <Content Include="wwwroot\images\featured_img3.jpg" />
     <Content Include="wwwroot\images\icons.png">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\images\logo.jpg" />
     <Content Include="wwwroot\images\logo.png" />
-    <Content Include="wwwroot\images\news_thumbnail2.jpg" />
-    <Content Include="wwwroot\images\news_thumbnail3.jpg" />
     <Content Include="wwwroot\images\patterns\bg13.png">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="wwwroot\images\photograph_img2.jpg" />
-    <Content Include="wwwroot\images\photograph_img3.jpg" />
-    <Content Include="wwwroot\images\photograph_img4.jpg" />
-    <Content Include="wwwroot\images\post_img1.jpg" />
-    <Content Include="wwwroot\images\post_img2.jpg" />
     <Content Include="wwwroot\images\prettyPhoto\dark_rounded\btnNext.png">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -303,22 +291,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\images\prettyPhoto\light_square\sprite.png">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\images\shadow_1.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\images\single_post_img.jpg" />
-    <Content Include="wwwroot\images\slider_img1.jpg" />
-    <Content Include="wwwroot\images\slider_img2.jpg" />
-    <Content Include="wwwroot\images\slider_img3.jpg" />
-    <Content Include="wwwroot\images\slider_img4.jpg" />
-    <Content Include="wwwroot\images\slider_next.png" />
-    <Content Include="wwwroot\images\slider_prev.png" />
-    <Content Include="wwwroot\images\splitter.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\images\splitter_dark.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\js\custom.js" />
@@ -1261,7 +1233,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Member\" />
+    <Folder Include="Views\StatusCode\" />
+    <Folder Include="Views\Search\" />
     <Folder Include="Views\TestCache\" />
     <Folder Include="wwwroot\lib\kendo-ui\" />
     <Folder Include="wwwroot\plugins\flipclock\" />

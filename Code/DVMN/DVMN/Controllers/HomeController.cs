@@ -22,7 +22,7 @@ namespace DVMN.Controllers
         }
         [Route("")]
 
-        [ResponseCache(CacheProfileName = "Default")]
+        //[ResponseCache(CacheProfileName = "Default")]
         public async Task<IActionResult> Index()
         {
             ViewData["listSinglePuzzle"] = await _repository.GetIndex();
@@ -30,14 +30,14 @@ namespace DVMN.Controllers
             return View();
         }
         
-        [Route("/ve-chung-toi")]
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+        //[Route("/ve-chung-toi")]
+        //public IActionResult About()
+        //{
+        //    ViewData["Message"] = "Your application description page.";
 
-            return View();
-        }
-        [ResponseCache(Duration = 60)]
+        //    return View();
+        //}
+        [ResponseCache(Duration = 120)]
         [Route("/lien-he")]
         public IActionResult Contact()
         {

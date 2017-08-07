@@ -28,8 +28,8 @@
             </ul>
         </nav>
         <div class="header-search">
-            <form>
-                <input type="text" value="Tìm kiếm ..." onfocus="if(this.value=='Search here ...')this.value='';" onblur="if(this.value=='')this.value='Search here ...';">
+            <form asp-action="Search" asp-controller="Search">
+                <input name="search" type="text" value="Tìm kiếm ..." onfocus="if(this.value=='Tìm kiếm ...')this.value='';" onblur="if(this.value=='')this.value='Tìm kiếm ...';">
                 <button type="submit" class="search-submit"></button>
             </form>
         </div>
@@ -40,6 +40,7 @@
         <div class="logo"><a asp-controller="Home" asp-action="Index"><img asp-append-version="true" alt="" src="~/images/logo.png"></a></div>
         <nav class="navigation">
             <ul>
+                <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
                 <li><a asp-action="ListSinglePuzzle" asp-controller="Puzzle">Mỗi ngày một câu đố</a></li>
                 <li><a asp-action="ListMultiPuzzle" asp-controller="Puzzle">Câu đố đặc biệt</a></li>
                 @*<li class="ask_question"><a href="ask_question.html">Ask Question</a></li>*@
@@ -61,59 +62,60 @@
                         <li><a href="single_question.html">Question Single</a></li>
                         <li><a href="single_question_poll.html">Poll Question Single</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="user_profile.html">User</a>
-                    <ul>
-                        <li><a href="user_profile.html">User Profile</a></li>
-                        <li><a href="user_questions.html">User Questions</a></li>
-                        <li><a href="user_answers.html">User Answers</a></li>
-                        <li><a href="user_favorite_questions.html">User Favorite Questions</a></li>
-                        <li><a href="user_points.html">User Points</a></li>
-                        <li><a href="edit_profile.html">Edit Profile</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="blog_1.html">Blog</a>
-                    <ul>
-                        <li>
-                            <a href="blog_1.html">Blog 1</a>
-                            <ul>
-                                <li><a href="blog_1.html">Right sidebar</a></li>
-                                <li><a href="blog_1_l_sidebar.html">Left sidebar</a></li>
-                                <li><a href="blog_1_full_width.html">Full Width</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="blog_2.html">Blog 2</a>
-                            <ul>
-                                <li><a href="blog_2.html">Right sidebar</a></li>
-                                <li><a href="blog_2_l_sidebar.html">Left sidebar</a></li>
-                                <li><a href="blog_2_full_width.html">Full Width</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="single_post.html">Post Single</a>
-                            <ul>
-                                <li><a href="single_post.html">Right sidebar</a></li>
-                                <li><a href="single_post_l_sidebar.html">Left sidebar</a></li>
-                                <li><a href="single_post_full_width.html">Full Width</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="right_sidebar.html">Pages</a>
-                    <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="contact_us.html">Contact Us</a></li>
-                        <li><a href="ask_question.html">Ask Question</a></li>
-                        <li><a href="right_sidebar.html">Right Sidebar</a></li>
-                        <li><a href="left_sidebar.html">Left Sidebar</a></li>
-                        <li><a href="full_width.html">Full Width</a></li>
-                        <li><a href="404.html">404</a></li>
-                    </ul>
                 </li>*@
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+                <li>
+                    <a asp-controller="Member" asp-action="Details" asp-route-slug="@user.Slug">Tài khoản của tôi</a>
+                        <ul>
+                            <li><a asp-controller="Member" asp-action="Details" asp-route-slug="@user.Slug">Thông tin của tôi</a></li>
+                            <li><a asp-controller="Member" asp-action="EditProfile" asp-route-slug="@user.Slug">Chỉnh sửa thông tin</a></li>
+                            <li><a asp-controller="Account" asp-action="LogoutHref">Đăng xuất</a></li>
+                        </ul>
+                </li>
+}
+                @*<li>
+        <a href="blog_1.html">Blog</a>
+        <ul>
+            <li>
+                <a href="blog_1.html">Blog 1</a>
+                <ul>
+                    <li><a href="blog_1.html">Right sidebar</a></li>
+                    <li><a href="blog_1_l_sidebar.html">Left sidebar</a></li>
+                    <li><a href="blog_1_full_width.html">Full Width</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="blog_2.html">Blog 2</a>
+                <ul>
+                    <li><a href="blog_2.html">Right sidebar</a></li>
+                    <li><a href="blog_2_l_sidebar.html">Left sidebar</a></li>
+                    <li><a href="blog_2_full_width.html">Full Width</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="single_post.html">Post Single</a>
+                <ul>
+                    <li><a href="single_post.html">Right sidebar</a></li>
+                    <li><a href="single_post_l_sidebar.html">Left sidebar</a></li>
+                    <li><a href="single_post_full_width.html">Full Width</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="right_sidebar.html">Pages</a>
+        <ul>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="contact_us.html">Contact Us</a></li>
+            <li><a href="ask_question.html">Ask Question</a></li>
+            <li><a href="right_sidebar.html">Right Sidebar</a></li>
+            <li><a href="left_sidebar.html">Left Sidebar</a></li>
+            <li><a href="full_width.html">Full Width</a></li>
+            <li><a href="404.html">404</a></li>
+        </ul>
+    </li>*@
                 @*<li><a asp-controller="Home" asp-action="Index">Shortcodes</a></li>*@
                 @*<li><a href="shortcodes.html">Shortcodes</a></li>
                     <li><a asp-controller="Home" asp-action>Contact Us</a></li>*@

@@ -155,6 +155,8 @@ namespace DVMN.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("About");
+
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -171,7 +173,11 @@ namespace DVMN.Migrations
 
                     b.Property<string>("FullName");
 
+                    b.Property<string>("GooglePlus");
+
                     b.Property<string>("IdentityFacebook");
+
+                    b.Property<string>("Linkedin");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -201,10 +207,14 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Slug");
 
+                    b.Property<string>("Twitter");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Website");
 
                     b.HasKey("Id");
 

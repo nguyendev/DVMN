@@ -1,0 +1,60 @@
+﻿@model int
+@{
+    ViewData["Title"] = "Lỗi " +Model+ " | Dovuihainao.Net";
+    ViewData["Desciption"] = "Lỗi";
+    var statusCode = Model;
+    var statusmessage = "";
+    switch (statusCode)
+    {
+        case 400:
+            statusmessage = "Bad request: The request cannot be fulfilled due to bad syntax";
+            break;
+        case 403:
+            statusmessage = "Forbidden";
+            break;
+        case 404:
+            statusmessage = "Trang không tìm thấy";
+            break;
+        case 408:
+            statusmessage = "The server timed out waiting for the request";
+            break;
+        case 500:
+            statusmessage = "Internal Server Error - server was unable to finish processing the request";
+            break;
+        default:
+            statusmessage = "That’s odd... Something we didn't expect happened";
+            break;
+    }
+}
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Lỗi @Model</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <a href="#">Trang</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Lỗi @Model</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error_404">
+                <div>
+                    <h2>@Model</h2>
+                    <h3>@statusmessage</h3>
+                </div>
+                <div class="clearfix"></div><br>
+                <a asp-controller="Home" asp-action="Index" class="button large color margin_0">Trang chủ</a>
+            </div>
+        </div><!-- End main -->
+    </div><!-- End row -->
+</section><!-- End container -->

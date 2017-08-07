@@ -14,6 +14,7 @@ namespace DVMN.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    About = table.Column<string>(nullable: true),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     DateofBirth = table.Column<string>(nullable: true),
@@ -21,6 +22,9 @@ namespace DVMN.Migrations
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     Facebook = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(nullable: true),
+                    GooglePlus = table.Column<string>(nullable: true),
+                    IdentityFacebook = table.Column<string>(nullable: true),
+                    Linkedin = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -34,8 +38,10 @@ namespace DVMN.Migrations
                     Score = table.Column<int>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     Slug = table.Column<string>(nullable: true),
+                    Twitter = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Website = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,6 +111,33 @@ namespace DVMN.Migrations
                     table.PrimaryKey("PK_HistoryAnswerPuzzle", x => x.ID);
                     table.ForeignKey(
                         name: "FK_HistoryAnswerPuzzle_AspNetUsers_AuthorID",
+                        column: x => x.AuthorID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HistoryLikePuzzle",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<string>(nullable: true),
+                    Approved = table.Column<string>(nullable: true),
+                    AuthorID = table.Column<string>(nullable: true),
+                    CreateDT = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsMultiPuzzle = table.Column<bool>(nullable: false),
+                    Note = table.Column<string>(nullable: true),
+                    PuzzleID = table.Column<int>(nullable: false),
+                    UpdateDT = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistoryLikePuzzle", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_HistoryLikePuzzle_AspNetUsers_AuthorID",
                         column: x => x.AuthorID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -406,6 +439,11 @@ namespace DVMN.Migrations
                 column: "AuthorID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HistoryLikePuzzle_AuthorID",
+                table: "HistoryLikePuzzle",
+                column: "AuthorID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_AuthorID",
                 table: "Images",
                 column: "AuthorID");
@@ -485,6 +523,9 @@ namespace DVMN.Migrations
 
             migrationBuilder.DropTable(
                 name: "HistoryAnswerPuzzle");
+
+            migrationBuilder.DropTable(
+                name: "HistoryLikePuzzle");
 
             migrationBuilder.DropTable(
                 name: "SingPuzzleTag");

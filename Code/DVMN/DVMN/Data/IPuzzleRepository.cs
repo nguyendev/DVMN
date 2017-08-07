@@ -23,7 +23,7 @@ namespace DVMN.Data
         // Da tra loi cau hoi nay
         Task<bool> IsAnswerPuzzle(int PuzzleID, string AuthorID);
 
-        Task SetIsAnsweredPuzzle(int PuzzleID, string AuthorID);
+        Task SetIsAnsweredPuzzle(int PuzzleID, string AuthorID,bool IsMulti);
 
         // Tang diem khi tra loi dung
         Task IncreasePoint(string userID, int point);

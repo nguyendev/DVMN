@@ -102,7 +102,7 @@ namespace DVMN.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task SetIsAnsweredPuzzle(int PuzzleID, string AuthorID)
+        public async Task SetIsAnsweredPuzzle(int PuzzleID, string AuthorID, bool IsMulti)
         {
             bool IsExits = _context.HistoryAnswerPuzzle.Any(p => p.PuzzleID == PuzzleID && p.AuthorID == AuthorID);
             if (!IsExits)
@@ -115,6 +115,7 @@ namespace DVMN.Data
                     CreateDT = DateTime.Now,
                     IsDeleted = false,
                     PuzzleID = PuzzleID,
+                    IsMultiPuzzle = IsMulti,
                     UpdateDT = DateTime.Now,
                 });
                 await _context.SaveChangesAsync();

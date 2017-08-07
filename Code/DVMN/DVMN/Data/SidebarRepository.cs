@@ -53,7 +53,7 @@ namespace DVMN.Data
                 }
                 return model;
             }
-            catch (Exception e)
+            catch 
             {
                 return new List<TopUserViewModel>();
             }

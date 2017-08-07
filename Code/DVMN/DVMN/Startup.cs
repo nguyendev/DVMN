@@ -55,7 +55,7 @@ namespace DVMN
             //{ 
             //services.AddResponseCaching();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("VPSConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //}
             services.AddIdentity<Member, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -108,6 +108,7 @@ namespace DVMN
             services.AddScoped<IPuzzleRepository, PuzzleRepository>();
             services.AddScoped<ISidebarRepository, SidebarRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }
@@ -122,14 +123,13 @@ namespace DVMN
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-              //  app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseResponseCompression();
-
+            app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
 
             app.UseStaticFiles(new StaticFileOptions()
             {

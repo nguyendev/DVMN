@@ -8,8 +8,8 @@ using DVMN.Data;
 namespace DVMN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170804071928_Init231")]
-    partial class Init231
+    [Migration("20170807031159_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +156,8 @@ namespace DVMN.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("About");
+
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -171,6 +173,12 @@ namespace DVMN.Migrations
                     b.Property<string>("Facebook");
 
                     b.Property<string>("FullName");
+
+                    b.Property<string>("GooglePlus");
+
+                    b.Property<string>("IdentityFacebook");
+
+                    b.Property<string>("Linkedin");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -200,10 +208,14 @@ namespace DVMN.Migrations
 
                     b.Property<string>("Slug");
 
+                    b.Property<string>("Twitter");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Website");
 
                     b.HasKey("Id");
 

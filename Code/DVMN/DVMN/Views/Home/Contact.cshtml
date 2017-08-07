@@ -1,16 +1,21 @@
-﻿<div class="breadcrumbs">
+﻿@{ 
+    ViewData["Title"] = "Liên hệ | Dovuihainao.Net";
+    ViewData["Desciption"] = "Liên hệ với đố vui hại não tại đây";
+}
+
+<div class="breadcrumbs">
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Contact Us</h1>
+                <h1>Liên hệ chúng tôi</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
-                    <a href="#">Home</a>
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <a href="#">Pages</a>
+                    <a href="#">Trang</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Contact Us</span>
+                    <span class="current">Liên hệ</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -25,7 +30,7 @@
                     <iframe height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=egypt&amp;hl=en&amp;sll=26.820553,30.802498&amp;sspn=16.874794,19.753418&amp;hnear=Egypt&amp;t=m&amp;z=6&amp;output=embed"></iframe>
                 </div><!-- End page-content -->
             </div>
-            <div class="col-md-7">
+            @*<div class="col-md-7">
                 <div class="page-content">
                     <h2>Say hello !</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat.</p>
@@ -136,7 +141,7 @@
                         </ul>
                     </div>
                 </div><!-- End page-content -->
-            </div><!-- End col-md-6 -->
+            </div><!-- End col-md-6 -->*@
         </div><!-- End contact-us -->
     </div><!-- End row -->
 </section><!-- End container -->

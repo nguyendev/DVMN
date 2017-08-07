@@ -110,7 +110,7 @@ namespace DVMN.Controllers
             var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == Id);
             var user = await GetCurrentUser();
 
-            await _repository.SetIsAnsweredPuzzle(Id, user.Id);
+            await _repository.SetIsAnsweredPuzzle(Id, user.Id,false);
             if (single.Correct == select)
             {
                 await _repository.IncreasePoint(user.Id, POINT);
@@ -129,7 +129,7 @@ namespace DVMN.Controllers
             var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == id);
             var user = await GetCurrentUser();
 
-            await _repository.SetIsAnsweredPuzzle(id, user.Id);
+            await _repository.SetIsAnsweredPuzzle(id, user.Id,true);
             if (single.Correct == select)
             {
                 await _repository.IncreasePoint(user.Id, POINT);
