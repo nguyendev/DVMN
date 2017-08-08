@@ -19,13 +19,19 @@ namespace DoVuiHaiNao.Services
                 length = s.Length - 1;
                 endLine = " ?";
             }
-            while (s[length] != ' ')
+            try
             {
-                length--;
+                while (s[length] != ' ')
+                {
+                    length--;
+                }
+                s = s.Substring(0, length);
+                s = s + endLine;
+                return s;
             }
-            s = s.Substring(0, length);
-            s = s + endLine;
-            return s;
+            catch {
+                return "";
+            }
         }
     }
 }

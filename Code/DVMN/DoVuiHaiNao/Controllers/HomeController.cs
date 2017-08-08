@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DoVuiHaiNao.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace DoVuiHaiNao.Controllers
 {
@@ -49,6 +50,21 @@ namespace DoVuiHaiNao.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+
+        [Route("robots.txt", Name = "GetRobotsText")]
+        public ContentResult RobotsText()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("user-agent: *");
+            stringBuilder.AppendLine("Disallow: /Areas");
+            stringBuilder.AppendLine("Disallow: /wwwroot");
+            stringBuilder.AppendLine("disallow: /WebManager/");
+            stringBuilder.AppendLine("User-agent: Googlebot-Image");
+            stringBuilder.AppendLine("Allow: /wwwroot/images");
+            return this.Content(stringBuilder.ToString(), "text/plain", Encoding.UTF8);
         }
     }
 }

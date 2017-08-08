@@ -10,8 +10,8 @@
         string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, slug);
     }
     <title>@Html.Raw(ViewData["Title"] as string)</title>
-    <meta name="description" content="@ViewData["Desciption"]" />
-    <meta name="keywords" content="@ViewData["Keyword"]" />
+    <meta name="description" content="@Html.Raw(ViewData["Desciption"])" />
+    <meta name="keywords" content="@Html.Raw(ViewData["Keyword"])" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -21,13 +21,13 @@
     <meta name="robots" content="noodp">
     <meta property="og:locale" content="vi_VN">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="@ViewData["Title"]">
-    <meta property="og:description" content="@ViewData["Desciption"]">
+    <meta property="og:title" content="@Html.Raw(ViewData["Title"])">
+    <meta property="og:description" content="@Html.Raw(ViewData["Desciption"])">
     <meta property="og:url" content="@url">
-    <meta property="og:image" content="@ViewData["Images"]" />
+    <meta property="og:image" content="@Html.Raw(ViewData["Images"])" />
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:description" content="@ViewData["Desciption"]">
-    <meta name="twitter:title" content="@ViewData["Title"]">
+    <meta name="twitter:description" content="@Html.Raw(ViewData["Desciption"])">
+    <meta name="twitter:title" content="@Html.Raw(ViewData["Title"])">
     <link rel="dns-prefetch" href="//s.w.org/">
     <link rel="alternate" type="application/rss+xml" href="feed/">
     <link rel="alternate" type="application/rss+xml" href="comments/feed/">
