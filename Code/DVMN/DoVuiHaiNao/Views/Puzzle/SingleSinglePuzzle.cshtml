@@ -1,0 +1,442 @@
+﻿@model DoVuiHaiNao.Models.PuzzleViewModels.SingleSinglePuzzleViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Member> signInManager
+@{
+    ViewData["Title"] = Model.Title + " | Đố vui";
+    string scheme = Context.Request.Scheme;
+    string host = Context.Request.Host.Host;
+    string port = Context.Request.Host.Port.ToString();
+    string path = Context.Request.Path;
+    string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, path);
+
+    if (!Model.IsAnswered)
+    {
+        ViewData["Display"] = "display: none";
+    }
+    else
+    {
+        ViewData["Display"] = "";
+    }
+    DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
+}
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Model.Title.</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-controller="Home" asp-action="index">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">@Model.Title.</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+            <article class="question single-question question-type-poll">
+                <h2>
+                    <a href="#">@Model.Title</a>
+                </h2>
+                @*<a class="question-report" href="#">Report</a>
+                    <div class="question-type-main"><i class="icon-signal"></i>Poll</div>*@
+                <div class="question-inner">
+                    <div class="question-desc">
+                        <div class="poll_2" style="text-align: justify">
+                            <p>@Model.Description</p>
+                            @if (Model.ImageID != null)
+                            {
+                                <div class="post-img">
+                                    <a href="single_post.html">
+                                            <img src="@Model.Image.PicFull" alt="@Model.Image.ALT" title="@Model.Image.Title">
+                                    </a>
+                                </div>
+                                <br />
+                            }
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <form asp-controller="Puzzle" asp-action="single" method="post" class="form-style form-style-3" style="@ViewData["Display"]" id="all-answer">
+                                        <div class="form-inputs clearfix">
+                                            <p>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerA))
+                                                {
+                                                <input id="poll-1" name="poll-radio" type="radio">
+                                                <label for="poll-1">@Model.AnswerA</label>
+                                                }
+                                            </p>
+                                            <p>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerB))
+                                                {
+                                                <input id="poll-2" name="poll-radio" type="radio">
+                                                <label for="poll-2">@Model.AnswerB</label>
+                                                }
+                                            </p>
+                                            <p>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerC))
+                                                {
+                                                <input id="poll-3" name="poll-radio" type="radio">
+                                                <label for="poll-3">@Model.AnswerC</label>
+                                                }
+                                            </p>
+                                            <p>
+                                                @if (!String.IsNullOrEmpty(Model.AnswerD))
+                                                {
+                                                <input id="poll-4" name="poll-radio" type="radio">
+                                                <label for="poll-4">@Model.AnswerD</label>
+                                                }
+                                            </p>
+                                        </div>
+                                    </form>
+                                    @*<a href="#" style="display: none;" class="color button small poll_results margin_0">Xem đánh gía</a>*@
+                                    @if (signInManager.IsSignedIn(User))
+                                    {
+                                        if (!Model.IsAnswered)
+                                        {
+                                            <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
+                                            <button style="display:none" id="submitAnswer" type="submit" class="button small red-button">Gửi</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập</a>
+                                    }
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="clock pull-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix height_10"></div>
+                        @*<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi adipiscing gravida odio, sit amet suscipit risus ultrices eu. Fusce viverra neque at purus laoreet consequat. Vivamus vulputate posuere nisl quis consequat. Donec congue commodo mi, sed commodo velit fringilla ac. Fusce placerat venenatis mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ornare, dolor a aliquet rutrum, dolor turpis condimentum leo, a semper lacus purus in felis. Quisque blandit posuere turpis, eget auctor felis pharetra eu .</p>*@
+                        @if (!Model.IsAnswered)
+                        {
+                            <div class="alert-message error" style="display:none">
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-flag"></i>
+                                    <p>
+                                        <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
+                                    </p>
+                                }
+                            </div>
+                            <div class="alert-message success" style="display:none">
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-ok"></i>
+                                    <p>
+                                        <span>Chúc mừng bạn</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Chúc mừng bạn</span><br>
+                                    </p>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert-message success">
+                                @if (!String.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <i class="icon-ok"></i>
+                                    <p>
+                                        <span>Đáp án đúng câu @Model.Correct</span><br>
+                                        Vì: @Model.Reason
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>Đáp án đúng câu @Model.Correct</span><br />
+                                    </p>
+                                }
+                            </div>
+
+                        }
+                    </div>
+                    @*<div class="question-details">
+                            <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                            <span class="question-favorite"><i class="icon-star"></i>5</span>
+                        </div>*@
+                    <span class="question-category"><a asp-action="listsinglepuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                    <span class="question-date"><i class="icon-time"></i>@Model.DateTime</span>
+                    @*<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>*@
+                    <span class="question-view"><i class="icon-user"></i>@Model.Views lượt xem</span>
+                    <span class="single-question-vote-result">@Model.Like</span>
+                    <ul class="single-question-vote">
+                        <li><a href="@url" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
+                        <li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </article>
+            <div class="share-tags page-content">
+                <div class="question-tags">
+                    <i class="icon-tags"></i>
+                    @foreach (var item in Model.Tags)
+                    {
+                        <a asp-action="tag" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
+                    }
+                </div>
+                <div class="share-inside-warp">
+                    <ul>
+                        <li>
+                            <a href="#" original-title="Facebook">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#3b5997" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(59, 89, 151); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-facebook" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#00baf0" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(0, 186, 240); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-twitter" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a target="_blank" href="#">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#ca2c24" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(202, 44, 36); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-gplus" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Google plus</a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#e64281" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(230, 66, 129); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-dribbble" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Dribbble</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#c7151a" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(199, 21, 26); border-style: solid;">
+                                        <i i_color="#FFF" class="icon-pinterest" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Pinterest</a>
+                        </li>
+                    </ul>
+                    <span class="share-inside-f-arrow"></span>
+                    <span class="share-inside-l-arrow"></span>
+                </div><!-- End share-inside-warp -->
+                <div class="share-inside"><i class="icon-share-alt"></i>Share</div>
+                <div class="clearfix"></div>
+            </div>
+            @*<div class="about-author clearfix">
+                    <div class="author-image">
+                        <a href="#" original-title="admin" class="tooltip-n"><img alt="" src="http://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
+                    </div>
+                    <div class="author-bio">
+                        <h4>About the Author</h4>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra auctor neque. Nullam lobortis, sapien vitae lobortis tristique.
+                    </div>
+                </div>*@<!-- End about-author -->
+            <!-- End Share-tags -->
+            <div id="related-posts">
+                <h2>Câu đố hay</h2>
+                <ul class="related-posts">
+                    @foreach (var item in Model.RelatedPuzzle)
+                    {
+                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                    }
+                </ul>
+            </div>
+            <div class="fb-comments" data-width="100%" data-href="@string.Format("{0}",@url)" data-numposts="7"></div>
+            <!-- End related-posts -->
+        </div>
+        <aside class="col-md-3 sidebar">
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
+        </aside>
+    </div>
+</section>
+@section Style {
+    <link href="~/plugins/flipclock/compiled/flipclock.css" rel="stylesheet" />
+}
+@section Scripts {
+
+    <script src="~/plugins/flipclock/compiled/flipclock.min.js"></script>
+
+    <script type="text/javascript">
+        var clock;
+        $(document).ready(function () {
+            $('.start').click(function (e) {
+                var isStop = false;
+                clock = $('.clock').FlipClock(30, {
+                    clockFace: 'Counter',
+                    countdown: true,
+                    autoStart: true,
+                    callbacks: {
+                        start: function () {
+                            $('.message').html('The clock has started!');
+                            $('#all-answer').css("display", "block");
+                            $('#submitAnswer').css("display", "block");
+                            $('.start').css("display", "none");
+                        },
+                        stop: function () {
+                            $('.start').css("display", "none");
+                            if (!isStop) {
+                                isStop = true;
+                                e.preventDefault();
+                                AnswerA = $('#poll-1:checked').val();
+                                AnswerB = $('#poll-2:checked').val();
+                                AnswerC = $('#poll-3:checked').val();
+                                AnswerD = $('#poll-4:checked').val();
+                                Select = 0;
+                                if (AnswerA == "on")
+                                    Select = 0;
+                                else if (AnswerB == "on")
+                                    Select = 1;
+                                else if (AnswerC == "on")
+                                    Select = 2;
+                                else
+                                    Select = 3;
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@(Url.Action("checkAnswer", "Puzzle"))",
+                                    data: {
+                                        select: Select
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        clock.stop();
+                                        if (data == true) {
+                                            $('.success').css("display", "block");
+                                            $('.error').css("display", "none");
+                                        }
+                                        else {
+                                            $('.success').css("display", "none");
+                                            $('.error').css("display", "block");
+                                        }
+                                        $('#submitAnswer').css("display", "none");
+
+                                    },
+                                    error: function (data) {
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                },
+                )
+               
+            });
+
+        });
+        $('.single-question-vote-down').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("VoteDown", "Puzzle"))",
+                data: {
+                    },
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                    if (data == true) {
+                        likeCurrent = $('.single-question-vote-result').html();
+                        likeCurrent--;
+                        $('.single-question-vote-result').html(likeCurrent);
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        });
+        $('.single-question-vote-up').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("VoteUp", "Puzzle"))",
+                data: {
+                    },
+                dataType: "json",
+                success: function (data) {
+                    if (data == true) {
+                        likeCurrent = $('.single-question-vote-result').html();
+                        likeCurrent++;
+                        $('.single-question-vote-result').html(likeCurrent);
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        });
+
+        $("#submitAnswer").click(function (e) { // changed.
+        e.preventDefault();
+        AnswerA = $('#poll-1:checked').val();
+        AnswerB = $('#poll-2:checked').val();
+        AnswerC = $('#poll-3:checked').val();
+        AnswerD = $('#poll-4:checked').val();
+            Select = 0;
+            if (AnswerA == "on")
+                Select = 0;
+            else if (AnswerB == "on")
+                Select = 1;
+            else if (AnswerC == "on")
+                Select = 2;
+            else
+                Select = 3;
+
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("checkAnswer", "Puzzle"))",
+                data: {
+                    select: Select
+                },
+                dataType: "json",
+                success: function (data) {
+                    clock.stop();
+                    if (data == true) {
+                        $('.success').css("display", "block");
+                        $('.error').css("display", "none");
+                    }
+                    else {
+                        $('.success').css("display", "none");
+                        $('.error').css("display", "block");
+                    }
+                    $('#submitAnswer').css("display", "none");
+
+                },
+                error: function (data) {
+                }
+            });
+        });
+    </script>
+}
+@*<div class="clock" style="margin:2em;"></div>
+    <div class="message"></div>
+    <button class="start">Start Clock</button>*@

@@ -1,0 +1,96 @@
+﻿@model DoVuiHaiNao.Models.MemberViewModels.UserEditProfileViewModel
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Chỉnh sử thông tin cá nhân: @Model.FullName</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <a asp-controller="Member" asp-action="Index">Thành viên</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Chỉnh sửa thông tin cá nhân: @Model.FullName</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="page-content">
+                <div class="boxedtitle page-title"><h2>Chỉnh sửa thông tin cá nhân</h2></div>
+
+                <div class="form-style form-style-4">
+                    <form asp-controller="Member" asp-action="EditProfile" asp-route-slug="@Model.Slug" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-inputs clearfix">
+                            <p>
+                                <label>Họ và tên</label>
+                                <input asp-for="FullName" type="text">
+                            </p>
+                            <p>
+                                <label class="required">E-Mail<span>*</span></label>
+                                <input asp-for="Email" type="email">
+                            </p>
+                            <p>
+                                <label>Website</label>
+                                <input asp-for="Website" type="text">
+                            </p>
+                            @*<p>
+                                <label>Country</label>
+                                <input type="text">
+                            </p>*@
+                        </div>
+                        <div class="form-style form-style-2">
+                            <div class="user-profile-img"><img src="@Model.Image" alt="@Model.FullName"></div>
+                            <p class="user-profile-p">
+                                <label>Ảnh đại diện</label>
+                                <div class="fileinputs">
+                                    <input type="file" class="file">
+                                    <div class="fakefile">
+                                        <button disabled type="button" class="button small margin_0">Select file</button>
+                                        <span><i class="icon-arrow-up"></i>Browse</span>
+                                    </div>
+                                </div>
+                            <p></p>
+                            <div class="clearfix"></div>
+                            <p>
+                                <label>Về bản thân</label>
+                                <textarea asp-for="About" cols="58" rows="8"></textarea>
+                            </p>
+                        </div>
+                        <div class="form-inputs clearfix">
+                            <p>
+                                <label>Facebook</label>
+                                <input asp-for="Facebook" type="text">
+                            </p>
+                            <p>
+                                <label>Twitter</label>
+                                <input asp-for="Twitter" type="text">
+                            </p>
+                            <p>
+                                <label>Linkedin</label>
+                                <input asp-for="Linkedin" type="email">
+                            </p>
+                            <p>
+                                <label>Google plus</label>
+                                <input asp-for="GooglePlus" type="text">
+                            </p>
+                        </div>
+                        <p class="form-submit">
+                            <input type="submit" value="Cập nhật" class="button color small login-submit submit">
+                        </p>
+                    </form>
+                </div>
+            </div><!-- End page-content -->
+        </div><!-- End main -->
+        <aside class="col-md-3 sidebar">
+           
+        </aside><!-- End sidebar -->
+    </div><!-- End row -->
+</section><!-- End container -->

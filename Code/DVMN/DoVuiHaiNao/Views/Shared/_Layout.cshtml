@@ -1,0 +1,102 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    @{
+        string scheme = Context.Request.Scheme;
+        string host = Context.Request.Host.Host;
+        string port = Context.Request.Host.Port.ToString();
+        string slug = Context.Request.Path;
+        string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, slug);
+    }
+    <title>@Html.Raw(ViewData["Title"] as string)</title>
+    <meta name="description" content="@ViewData["Desciption"]" />
+    <meta name="keywords" content="@ViewData["Keyword"]" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="vi">
+    <meta itemprop="homeLocation" content="Vietnam">
+    <meta name="robots" content="noodp">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewData["Title"]">
+    <meta property="og:description" content="@ViewData["Desciption"]">
+    <meta property="og:url" content="@url">
+    <meta property="og:image" content="@ViewData["Images"]" />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="@ViewData["Desciption"]">
+    <meta name="twitter:title" content="@ViewData["Title"]">
+    <link rel="dns-prefetch" href="//s.w.org/">
+    <link rel="alternate" type="application/rss+xml" href="feed/">
+    <link rel="alternate" type="application/rss+xml" href="comments/feed/">
+    <link rel="https://api.w.org/" href="wp-json/">
+    <link rel="alternate" href="/" hreflang="vi-vn">
+    <link rel="profile" href="//gmpg.org/xfn/11">
+    <link rel="canonical" href="@url">
+    @*<link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel="icon" sizes="192x192" href="/favicon.ico" />*@
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true"/>
+<environment names="Development">
+    <link href="~/style.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/css/skins/blue.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="/css/responsive.css" rel="stylesheet" asp-append-version="true"/>
+    <link rel="shortcut icon" href="http://2code.info/demo/html/ask-me/images/favicon.ico">
+</environment>
+<environment names="Staging,Production">
+    <link href="/style.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="/css/skins/blue.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/css/responsive.css" rel="stylesheet" asp-append-version="true"/>
+    <link rel="shortcut icon" href="http://2code.info/demo/html/ask-me/images/favicon.ico">
+</environment>
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    @RenderSection("Style", required: false)
+    @Html.Raw(JavaScriptSnippet.FullScript)
+</head>
+<body>
+    @*<div class="loader"><div class="loader_html"></div></div>*@
+    <div id="wrap">
+        @Html.Partial("_LoginPartial")
+        @Html.Partial("_HeaderPartial")        
+        @RenderBody()
+        @Html.Partial("_FooterPartial")
+    </div>
+    <div class="go-up"><i class="icon-chevron-up"></i></div>
+    <!-- js -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    @*<script src="~/js/jquery.min.js"></script>*@
+    <script defer src="~/js/jquery-ui-1.10.3.custom.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.easing.1.3.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/html5.js" asp-append-version="true"></script>
+    <script defer src="~/js/twitter/jquery.tweet.js" asp-append-version="true"></script>
+    <script defer src="~/js/jflickrfeed.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.inview.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.tipsy.js" asp-append-version="true"></script>
+    <script defer src="~/js/tabs.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.flexslider.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.prettyPhoto.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.carouFredSel-6.2.1-packed.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.scrollTo.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.nav.js" asp-append-version="true"></script>
+    <script defer  src="~/js/tags.js" asp-append-version="true"></script>
+    <script defer src="~/js/jquery.bxslider.min.js" asp-append-version="true"></script>
+    <script defer src="~/js/custom.js" asp-append-version="true"></script>
+    <!-- End js -->
+    <div id="fb-root"></div>
+    <script defer>
+(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=283779168758487";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    @RenderSection("Scripts", required: false)
+    
+   
+</body>
+</html>

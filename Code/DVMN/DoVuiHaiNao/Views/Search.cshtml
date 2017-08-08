@@ -1,0 +1,367 @@
+﻿@{
+    DoVuiHaiNao.Models.HomeViewModels.HomeViewModel model = ViewData["listSinglePuzzle"] as DoVuiHaiNao.Models.HomeViewModels.HomeViewModel;
+    DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
+
+}
+<br /><br />
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+
+            <div class="tabs-warp question-tab">
+                <ul class="tabs">
+                    <li class="tab"><a href="#" class="current">Câu đố gần đây</a></li>
+                    <li class="tab"><a href="#">Phổ biến nhất</a></li>
+                    <li class="tab"><a href="#">Ưu thích nhất</a></li>
+                    @*<li class="tab"><a href="#">No answers</a></li>*@
+                </ul>
+                <div class="tab-inner-warp">
+
+                    <div class="tab-inner">
+                        @if (model.RecentPuzzle.Any())
+                        {
+                            foreach (var item in model.RecentPuzzle)
+                            {
+                                if (item.ImageID.HasValue)
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                    else
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                    else
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                }
+
+                            }
+                        }
+                        @*<a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>*@
+                    </div>
+
+                </div>
+                <div class="tab-inner-warp">
+                    <div class="tab-inner">
+                        @if (model.Mostpopular.Any())
+                        {
+                            foreach (var item in model.Mostpopular)
+                            {
+                                if (item.ImageID.HasValue)
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                    else
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                    else
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                }
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="tab-inner-warp">
+                    <div class="tab-inner">
+                        @if (model.MostFavorite.Any())
+                        {
+                            foreach (var item in model.MostFavorite)
+                            {
+                                if (item.ImageID.HasValue)
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                    else
+                                    {
+                                        <article class="post blog_2 clearfix">
+                                            <div class="post-inner">
+                                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                                <div class="post-img"><a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                                                <div class="post-meta">
+                                                    <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
+                                                    <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                    <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a></span>
+                                                    <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
+                                                </div>
+                                                <div class="post-content">
+                                                    <p>@item.Description</p>
+                                                    <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
+                                                </div><!-- End post-content -->
+                                            </div><!-- End post-inner -->
+                                        </article>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsMultiPuzzle)
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                    else
+                                    {
+                                        <article class="question question-type-normal">
+                                            <h2>
+                                                <a asp-controller="puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                                            </h2>
+                                            @*<a class="question-report" href="#">Report</a>
+                                                <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
+                                            <div class="question-author">
+                                                <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                                </a>
+                                            </div>
+                                            <div class="question-inner">
+                                                <div class="clearfix"></div>
+                                                <p class="question-desc">@item.Description</p>
+                                                <div class="question-details">
+                                                    @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
+                                                    @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
+                                                </div>
+                                                <span class="question-category"><a asp-controller="puzzle" asp-action="ListSinglePuzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
+                                                <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                                <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
+                                                <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </article>
+
+                                    }
+                                }
+
+                            }
+                        }
+                    </div>
+                </div>
+            </div><!-- End page-content -->
+        </div><!-- End main -->
+
+        <aside class="col-md-3 sidebar">
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
+        </aside>
+    </div>
+</section>

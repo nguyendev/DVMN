@@ -1,0 +1,134 @@
+﻿@model DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel
+
+<div class="widget widget_stats">
+    <h3 class="widget_title">Thống kê</h3>
+    <div class="ul_list ul_list-icon-ok">
+        <ul>
+            <li><a asp-controller="Puzzle" asp-action="ListSinglePuzzle"><i class="icon-question-sign"></i>Câu đố mỗi ngày ( <span>@Model.CountSinglePuzzle</span> )</a></li>
+            <li><a asp-controller="Puzzle" asp-action="ListMultiPuzzle"><i class="icon-comment"></i>Câu đố đặc biệt ( <span>@Model.CountMultiPuzzle</span> )</a></li>
+            <li><a asp-controller="Member" asp-action="Index"><i class="icon-user"></i>Thành viên ( <span>@Model.CountMemberPuzzle</span> )</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="widget widget_social">
+    <h3 class="widget_title">Tìm chúng tôi</h3>
+    <div class="fb-page" data-href="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641/?sw_fnr_id=3907783287&amp;fnr_t=0">Đố vui hại não</a></blockquote></div>
+    @*<ul>
+        <li class="rss-subscribers">
+            <a href="#" target="_blank">
+                <strong>
+                    <i class="icon-rss"></i>
+                    <span>Subscribe</span><br>
+                    <small>To RSS Feed</small>
+                </strong>
+            </a>
+        </li>
+        <li class="facebook-fans">
+            <a href="#" target="_blank">
+                <strong>
+                    <i class="social_icon-facebook"></i>
+                    <span>5,000</span><br>
+                    <small>People like it</small>
+                </strong>
+            </a>
+        </li>
+        <li class="twitter-followers">
+            <a href="#" target="_blank">
+                <strong>
+                    <i class="social_icon-twitter"></i>
+                    <span>3,000</span><br>
+                    <small>Followers</small>
+                </strong>
+            </a>
+        </li>
+        <li class="youtube-subs">
+            <a href="#" target="_blank">
+                <strong>
+                    <i class="icon-play"></i>
+                    <span>1,000</span><br>
+                    <small>Subscribers</small>
+                </strong>
+            </a>
+        </li>
+    </ul>*@
+</div>
+
+@*<div class="widget widget_login">
+        <h3 class="widget_title">Login</h3>
+        <div class="form-style form-style-2">
+            <form>
+                <div class="form-inputs clearfix">
+                    <p class="login-text">
+                        <input type="text" value="Username" onfocus="if (this.value == 'Username') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Username';}">
+                        <i class="icon-user"></i>
+                    </p>
+                    <p class="login-password">
+                        <input type="password" value="Password" onfocus="if (this.value == 'Password') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Password';}">
+                        <i class="icon-lock"></i>
+                        <a href="#">Forget</a>
+                    </p>
+                </div>
+                <p class="form-submit login-submit">
+                    <input type="submit" value="Log in" class="button color small login-submit submit">
+                </p>
+                <div class="rememberme">
+                    <label><input type="checkbox" checked="checked"> Remember Me</label>
+                </div>
+            </form>
+            <ul class="login-links login-links-r">
+                <li><a href="#">Register</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+    </div>*@
+
+<div class="widget widget_highest_points">
+    <h3 class="widget_title"><a asp-controller="Member" asp-action="TopMember" style="color:#3498db">Vua giải đố</a></h3>
+    <ul>
+        @if (!Model.TopUser.Any())
+        { 
+            <li>Chưa có thành viên nào</li>
+        }
+        @foreach (var item in Model.TopUser)
+        {
+            <li>
+                <div class="author-img">
+                    <a href="#"><img width="60" height="60" src="@item.Image" alt="@item.FullName" asp-append-version="true"></a>
+                </div>
+                <h6><a href="#">@item.FullName</a></h6>
+                <span class="comment">@item.Point điểm</span>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="widget widget_tag_cloud">
+    <h3 class="widget_title">Tags</h3>
+    @if (!Model.TopTag.Any())
+    {
+        <a href="#">Chưa có thẻ nào</a>
+    }
+    @foreach (var item in Model.TopTag)
+    {
+        <a href="#">@item.Name</a>
+    }
+</div>
+
+<div class="widget">
+    <h3 class="widget_title">Câu đố nỗi bật</h3>
+    <ul class="related-posts">
+        @if (!Model.TopTag.Any())
+        {
+            <li href="#">Chưa có câu đố nào</li>
+        }
+        @foreach (var item in Model.RecentPuzzle)
+        {
+            <li class="related-item">
+                <h3><a href="#">@item.Title</a></h3>
+                <p>@item.Description</p><!-- 50 char-->
+                <div class="clear"></div><span></span>
+            </li>
+        }
+    </ul>
+</div>
