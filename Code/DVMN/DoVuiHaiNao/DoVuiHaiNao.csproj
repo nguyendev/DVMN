@@ -10,6 +10,7 @@
 
   <PropertyGroup>
     <UserSecretsId>aspnet-DoVuiHaiNao-e8aace9d-ec4b-4b59-ab7f-17b0adf400d6</UserSecretsId>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

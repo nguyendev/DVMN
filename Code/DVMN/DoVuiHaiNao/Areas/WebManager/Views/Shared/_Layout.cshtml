@@ -93,21 +93,7 @@
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <h1>
-                    @ViewData["H1"]
-                    <small>@ViewData["H1Small"]</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i>@ViewData["Breadcrumb1"]</a></li>
-                    <li><a href="#"><i class=""></i>@ViewData["Breadcrumb2"]</a></li>
-                    <li class="active">@ViewData["Breadcrumb3"]</li>
-                </ol>
-            </section>
-            <section class="content">
-                @RenderBody()
-            </section>
+            @RenderBody()
         </div>
         <!-- Main Footer -->
         <footer class="main-footer">

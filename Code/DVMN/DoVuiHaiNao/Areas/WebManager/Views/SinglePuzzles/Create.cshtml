@@ -1,9 +1,17 @@
 ﻿@model DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels.CreateSinglePuzzleViewModel
-
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>SinglePuzzle</h4>
-        <hr />
+@{
+    ViewData["Title"] = "Tạo mới";
+    ViewData["Heading"] = "Tạo mới";
+    ViewData["SmallHeading"] = "";
+    ViewData["BreadcrumbOne"] = "Quản lý web";
+    ViewData["BreadcrumbTwo"] = "Câu đố mỗi ngày";
+    ViewData["BreadcrumbThree"] = "Tạo mới";
+    ViewData["BoxTitle"] = "Tạo câu đố mới";
+    ViewData["Search"] = "Tìm câu đố";
+    Layout = "_CreateLayout";
+}
+<div class="form-horizontal">
+    <div class="row text-center">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Title" class="col-md-2 control-label"></label>
@@ -29,10 +37,10 @@
         <div class="form-group">
             <label asp-for="ImageID" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ImageID" class ="form-control" asp-items="ViewBag.ImageID">
+                <select asp-for="ImageID" class="form-control" asp-items="ViewBag.ImageID">
                     <option disabled selected>--- Chọn ---</option>
                 </select>
-            
+
             </div>
         </div>
         <div class="form-group">
@@ -99,14 +107,5 @@
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

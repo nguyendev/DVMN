@@ -29,17 +29,20 @@ namespace DoVuiHaiNao.Data
 
         private async Task<IEnumerable<SingleViewModel>> GetRecentPuzzle()
         {
-
             var SinglePuzzleDbContext = await _context.SinglePuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .Where (p => !p.IsMMultiPuzzle)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .Take(5)
                 .OrderByDescending(p => p.CreateDT)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .Take(5)
                 .OrderByDescending(p => p.CreateDT)
                 .ToListAsync();
@@ -96,12 +99,16 @@ namespace DoVuiHaiNao.Data
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .Where(p => !p.IsMMultiPuzzle)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .Take(5)
                 .OrderByDescending(p => p.Like)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .Take(5)
                 .OrderByDescending(p => p.Like)
                 .ToListAsync();
@@ -160,12 +167,16 @@ namespace DoVuiHaiNao.Data
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .Where(p => !p.IsMMultiPuzzle)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .OrderByDescending(p => p.Views)
                 .Take(5)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
+                .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => !p.IsDeleted)
                 .Take(5)
                 .OrderByDescending(p => p.Views)
                 .ToListAsync();

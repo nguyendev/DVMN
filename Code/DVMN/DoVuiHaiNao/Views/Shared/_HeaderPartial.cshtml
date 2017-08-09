@@ -39,7 +39,7 @@
     <section class="container clearfix">
         <div class="logo"><a asp-controller="Home" asp-action="Index"><img asp-append-version="true" alt="" src="~/images/logo.png"></a></div>
         <nav class="navigation">
-            <ul>
+            <ul class="add-active">
                 <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
                 <li><a asp-action="ListSinglePuzzle" asp-controller="Puzzle">Mỗi ngày một câu đố</a></li>
                 <li><a asp-action="ListMultiPuzzle" asp-controller="Puzzle">Câu đố đặc biệt</a></li>
@@ -121,5 +121,15 @@
                     <li><a asp-controller="Home" asp-action>Contact Us</a></li>*@
             </ul>
         </nav>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var url = window.location;
+                $('ul.add-active a[href="' + url + '"]').parent().addClass('active');
+                $('ul.add-active a').filter(function () {
+                    return this.href == url;
+                }).parent().addClass('active');
+            });
+        </script>
+
     </section><!-- End container -->
 </header><!-- End header -->

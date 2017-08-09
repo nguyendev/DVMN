@@ -8,6 +8,8 @@ namespace DoVuiHaiNao.Services
     public static class Global
     {
         public static string DIR_IMAGE = "images";
+        public const string APPROVED = "A";
+        public const string UNAPPROVED = "A";
     }
     public enum TypeQuestion
     {

@@ -12,10 +12,15 @@ namespace DoVuiHaiNao.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int ID { get; set; }
+        [MaxLength(100)]
         public string Name { get; set; }
+        [MaxLength(150)]
         public string ALT { get; set; }
+        [MaxLength(150)]
         public string Title { get; set; }
-        public string Pic250x188 { get; set; }
+        [MaxLength(200)]
         public string PicFull { get; set; }
+        [MaxLength(200)]
+        public string Pic640x480 { get; set; }
     }
 }

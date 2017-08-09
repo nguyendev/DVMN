@@ -34,5 +34,6 @@ namespace DoVuiHaiNao.Data
         public DbSet<DoVuiHaiNao.Models.SinglePuzzle> SinglePuzzle { get; set; }
         public DbSet<HistoryAnswerPuzzle> HistoryAnswerPuzzle { get; set; }
         public DbSet<HistoryLikePuzzle> HistoryLikePuzzle { get; set; }
+        public DbSet<DoVuiHaiNao.Models.Member> Member { get; set; }
     }
 }

@@ -57,11 +57,10 @@ namespace DoVuiHaiNao.Controllers
         public ContentResult RobotsText()
         {
             StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("user-agent: *");
-            stringBuilder.AppendLine("Disallow: /Areas");
+            stringBuilder.AppendLine("User-agent: *");
+            stringBuilder.AppendLine("Disallow: /quan-ly-web/");
+            stringBuilder.AppendLine("Disallow: /WebManager/");
             stringBuilder.AppendLine("Disallow: /wwwroot");
-            stringBuilder.AppendLine("disallow: /WebManager/");
             stringBuilder.AppendLine("User-agent: Googlebot-Image");
             stringBuilder.AppendLine("Allow: /wwwroot/images");
             return this.Content(stringBuilder.ToString(), "text/plain", Encoding.UTF8);

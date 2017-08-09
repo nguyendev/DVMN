@@ -12,8 +12,10 @@ namespace DoVuiHaiNao.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int ID { get; set; }
+        [MaxLength(150)]
         public string Title { get; set; }
         public string Description { get; set; }
+        [MaxLength(50)]
         public string Slug { get; set; }
         public int? ImageID { get; set; }
         public Images Image { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using DoVuiHaiNao.Data;
 
-namespace DoVuiHaiNao.Data.Migrations
+namespace DoVuiHaiNao.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -21,9 +21,11 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -37,7 +39,8 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<int?>("MultiPuzzleID");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
                     b.Property<int?>("SinglePuzzleID");
 
@@ -59,9 +62,11 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -71,7 +76,8 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<bool>("IsMultiPuzzle");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
                     b.Property<int>("PuzzleID");
 
@@ -89,9 +95,11 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -101,7 +109,8 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<bool>("IsMultiPuzzle");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
                     b.Property<int>("PuzzleID");
 
@@ -119,11 +128,14 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ALT");
+                    b.Property<string>("ALT")
+                        .HasMaxLength(150);
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -131,15 +143,20 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
-                    b.Property<string>("Pic250x188");
+                    b.Property<string>("Pic640x480")
+                        .HasMaxLength(200);
 
-                    b.Property<string>("PicFull");
+                    b.Property<string>("PicFull")
+                        .HasMaxLength(200);
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .HasMaxLength(150);
 
                     b.Property<DateTime?>("UpdateDT");
 
@@ -155,29 +172,38 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("About");
+                    b.Property<string>("About")
+                        .HasMaxLength(1000);
 
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("DateofBirth");
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<string>("DateofBirth")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("Facebook");
+                    b.Property<string>("Facebook")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FullName")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("GooglePlus");
+                    b.Property<string>("GooglePlus")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("IdentityFacebook");
+                    b.Property<string>("IdentityFacebook")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Linkedin");
+                    b.Property<string>("Linkedin")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -195,26 +221,32 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("Picture65x65");
+                    b.Property<string>("Picture65x65")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("PictureBig");
+                    b.Property<string>("PictureBig")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("PictureSmall");
+                    b.Property<string>("PictureSmall")
+                        .HasMaxLength(100);
 
                     b.Property<int>("Score");
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("Slug");
+                    b.Property<string>("Slug")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Twitter");
+                    b.Property<string>("Twitter")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Website");
+                    b.Property<string>("Website")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -233,9 +265,11 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -252,15 +286,18 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<int>("Like");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
                     b.Property<int>("NumberQuestion");
 
                     b.Property<string>("Slug")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("Title")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.Property<DateTime?>("UpdateDT");
 
@@ -280,7 +317,8 @@ namespace DoVuiHaiNao.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Active");
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AnswerA");
 
@@ -290,7 +328,8 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<string>("AnswerD");
 
-                    b.Property<string>("Approved");
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
 
                     b.Property<string>("AuthorID");
 
@@ -316,13 +355,16 @@ namespace DoVuiHaiNao.Data.Migrations
 
                     b.Property<int?>("MultiPuzzleID");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Reason");
 
-                    b.Property<string>("Slug");
+                    b.Property<string>("Slug")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .HasMaxLength(150);
 
                     b.Property<DateTime?>("UpdateDT");
 

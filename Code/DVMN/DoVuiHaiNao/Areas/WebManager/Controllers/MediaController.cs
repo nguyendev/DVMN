@@ -14,6 +14,10 @@ using ImageSharp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using DoVuiHaiNao.Areas.WebManager.ViewModels;
+using System;
+using DoVuiHaiNao.Extension;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
@@ -36,9 +40,49 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             _userManager = userManager;
         }
         [Route("/quan-ly-web/thu-vien")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder,
+ string currentFilter,
+    string searchString,
+    int? page, int? pageSize)
         {
-            return View(await _context.Images.Include(p => p.Author).ToListAsync());
+            List<NumberItem> SoLuong = new List<NumberItem>
+            {
+                new NumberItem { Value = 10},
+                new NumberItem { Value = 20},
+                new NumberItem { Value = 50},
+                new NumberItem { Value = 100},
+            };
+            ViewData["SoLuong"] = SoLuong;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameParm"] = String.IsNullOrEmpty(sortOrder) ? "name" : "";
+            ViewData["CurrentSize"] = pageSize;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var images = from s in _context.Images
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                images = images.Where(s => s.Name.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name":
+                    images = images.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    images = images.OrderBy(s => s.CreateDT);
+                    break;
+            }
+
+            return View(await PaginatedList<Images>.CreateAsync(images.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10));
         }
         [Route("/quan-ly-web/thu-vien/them-moi")]
         public IActionResult Create()
@@ -72,13 +116,17 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                             var folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\1440X900", fileName);
                             image.Resize(1440, 900)
                                  .Save(folderSave); // automatic encoder selected based on extension.
-                            
+                            folderSave = Path.Combine(HostingEnvironment.WebRootPath, DIR_IMAGE + "\\640X480", fileName);
+                            image.Resize(640, 480)
+                                 .Save(folderSave); // automatic encoder selected based on extension.
+
                             var user = await GetCurrentUserAsync();
                             _context.Add(new Models.Images
                             {
                                 CreateDT = System.DateTime.Now,
                                 Name = fileName,
                                 PicFull = "\\" + DIR_IMAGE + "\\1440x900\\" + fileName,
+                                Pic640x480 = "\\" + DIR_IMAGE + "\\640x480\\" + fileName,
                                 Active = "A",
                                 Approved = "A",
                                 AuthorID = user.Id,
@@ -103,38 +151,25 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                 return NotFound();
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
-
-            // Remove in folder
-            var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.PicFull);
+            string root = HostingEnvironment.WebRootPath;            // Remove in folder
+            string physicalPath = Path.Combine(root + "\\images\\", image.Name);
             if (System.IO.File.Exists(physicalPath))
             {
                 // The files are not actually removed in this demo
                 System.IO.File.Delete(physicalPath);
             }
-            //physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic115x175);
-            //if (System.IO.File.Exists(physicalPath))
-            //{
-            //    // The files are not actually removed in this demo
-            //    System.IO.File.Delete(physicalPath);
-            //}
-            //physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic1300x500);
-            //if (System.IO.File.Exists(physicalPath))
-            //{
-            //    // The files are not actually removed in this demo
-            //    System.IO.File.Delete(physicalPath);
-            //}
-            //physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic182x268);
-            //if (System.IO.File.Exists(physicalPath))
-            //{
-            //    // The files are not actually removed in this demo
-            //    System.IO.File.Delete(physicalPath);
-            //}
-            //physicalPath = Path.Combine(HostingEnvironment.WebRootPath, image.Pic268x268);
-            //if (System.IO.File.Exists(physicalPath))
-            //{
-            //    // The files are not actually removed in this demo
-            //    System.IO.File.Delete(physicalPath);
-            //}
+            string physicalPathPicFull = Path.Combine(root, image.PicFull);
+            if (System.IO.File.Exists(physicalPathPicFull))
+            {
+                // The files are not actually removed in this demo
+                System.IO.File.Delete(physicalPathPicFull);
+            }
+            string physicalPathPic640x480 = Path.Combine(root, image.Pic640x480);
+            if (System.IO.File.Exists(physicalPathPic640x480))
+            {
+                // The files are not actually removed in this demo
+                System.IO.File.Delete(physicalPathPic640x480);
+            }
             return RedirectToAction("Index");
         }
         private async Task<Member> GetCurrentUserAsync()
@@ -164,6 +199,105 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
 
             // Return an empty string to signify success
             return Content("");
+        }
+        [Route("/quan-ly-web/thu-vien/chi-tiet/{id}")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.Images
+                .Include(i => i.Author)
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (images == null)
+            {
+                return NotFound();
+            }
+
+            return View(images);
+        }
+
+
+        // GET: WebManager/Images/Edit/5
+        [Route("/quan-ly-web/thu-vien/chinh-sua/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.Images.SingleOrDefaultAsync(m => m.ID == id);
+            if (images == null)
+            {
+                return NotFound();
+            }
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", images.AuthorID);
+            return View(images);
+        }
+
+        // POST: WebManager/Images/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [Route("/quan-ly-web/thu-vien/chinh-sua/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,ALT,Title,PicFull,Pic640x480,Approved,IsDeleted,Note")] Images images)
+        {
+            if (id != images.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    images.UpdateDT = DateTime.Now;
+                    _context.Update(images);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ImagesExists(images.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            ViewData["AuthorID"] = new SelectList(_context.Users, "Id", "Id", images.AuthorID);
+            return View(images);
+        }
+        [Route("/quan-ly-web/thu-vien/xoa/{id}")]
+        // GET: WebManager/Images/Delete/5
+        public async Task<IActionResult> Delete(int? id, string temp=null)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.Images
+                .Include(i => i.Author)
+                .SingleOrDefaultAsync(m => m.ID == id);
+            if (images == null)
+            {
+                return NotFound();
+            }
+
+            return View(images);
+        }
+
+        private bool ImagesExists(int id)
+        {
+            return _context.Images.Any(e => e.ID == id);
         }
 
     }

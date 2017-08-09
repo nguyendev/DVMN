@@ -16,6 +16,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.ResponseCompression;
+using DoVuiHaiNao.Areas.WebManager.Data;
 
 namespace DoVuiHaiNao
 {
@@ -101,13 +102,14 @@ namespace DoVuiHaiNao
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IMultiPuzzle, MultiPuzzleRepository>();
+            services.AddScoped<IMultiPuzzleRepsository, MultiPuzzleRepository>();
             services.AddScoped<IHomeRepository, HomeRepository>();
-            services.AddScoped<ISinglePuzzle, SinglePuzzleRepository>();
+            services.AddScoped<ISinglePuzzleRepository, SinglePuzzleRepository>();
             services.AddScoped<IPuzzleRepository, PuzzleRepository>();
             services.AddScoped<ISidebarRepository, SidebarRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

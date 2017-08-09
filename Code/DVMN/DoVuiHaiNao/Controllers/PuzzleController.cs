@@ -42,7 +42,7 @@ namespace DoVuiHaiNao.Controllers
             return View(single);
         }
 
-        [Route("/cau-hoi-dac-biet")]
+        [Route("/cau-do-dac-biet")]
         public async Task<IActionResult> ListMultiPuzzle(int? page)
         {
             var multi = await _repository.ListMultiPuzzle(page, 10);
