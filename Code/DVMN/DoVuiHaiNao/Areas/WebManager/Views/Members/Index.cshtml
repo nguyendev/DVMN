@@ -1,203 +1,206 @@
-@model IEnumerable<DoVuiHaiNao.Models.Member>
-
+﻿@model DoVuiHaiNao.Extension.PaginatedList<DoVuiHaiNao.Models.Member>
 @{
     ViewData["Title"] = "Index";
+    ViewData["Heading"] = "Thành viên";
+    ViewData["SmallHeading"] = "";
+    ViewData["BreadcrumbOne"] = "Quản lý web";
+    ViewData["BreadcrumbTwo"] = "Thành viên";
+    ViewData["BreadcrumbThree"] = "Danh sách thành viên";
+    ViewData["BoxTitle"] = "Danh sách thành viên";
+    ViewData["Search"] = "Tìm thành viên";
+    Layout = "_TableIndexLayout";
 }
 
-<h2>Index</h2>
+<div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FullName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.About)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PictureSmall)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Picture65x65)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Slug)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PictureBig)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateofBirth)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Facebook)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GooglePlus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Linkedin)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Twitter)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IdentityFacebook)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Score)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Website)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreateDT)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NormalizedUserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NormalizedEmail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EmailConfirmed)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PasswordHash)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SecurityStamp)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ConcurrencyStamp)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LockoutEnd)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LockoutEnabled)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AccessFailedCount)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.About)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PictureSmall)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Picture65x65)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PictureBig)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateofBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Facebook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GooglePlus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Linkedin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Twitter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentityFacebook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Website)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDT)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NormalizedUserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NormalizedEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecurityStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConcurrencyStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessFailedCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="dataTables_length" id="example1_length">
+                <form asp-action="Index" method="get">
+                    <label>
+                        Hiển thị
+                        <select asp-for="PageSize" asp-items="@(new SelectList(@ViewBag.SoLuong,"Value","Value"))" onchange="this.form.submit()" class="form-control input-sm"></select>
+
+                        phần tử
+                    </label>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-4 text-center">
+            <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+        <div class="col-sm-4">
+            <div id="example1_filter" class="dataTables_filter">
+                <form asp-action="Index" method="get">
+                    <label>@ViewData["Search"]:<input type="search" name="SearchString" value="@ViewData["currentFilter"]" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                    <input type="submit" value="Tìm kiếm" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            @if (!Model.Any())
+            {
+                <label>Chưa có dữ liệu</label>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a asp-action="Index" asp-route-sortOrder="@ViewData["FullNameParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.t.FullName)</a>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.t.Slug)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.t.Score)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.t.CreateDT)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.t.Email)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Slug)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Score)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDT)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning fa fa-edit"></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success fa fa-newspaper-o"></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger fa fa-remove"></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                @{
+                    int Min = (Model.PageIndex - 1) * Model.PageSize;
+                    int Max = (Model.PageIndex) * Model.PageSize;
+                }
+                Hiển thị @Min to @Max trong @Model.Count phần tử
+
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                <ul class="pagination">
+                    @{
+                        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                    }
+
+
+
+                    <li class="paginate_button previous disabled" id="example1_previous">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-page="@(Model.PageIndex - 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-pageSize="@ViewData["CurrentSize"]"
+                           class="btn btn-default @prevDisabled btn">
+                            Trước
+                        </a>
+                    </li>
+                    <li class="paginate_button">
+                        @if (Model.PageIndex - 2 > 0)
+                        {
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-page="@(Model.PageIndex -2)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               asp-route-pageSize="@ViewData["CurrentSize"]"
+                               class="btn btn-default @nextDisabled btn">
+                                @(Model.PageIndex - 2)
+                            </a>
+                        }
+                    </li>
+                    <li class="paginate_button ">
+                        @if (Model.PageIndex - 1 > 0)
+                        {
+                            <a asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-page="@(Model.PageIndex -1)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               asp-route-pageSize="@ViewData["CurrentSize"]"
+                               class="btn btn-default @nextDisabled btn">
+                                @(Model.PageIndex - 1)
+                            </a>
+                        }
+                    </li>
+                    <li class="paginate_button active">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-page="@(Model.PageIndex)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-pageSize="@ViewData["CurrentSize"]"
+                           class="btn btn-default @nextDisabled btn">
+                            @(Model.PageIndex)
+                        </a>
+                    </li>
+                    <li class="paginate_button ">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-pageSize="@ViewData["CurrentSize"]"
+                           class="btn btn-default @nextDisabled btn">
+                            @(Model.PageIndex + 1)
+                        </a>
+                    </li>
+                    <li class="paginate_button ">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-page="@(Model.PageIndex + 2)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-pageSize="@ViewData["CurrentSize"]"
+                           class="btn btn-default @nextDisabled btn">
+                            @(Model.PageIndex + 2)
+                        </a>
+                    </li>
+                    <li class="paginate_button next" id="example1_next">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-pageSize="@ViewData["CurrentSize"]"
+                           class="btn btn-default @nextDisabled btn">
+                            Kế
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

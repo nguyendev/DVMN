@@ -107,7 +107,8 @@ namespace DoVuiHaiNao
             services.AddScoped<ISinglePuzzleRepository, SinglePuzzleRepository>();
             services.AddScoped<IPuzzleRepository, PuzzleRepository>();
             services.AddScoped<ISidebarRepository, SidebarRepository>();
-            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<Areas.WebManager.Data.IMemberRepository, Areas.WebManager.Data.MemberRepository>();
+            services.AddScoped<Data.IMemberRepository, Data.MemberRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             // Add Kendo UI services to the services container

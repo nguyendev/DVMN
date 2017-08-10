@@ -38,5 +38,7 @@ namespace DoVuiHaiNao.Models
         [MaxLength(100)]
         public string Website { get; set; }
         public DateTime? CreateDT { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
