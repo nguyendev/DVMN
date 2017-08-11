@@ -37,7 +37,10 @@ namespace DoVuiHaiNao.Controllers
         [Route("/cau-do-moi-ngay")]
         public async Task<IActionResult> ListSinglePuzzle(int? page)
         {
+            
             var single = await _repository.ListSinglePuzzle(page, 10);
+            if (single == null)
+                return NotFound();
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }
@@ -46,6 +49,8 @@ namespace DoVuiHaiNao.Controllers
         public async Task<IActionResult> ListMultiPuzzle(int? page)
         {
             var multi = await _repository.ListMultiPuzzle(page, 10);
+            if (multi == null)
+                return NotFound();
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(multi);
         }
@@ -55,6 +60,8 @@ namespace DoVuiHaiNao.Controllers
         public async Task<IActionResult> SingleSinglePuzzle(string slug)
         {
             SingleSinglePuzzleViewModel single = await _repository.GetSingleSinglePuzzle(slug);
+            if (single == null)
+                return NotFound();
             var user = await GetCurrentUser();
 
             
@@ -81,6 +88,8 @@ namespace DoVuiHaiNao.Controllers
         public async Task<IActionResult> SingleMultiPuzzle(string slug)
         {
             SingleMultiPuzzleViewModel listSingle = await _repository.GetSingleMultiPuzzle(slug);
+            if (listSingle == null)
+                return NotFound();
             var user = await GetCurrentUser();
 
             if (!_signInManager.IsSignedIn(HttpContext.User))

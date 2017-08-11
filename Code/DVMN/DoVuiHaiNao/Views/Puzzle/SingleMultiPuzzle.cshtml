@@ -73,7 +73,11 @@
                                     <div class="clearfix"></div>
                                     <div class="question-desc">
                                         <div class="poll_2" style="text-align:justify">
-                                            @Html.Raw(item.Description)
+                                            <p>@item.Description)</p>
+                                            @if (item.ImageID != null)
+                                            { 
+                                                <img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title" class="img-responsive" />
+                                            }
                                             <div class="row">
                                                 <div class="col-md-9">
                                                     <form asp-controller="" asp-action="" method="post" class="form-style form-style-3" style="@ViewData["Display"]" id="all-answer_@id">

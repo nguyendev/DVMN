@@ -121,7 +121,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                     Title = item.Title,
                     Description = item.Description,
                     IsYesNo = item.IsYesNo,
-                    MMultiPuzzleID = multipuzzle.ID,
+                    MultiPuzzleID = multipuzzle.ID,
                     AnswerA = item.AnswerA,
                     AnswerB = item.AnswerB,
                     AnswerC = item.AnswerC,
@@ -240,7 +240,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             {
                 return NotFound();
             }
-            ViewData["ListSinglePuzzle"] = await _context.SinglePuzzle.Where(p => p.MMultiPuzzleID == id).ToListAsync();
+            ViewData["ListSinglePuzzle"] = await _context.SinglePuzzle.Where(p => p.MultiPuzzleID == id).ToListAsync();
             return View(multiPuzzle);
         }
         [Route("/quan-ly-web/cau-do-dac-biet/chinh-sua/{id}")]

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DoVuiHaiNao.Migrations
 {
-    public partial class Init324 : Migration
+    public partial class Init321 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace DoVuiHaiNao.Migrations
                     About = table.Column<string>(maxLength: 1000, nullable: true),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreateDT = table.Column<DateTime>(nullable: true),
                     DateofBirth = table.Column<string>(maxLength: 100, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -24,6 +25,7 @@ namespace DoVuiHaiNao.Migrations
                     FullName = table.Column<string>(maxLength: 100, nullable: true),
                     GooglePlus = table.Column<string>(maxLength: 100, nullable: true),
                     IdentityFacebook = table.Column<string>(maxLength: 100, nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     Linkedin = table.Column<string>(maxLength: 100, nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
@@ -321,7 +323,6 @@ namespace DoVuiHaiNao.Migrations
                     IsYesNo = table.Column<bool>(nullable: false),
                     Level = table.Column<float>(nullable: false),
                     Like = table.Column<int>(nullable: false),
-                    MMultiPuzzleID = table.Column<int>(nullable: true),
                     MultiPuzzleID = table.Column<int>(nullable: true),
                     Note = table.Column<string>(maxLength: 200, nullable: true),
                     Reason = table.Column<string>(nullable: true),

@@ -353,8 +353,6 @@ namespace DoVuiHaiNao.Migrations
 
                     b.Property<int>("Like");
 
-                    b.Property<int?>("MMultiPuzzleID");
-
                     b.Property<int?>("MultiPuzzleID");
 
                     b.Property<string>("Note")

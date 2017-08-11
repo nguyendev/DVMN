@@ -34,6 +34,9 @@ namespace DoVuiHaiNao.Data
             var single = await _context.SinglePuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
+                .Where(p => !p.IsDeleted)
+                .Where(p => p.CreateDT <= DateTime.Now)
+                .Where(p => p.Approved == Global.APPROVED)
                 .SingleOrDefaultAsync(p => p.Slug == slug);
             var bestSingle = await _context.SinglePuzzle
                 .Take(4)
@@ -124,60 +127,72 @@ namespace DoVuiHaiNao.Data
 
         public async Task<SingleMultiPuzzleViewModel> GetSingleMultiPuzzle(string slug)
         {
-            var multi = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.Slug == slug);
-            //multi.IsAnswered = await _repository.IsAnswerPuzzle(multi.ID, true);
-            var bestSingle = await _context.MultiPuzzle
-                .Take(4)
-                .ToListAsync();
-            List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
-            foreach (var item in bestSingle)
+            try
             {
-                listbestPuzzle.Add(new SimplePostPuzzle { Slug = item.Slug, Title = item.Title });
-            }
-
-            var listSingle = await _context.SinglePuzzle.Where(p => p.MMultiPuzzleID == multi.ID).ToListAsync();
-
-            List<SingleSinglePuzzleViewModel> listSingleViewModel = new List<SingleSinglePuzzleViewModel>(listSingle.Capacity - 1);
-            foreach (var item in listSingle)
-            {
-                List<SinglePuzzleTag> tags = null;
-                try
+                var multi = await _context.MultiPuzzle
+                    .Where(p =>p.CreateDT <= DateTime.Now)
+                    .Where(p => !p.IsDeleted)
+                    .Where(p => p.Approved == Global.APPROVED)
+                    .SingleOrDefaultAsync(p => p.Slug == slug);
+                //multi.IsAnswered = await _repository.IsAnswerPuzzle(multi.ID, true);
+                var bestSingle = await _context.MultiPuzzle
+                    .Take(4)
+                    .ToListAsync();
+                List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
+                foreach (var item in bestSingle)
                 {
-                    tags = await _context.SingPuzzleTag
-                       .Include(p => p.SinglePuzzle)
-                       .Include(p => p.Tag)
-                       .Where(p => p.SinglePuzzleID == item.ID)
-                       .ToListAsync();
+                    listbestPuzzle.Add(new SimplePostPuzzle { Slug = item.Slug, Title = item.Title });
                 }
-                catch { }
 
-                SingleSinglePuzzleViewModel temp = new SingleSinglePuzzleViewModel
+                var listSingle = await _context.SinglePuzzle
+                    .Include(p => p.Image)
+                    .Include(p => p.Author)
+                    .Where(p => p.MultiPuzzleID == multi.ID).ToListAsync();
+
+                List<SingleSinglePuzzleViewModel> listSingleViewModel = new List<SingleSinglePuzzleViewModel>(listSingle.Capacity - 1);
+                foreach (var item in listSingle)
                 {
-                    ID = item.ID,
-                    ImageID = item.ImageID,
-                    IsYesNo = item.IsYesNo,
-                    Level = item.Level,
-                    Like = item.Like,
-                    Reason = item.Reason,
-                    Slug = item.Slug,
-                    Views = item.Views,
-                    Title = item.Title,
-                    AnswerA = item.AnswerA,
-                    AnswerB = item.AnswerB,
-                    AnswerC = item.AnswerC,
-                    AnswerD = item.AnswerD,
-                    Author = item.Author,
-                    Correct = ShowCorrectAnswer(item.Correct),
-                    Description = item.Description,
-                    Image = item.Image,
-                    DateTime = DateTimeExtension.CurrentDay(item.CreateDT.Value)
-                };
-                if (tags != null)
-                    temp.Tags = tags;
-                listSingleViewModel.Add(temp);
+                    List<SinglePuzzleTag> tags = null;
+                    try
+                    {
+                        tags = await _context.SingPuzzleTag
+                           .Include(p => p.SinglePuzzle)
+                           .Include(p => p.Tag)
+                           .Where(p => p.SinglePuzzleID == item.ID)
+                           .ToListAsync();
+                    }
+                    catch { }
+
+                    SingleSinglePuzzleViewModel temp = new SingleSinglePuzzleViewModel
+                    {
+                        ID = item.ID,
+                        ImageID = item.ImageID,
+                        IsYesNo = item.IsYesNo,
+                        Level = item.Level,
+                        Like = item.Like,
+                        Reason = item.Reason,
+                        Slug = item.Slug,
+                        Views = item.Views,
+                        Title = item.Title,
+                        AnswerA = item.AnswerA,
+                        AnswerB = item.AnswerB,
+                        AnswerC = item.AnswerC,
+                        AnswerD = item.AnswerD,
+                        Author = item.Author,
+                        Correct = ShowCorrectAnswer(item.Correct),
+                        Description = item.Description,
+                        Image = item.Image,
+                        DateTime = DateTimeExtension.CurrentDay(item.CreateDT.Value)
+                    };
+                    if (tags != null)
+                        temp.Tags = tags;
+                    listSingleViewModel.Add(temp);
+                }
+                SingleMultiPuzzleViewModel model = new SingleMultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
+                return model;
             }
-            SingleMultiPuzzleViewModel model = new SingleMultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
-            return model;
+            catch { }
+            return null;
         }
 
 
@@ -247,7 +262,11 @@ namespace DoVuiHaiNao.Data
         public async Task<ListSinglePuzzleViewModel> ListSinglePuzzle(int? page, int? pageSize)
         {
             var listSingle = _context.SinglePuzzle.Include(p =>p.Author)
-                                                  .Include(p =>p.Image);
+                                                  .Include(p =>p.Image)
+                                                  .Where(p => !p.IsMMultiPuzzle)
+                                                  .Where(p => !p.IsDeleted)
+                                                  .Where(p => p.CreateDT <= DateTime.Now)
+                                                  .Where(p => p.Approved == Global.APPROVED);
             
            
             var pagelist = await PaginatedList<SinglePuzzle>.CreateAsync(listSingle.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10);
@@ -285,7 +304,10 @@ namespace DoVuiHaiNao.Data
         public async Task<ListMultiPuzzleViewModel> ListMultiPuzzle(int? page, int? pageSize)
         {
             var listMulti = _context.MultiPuzzle.Include(p => p.Author)
-                                                  .Include(p => p.Image);
+                                                  .Include(p => p.Image)
+                                                  .Where(p => !p.IsDeleted)
+                                                  .Where(p => p.CreateDT <= DateTime.Now)
+                                                  .Where(p => p.Approved == Global.APPROVED);
 
 
             var pagelist = await PaginatedList<MultiPuzzle>.CreateAsync(listMulti.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10);

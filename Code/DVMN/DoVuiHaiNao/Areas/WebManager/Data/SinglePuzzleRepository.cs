@@ -135,7 +135,7 @@ namespace DoVuiHaiNao.Data
                 Like = singlePuzzleOld.Like,
                 Views = singlePuzzleOld.Views,
                 Level = singlePuzzleOld.Level,
-                MMultiPuzzleID = model.MultiPuzzleID,
+                MultiPuzzleID = model.MultiPuzzleID,
             };
             _context.SinglePuzzle.Remove(singlePuzzleOld);
             _context.SinglePuzzle.Add(film);
@@ -232,7 +232,7 @@ namespace DoVuiHaiNao.Data
                     Approved = singlePuzzleDbContext.Approved,
                     IsDelete = singlePuzzleDbContext.IsDeleted,
                     IsMMultiPuzzle = singlePuzzleDbContext.IsMMultiPuzzle,
-                    MultiPuzzleID = singlePuzzleDbContext.MMultiPuzzleID,
+                    MultiPuzzleID = singlePuzzleDbContext.MultiPuzzleID,
                     TempTag = tempTag
                 };
                 return editModel;

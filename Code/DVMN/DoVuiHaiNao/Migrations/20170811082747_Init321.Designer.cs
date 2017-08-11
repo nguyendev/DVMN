@@ -8,8 +8,8 @@ using DoVuiHaiNao.Data;
 namespace DoVuiHaiNao.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170809145037_CreateDt")]
-    partial class CreateDt
+    [Migration("20170811082747_Init321")]
+    partial class Init321
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,6 +203,8 @@ namespace DoVuiHaiNao.Migrations
                     b.Property<string>("IdentityFacebook")
                         .HasMaxLength(100);
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Linkedin")
                         .HasMaxLength(100);
 
@@ -351,8 +353,6 @@ namespace DoVuiHaiNao.Migrations
                     b.Property<float>("Level");
 
                     b.Property<int>("Like");
-
-                    b.Property<int?>("MMultiPuzzleID");
 
                     b.Property<int?>("MultiPuzzleID");
 

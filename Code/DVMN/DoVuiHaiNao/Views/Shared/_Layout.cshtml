@@ -96,7 +96,17 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
     @RenderSection("Scripts", required: false)
-    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location;
+            $('ul.add-active a[href="' + url + '"]').parent().addClass('active');
+            $('ul.add-active a').filter(function () {
+                return this.href == url;
+            }).parent().addClass('active');
+        });
+    </script>
+
+
    
 </body>
 </html>

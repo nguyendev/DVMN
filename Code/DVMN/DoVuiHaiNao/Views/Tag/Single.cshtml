@@ -1,5 +1,6 @@
-﻿@{
-    DoVuiHaiNao.Models.SearchViewModel.SearchViewModel model = ViewData["listSinglePuzzle"] as DoVuiHaiNao.Models.SearchViewModel.SearchViewModel;
+﻿@model DoVuiHaiNao.Models.TagViewModels.TagSingleViewModel
+@{
+
     DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
     ViewData["Title"] = "Tìm kiếm câu đố | Dovuihainao.Net";
     ViewData["Desciption"] = "Tìm kiếm tất cả những câu đố vui mẹo hay, những câu đố vui hại não vừa khó và hay nhất có đáp án giúp bạn có thời gian giải trí mỗi ngày";
@@ -8,13 +9,15 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Kết quả tìm kiếm: @ViewData["Search"]</h1>
+                <h1>Câu đố trong thẻ</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
                     <a asp-action="Index" asp-controller="Home">Trang chủ</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Kết quả tìm kiếm: @ViewData["Search"]</span>
+                    <a asp-action="Index" asp-controller="Tag">Thẻ</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Câu đố trong thẻ</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -23,12 +26,11 @@
 <section class="container main-content">
     <div class="row">
         <div class="col-md-9">
-            @if (!model.List.Any())
+            @if (!Model.List.Any())
             {
                 <h2>Không tìm thấy. Xin vui lòng tìm với từ khóa khác</h2>
             }
-
-            @foreach (var item in model.List)
+            @foreach (var item in Model.List)
             {
                 if (item.ImageID.HasValue)
                 {
@@ -36,7 +38,7 @@
                     {
                         <article class="post blog_2 clearfix">
                             <div class="post-inner">
-                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
+                                <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.MultiPuzzle.Slug">@item.Title</a></h2>
                                 <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.MultiPuzzle.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
                                 <div class="post-meta">
                                     <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
@@ -134,15 +136,14 @@
                 }
 
             }
-            @if (model.List.Any())
+            @if (Model.List.Any())
             {
 
-                int Min = (model.PageIndex - 1) * model.PageSize;
-                int Max = (model.PageIndex) * model.PageSize;
-                int Count = model.List.Count();
+                int Min = (Model.PageIndex - 1) * Model.PageSize;
+                int Max = (Model.PageIndex) * Model.PageSize;
+                int Count = Model.List.Count();
                 <label class="pull-left">Hiển thị @Min to @Max trong @Count phần tử </label>
                 <div class="pagination">
-
                     <style>
                         .current {
                             background-color: #3498db !important;
@@ -150,50 +151,48 @@
                         }
                     </style>
                     @{
-                        var prevDisabled = !model.HasPreviousPage ? "none" : "block";
-                        var nextDisabled = !model.HasNextPage ? "none" : "block";
+                        var prevDisabled = !Model.HasPreviousPage ? "none" : "block";
+                        var nextDisabled = !Model.HasNextPage ? "none" : "block";
                     }
-                    @if (model.PageIndex - 1 > 0)
+                    @if (Model.PageIndex - 1 > 0)
                 {
-            <a asp-action="ListSinglePuzzle"
-               asp-route-page="@(model.PageIndex - 1)"
-               style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
-                }
-                    @if (model.PageIndex - 2 > 0)
+                        <a asp-action="ListSinglePuzzle"
+                           asp-route-page="@(Model.PageIndex - 1)"
+                           style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
+                    }
+                    @if (Model.PageIndex - 2 > 0)
                 {
-            <a asp-action="ListSinglePuzzle"
-               asp-route-page="@(model.PageIndex - 2)"
-               style="display: @prevDisabled">@(model.PageIndex - 2)</a>
-                }
-                    @if (model.PageIndex - 1 > 0)
+                        <a asp-action="ListSinglePuzzle"
+                           asp-route-page="@(Model.PageIndex - 2)"
+                           style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
+                    }
+                    @if (Model.PageIndex - 1 > 0)
                 {
-            <a asp-action="ListSinglePuzzle"
-               asp-route-page="@(model.PageIndex - 1)"
-               style="display: @prevDisabled">@(model.PageIndex - 1)</a>
-                }
-
+                        <a asp-action="ListSinglePuzzle"
+                           asp-route-page="@(Model.PageIndex - 1)"
+                           style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
+                    }
                     <a asp-action="ListSinglePuzzle"
-                       asp-route-page="@(model.PageIndex)"
-                       class="current">@(model.PageIndex)</a>
+                       asp-route-page="@(Model.PageIndex)"
+                       class="current">@(Model.PageIndex)</a>
                     <a asp-action="ListSinglePuzzle"
-                       asp-route-page="@(model.PageIndex + 1)"
-                       style="display: @nextDisabled">@(model.PageIndex + 1)</a>
+                       asp-route-page="@(Model.PageIndex + 1)"
+                       style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
                     <a asp-action="ListSinglePuzzle"
-                       asp-route-page="@(model.PageIndex + 2)"
-                       style="display: @nextDisabled">@(model.PageIndex + 2)</a>
+                       asp-route-page="@(Model.PageIndex + 2)"
+                       style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
                     @*<span>...</span>
                         <a href="#">11</a>
                         <a href="#">12</a>
                         <a href="#">13</a>*@
                     <a asp-action="ListSinglePuzzle"
-                       asp-route-page="@(model.PageIndex + 1)"
+                       asp-route-page="@(Model.PageIndex + 1)"
                        style="display: @nextDisabled">
                         <i class="icon-angle-right"></i>
                     </a>
                 </div><!-- End pagination -->
                         }
         </div>
-
 
         <aside class="col-md-3 sidebar">
             @await Html.PartialAsync("_SidebarPartial", sidebar)

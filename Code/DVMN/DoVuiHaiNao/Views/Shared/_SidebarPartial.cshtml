@@ -111,7 +111,7 @@
     }
     @foreach (var item in Model.TopTag)
     {
-        <a href="#">@item.Name</a>
+        <a asp-controller="Tag" asp-action="Single" asp-route-slug="@item.Slug">@item.Name</a>
     }
 </div>
 

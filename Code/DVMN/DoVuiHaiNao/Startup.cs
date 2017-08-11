@@ -111,6 +111,7 @@ namespace DoVuiHaiNao
             services.AddScoped<Data.IMemberRepository, Data.MemberRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

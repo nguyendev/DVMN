@@ -20,7 +20,9 @@ namespace DoVuiHaiNao.Data
         }
         public async Task<ListMemberViewModel> GetAllMember(int? page, int? pageSize)
         {
-            var member = await _context.Users.ToListAsync();
+            var member = await _context.Users
+                .Where(p => !p.IsDeleted)
+                .ToListAsync();
             var pagelist = PaginatedList<Member>.Create(member, page ?? 1, pageSize != null ? pageSize.Value : 10);
 
 
@@ -52,8 +54,10 @@ namespace DoVuiHaiNao.Data
         public async Task<UserHistorySinglePuzzleViewModel> GetHistoryListSinglePuzzle(string slug, int? page, int? pageSize)
         {
             var member = await _context.Users.SingleOrDefaultAsync(p => p.Slug == slug);
-            int SinglePuzzleTotal = await _context.HistoryAnswerPuzzle.Where(p => p.AuthorID == member.Id && !p.IsMultiPuzzle).CountAsync();
-            int MultiPuzzleTotal = await _context.HistoryAnswerPuzzle.Where(p => p.AuthorID == member.Id && p.IsMultiPuzzle).CountAsync();
+            int SinglePuzzleTotal = await _context.HistoryAnswerPuzzle
+                .Where(p => p.AuthorID == member.Id && !p.IsMultiPuzzle).CountAsync();
+            int MultiPuzzleTotal = await _context.HistoryAnswerPuzzle
+                .Where(p => p.AuthorID == member.Id && p.IsMultiPuzzle).CountAsync();
 
             // lay danh sach cac cot cau do trong lich su cua nguoi dung
             var historySinglePuzzle = await _context.HistoryAnswerPuzzle

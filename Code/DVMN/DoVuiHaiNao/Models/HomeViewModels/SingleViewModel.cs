@@ -21,5 +21,7 @@ namespace DoVuiHaiNao.Models.HomeViewModels
         public int Views { get; set; }
 
         public bool IsMultiPuzzle { get; set; }
+        public int? MultiPuzzleID { get; set; }
+        public MultiPuzzle MultiPuzzle { get; set; }
     }
 }

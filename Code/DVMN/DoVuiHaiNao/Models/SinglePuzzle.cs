@@ -31,7 +31,7 @@ namespace DoVuiHaiNao.Models
         public int Like { get; set; }
         public float Level { get; set; }
         public bool IsMMultiPuzzle { get; set; }
-        public int? MMultiPuzzleID { get; set; }
+        public int? MultiPuzzleID { get; set; }
         public MultiPuzzle MultiPuzzle { get; set; }
     }
 }
