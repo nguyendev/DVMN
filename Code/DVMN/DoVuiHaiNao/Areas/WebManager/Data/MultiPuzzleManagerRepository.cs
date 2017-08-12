@@ -10,10 +10,10 @@ using DoVuiHaiNao.Areas.WebManager.ViewModels.MultiPuzzleViewModels;
 
 namespace DoVuiHaiNao.Services
 {
-    public class MultiPuzzleRepository : IMultiPuzzleRepsository
+    public class MultiPuzzleManagerRepository : IMultiPuzzleManagerRepsository
     {
         protected readonly ApplicationDbContext _context;
-        public MultiPuzzleRepository(ApplicationDbContext context)
+        public MultiPuzzleManagerRepository(ApplicationDbContext context)
         {
             _context = context;
         }

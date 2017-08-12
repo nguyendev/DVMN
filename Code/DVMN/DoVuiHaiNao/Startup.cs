@@ -102,16 +102,18 @@ namespace DoVuiHaiNao
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IMultiPuzzleRepsository, MultiPuzzleRepository>();
+            services.AddScoped<IMultiPuzzleManagerRepsository, MultiPuzzleManagerRepository>();
             services.AddScoped<IHomeRepository, HomeRepository>();
-            services.AddScoped<ISinglePuzzleRepository, SinglePuzzleRepository>();
+            services.AddScoped<ISinglePuzzleManagerRepository, SinglePuzzleManagerRepository>();
             services.AddScoped<IPuzzleRepository, PuzzleRepository>();
             services.AddScoped<ISidebarRepository, SidebarRepository>();
-            services.AddScoped<Areas.WebManager.Data.IMemberRepository, Areas.WebManager.Data.MemberRepository>();
-            services.AddScoped<Data.IMemberRepository, Data.MemberRepository>();
+            services.AddScoped<IMemberManagerRepository, MemberManagerRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostManagerRepository, PostManagerRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

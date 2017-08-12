@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Data
 {
-    public class SinglePuzzleRepository : ISinglePuzzleRepository
+    public class SinglePuzzleManagerRepository : ISinglePuzzleManagerRepository
     {
         protected readonly ApplicationDbContext _context;
 
-        public SinglePuzzleRepository(ApplicationDbContext context)
+        public SinglePuzzleManagerRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -46,7 +46,7 @@ namespace DoVuiHaiNao.Data
             _context.SinglePuzzle.Add(single);
             // Get and convert string to create tag
             List<string> listString = StringExtensions.ConvertStringToListString(model.TempTag);
-            List<Tag> listTag = new List<Tag>(listString.Capacity - 1);
+            List<Tag> listTag = new List<Tag>();
 
             // Save all tag
             foreach (var item in listString)

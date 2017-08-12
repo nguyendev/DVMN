@@ -15,9 +15,9 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
     [Area("WebManager")]
     public class MembersController : Controller
     {
-        private readonly IMemberRepository _repository;
+        private readonly IMemberManagerRepository _repository;
 
-        public MembersController(IMemberRepository repository)
+        public MembersController(IMemberManagerRepository repository)
         {
             _repository = repository;    
         }

@@ -62,6 +62,15 @@
                 </span>*@
             </a>
         </li>
+        <li>
+            <a asp-action="Index" asp-controller="Posts" asp-area="WebManager">
+                <i class="fa fa-file-word-o"></i>
+                <span class="">Bài viết</span>
+                @*<span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>*@
+            </a>
+        </li>
         @if(User.IsInRole("Admin"))
         {
         <li class="header">Quản lý</li>

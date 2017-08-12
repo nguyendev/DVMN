@@ -37,16 +37,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script src="~/lib/ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript">
+        $(".ckeditor").ckeditor();
+    </script>
     <script>
         $(function () {
 
 
             //Date picker
             $('.datepicker').datepicker({
-                dateFormat: 'dd/mm/yyyy' ,
+                dateFormat: 'dd/mm/yyyy',
                 autoclose: true
             });
 
         });
-    </script>
+</script>
+
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Services
 {
-    public interface IMultiPuzzleRepsository
+    public interface IMultiPuzzleManagerRepsository
     {
         //List<PuzzleType> GetPuzzleType();
         Task<MultiPuzzle> Get(int? id);

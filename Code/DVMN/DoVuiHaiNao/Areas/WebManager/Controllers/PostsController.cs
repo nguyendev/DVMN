@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DoVuiHaiNao.Data;
 using DoVuiHaiNao.Models;
+using DoVuiHaiNao.Areas.WebManager.Data;
+using DoVuiHaiNao.Areas.WebManager.ViewModels.PostViewModels;
+using DoVuiHaiNao.Areas.WebManager.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
@@ -14,20 +18,56 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPostManagerRepository _repository;
+        private readonly UserManager<Member> _userManager;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(
+            ApplicationDbContext context,
+            IPostManagerRepository repository,
+            UserManager<Member> userManager)
         {
-            _context = context;    
+            _repository = repository;
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: WebManager/Posts
-        public async Task<IActionResult> Index()
+        [Route("/quan-ly-web/blog/")]
+        public async Task<IActionResult> Index(string sortOrder,
+ string currentFilter,
+    string searchString,
+    int? page, int? pageSize)
         {
-            var applicationDbContext = _context.Post.Include(p => p.Image);
-            return View(await applicationDbContext.ToListAsync());
-        }
+            List<NumberItem> SoLuong = new List<NumberItem>
+            {
+                new NumberItem { Value = 10},
+                new NumberItem { Value = 20},
+                new NumberItem { Value = 50},
+                new NumberItem { Value = 100},
+            };
+            ViewData["SoLuong"] = SoLuong;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["TitleParm"] = String.IsNullOrEmpty(sortOrder) ? "title" : "";
+            ViewData["CurrentSize"] = pageSize;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
+            ViewData["CurrentFilter"] = searchString;
+            var applicationDbContext = await _repository.GetAll(sortOrder, searchString, page, pageSize);
+            return View(applicationDbContext);
+        }
+        private async Task<Member> GetCurrentUser()
+        {
+            return await _userManager.GetUserAsync(HttpContext.User);
+        }
         // GET: WebManager/Posts/Details/5
+        [Route("/quan-ly-web/blog/chi-tiet/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,9 +75,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .Include(p => p.Image)
-                .SingleOrDefaultAsync(m => m.ID == id);
+            var post = await _repository.Get(id);
             if (post == null)
             {
                 return NotFound();
@@ -47,9 +85,10 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         }
 
         // GET: WebManager/Posts/Create
+        [Route("/quan-ly-web/blog/tao-moi")]
         public IActionResult Create()
         {
-            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID");
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name");
             return View();
         }
 
@@ -58,19 +97,22 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Description,Content,Slug,ImageID,Views,Like")] Post post)
+        [Route("/quan-ly-web/blog/tao-moi")]
+        public async Task<IActionResult> Create( CreatePostViewModel post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
+                var user = await GetCurrentUser();
+                post.AuthorID = user.Id;
+                await _repository.Add(post);
                 return RedirectToAction("Index");
             }
-            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", post.ImageID);
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name", post.ImageID);
             return View(post);
         }
 
         // GET: WebManager/Posts/Edit/5
+        [Route("/quan-ly-web/blog/chinh-sua/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,12 +120,15 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.ID == id);
+            var post = await _repository.GetEdit(id);
             if (post == null)
             {
                 return NotFound();
             }
-            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", post.ImageID);
+            AllSelectList selectlist = new AllSelectList();
+            ViewData["Approved"] = new SelectList(selectlist.ListApproved, "ID", "Name", post.Approved);
+            ViewData["AuthorID"] = new SelectList(_context.Member, "Id", "FullName", post.AuthorID);
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name", post.ImageID);
             return View(post);
         }
 
@@ -91,8 +136,9 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("/quan-ly-web/blog/chinh-sua/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description,Content,Slug,ImageID,Views,Like")] Post post)
+        public async Task<IActionResult> Edit(int id, EditPostViewModel post)
         {
             if (id != post.ID)
             {
@@ -103,8 +149,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             {
                 try
                 {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
+                    await _repository.Update(post);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,11 +164,15 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "ID", post.ImageID);
+            AllSelectList selectlist = new AllSelectList();
+            ViewData["Approved"] = new SelectList(selectlist.ListApproved, "ID", "Name", post.Approved);
+            ViewData["AuthorID"] = new SelectList(_context.Member, "Id", "FullName", post.AuthorID);
+            ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name", post.ImageID);
             return View(post);
         }
 
         // GET: WebManager/Posts/Delete/5
+        [Route("/quan-ly-web/blog/xoa/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,9 +180,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .Include(p => p.Image)
-                .SingleOrDefaultAsync(m => m.ID == id);
+            var post = await _repository.Get(id);
             if (post == null)
             {
                 return NotFound();
@@ -144,18 +191,17 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
 
         // POST: WebManager/Posts/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Route("/quan-ly-web/blog/xoa/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Post.Remove(post);
-            await _context.SaveChangesAsync();
+            await _repository.Delete(id);
             return RedirectToAction("Index");
         }
 
         private bool PostExists(int id)
         {
-            return _context.Post.Any(e => e.ID == id);
+            return _repository.Exists(id);
         }
     }
 }

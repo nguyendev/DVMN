@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Areas.WebManager.Data
 {
-    public class MemberRepository : IMemberRepository
+    public class MemberManagerRepository : IMemberManagerRepository
     {
         protected readonly ApplicationDbContext _context;
 
-        public MemberRepository(ApplicationDbContext context)
+        public MemberManagerRepository(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Data
 {
-    public interface ISinglePuzzleRepository
+    public interface ISinglePuzzleManagerRepository
     {
         Task<SinglePuzzle> Get(int? id);
         bool Exists(int id);

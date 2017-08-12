@@ -22,12 +22,12 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
     public class MultiPuzzleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMultiPuzzleRepsository _repository;
+        private readonly IMultiPuzzleManagerRepsository _repository;
         private readonly UserManager<Member> _userManager;
         public MultiPuzzleController(
             ApplicationDbContext context,
             UserManager<Member> userManager,
-            IMultiPuzzleRepsository multiPuzzle)
+            IMultiPuzzleManagerRepsository multiPuzzle)
         {
             _context = context;
             _userManager = userManager;

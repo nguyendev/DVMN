@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Models
 {
-    public class Post
+    public class Post : Base
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]

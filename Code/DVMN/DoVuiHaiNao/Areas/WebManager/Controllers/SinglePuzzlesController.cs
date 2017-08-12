@@ -16,11 +16,11 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
     [Area("WebManager")]
     public class SinglePuzzlesController : Controller
     {
-        private readonly ISinglePuzzleRepository _repository;
+        private readonly ISinglePuzzleManagerRepository _repository;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Member> _userManager;
 
-        public SinglePuzzlesController(ISinglePuzzleRepository repository,
+        public SinglePuzzlesController(ISinglePuzzleManagerRepository repository,
             ApplicationDbContext context,
             UserManager<Member> userManager)
         {
@@ -178,9 +178,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var singlePuzzle = await _context.SinglePuzzle.SingleOrDefaultAsync(m => m.ID == id);
-            _context.SinglePuzzle.Remove(singlePuzzle);
-            await _context.SaveChangesAsync();
+            await _repository.Delete(id);
             return RedirectToAction("Index");
         }
 

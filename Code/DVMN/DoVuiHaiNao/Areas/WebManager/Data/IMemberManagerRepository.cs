@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DoVuiHaiNao.Areas.WebManager.Data
 {
-    public interface IMemberRepository
+    public interface IMemberManagerRepository
     {
         Task<Member> Get(string id);
         bool Exists(string id);
