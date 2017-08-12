@@ -149,7 +149,7 @@ namespace DoVuiHaiNao.Data
                     .Include(p => p.Author)
                     .Where(p => p.MultiPuzzleID == multi.ID).ToListAsync();
 
-                List<SingleSinglePuzzleViewModel> listSingleViewModel = new List<SingleSinglePuzzleViewModel>(listSingle.Capacity - 1);
+                List<SingleSinglePuzzleViewModel> listSingleViewModel = new List<SingleSinglePuzzleViewModel>();
                 foreach (var item in listSingle)
                 {
                     List<SinglePuzzleTag> tags = null;
@@ -188,7 +188,7 @@ namespace DoVuiHaiNao.Data
                         temp.Tags = tags;
                     listSingleViewModel.Add(temp);
                 }
-                SingleMultiPuzzleViewModel model = new SingleMultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle };
+                SingleMultiPuzzleViewModel model = new SingleMultiPuzzleViewModel { listSinglePuzzle = listSingleViewModel, Title = multi.Title, ListbestPuzzle = listbestPuzzle, Description = SEOExtension.GetStringToLength(multi.Description, SEOExtension.MaxDescriptionSEO) };
                 return model;
             }
             catch { }

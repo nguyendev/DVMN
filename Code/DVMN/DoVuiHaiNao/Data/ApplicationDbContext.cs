@@ -22,18 +22,20 @@ namespace DoVuiHaiNao.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<SinglePuzzleTag>().HasKey(t => new { t.SinglePuzzleID, t.TagID });
+            builder.Entity<PostTag>().HasKey(t => new { t.PostID, t.TagID });
 
         }
 
         public DbSet<MultiPuzzle> MultiPuzzle { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Tag> Tag { get; set; }
-
         public DbSet<Images> Images { get; set;}
         public DbSet<SinglePuzzleTag> SingPuzzleTag { get; set; }
-        public DbSet<DoVuiHaiNao.Models.SinglePuzzle> SinglePuzzle { get; set; }
+        public DbSet<SinglePuzzle> SinglePuzzle { get; set; }
         public DbSet<HistoryAnswerPuzzle> HistoryAnswerPuzzle { get; set; }
         public DbSet<HistoryLikePuzzle> HistoryLikePuzzle { get; set; }
-        public DbSet<DoVuiHaiNao.Models.Member> Member { get; set; }
+        public DbSet<Member> Member { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<PostTag> PostTag { get; set; }
     }
 }

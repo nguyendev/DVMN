@@ -121,8 +121,9 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             {
                 return NotFound();
             }
-
+            AllSelectList selectlist = new AllSelectList();
             EditSinglePuzzleViewModels singlePuzzle = await _repository.GetEdit(id);
+            ViewData["Approved"] = new SelectList(selectlist.ListApproved, "ID", "Name", singlePuzzle.Approved);
             ViewData["ImageID"] = new SelectList(_context.Images, "ID", "Name", singlePuzzle.ImageID);
             return View(singlePuzzle);
         }

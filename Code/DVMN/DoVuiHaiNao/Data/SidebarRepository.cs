@@ -62,27 +62,38 @@ namespace DoVuiHaiNao.Data
 
         public async Task<IEnumerable<TopTagViewModel>> GetTopTagPuzzle()
         {
-            try
-            {
-                var topTags = await _context.SingPuzzleTag
-                .Include(p => p.Tag)
-                .OrderByDescending(p => p.Tag).Take(5).ToListAsync();
-                List<TopTagViewModel> model = new List<TopTagViewModel>(topTags.Capacity - 1);
-                foreach (var item in topTags)
-                {
-                    model.Add(new TopTagViewModel
-                    {
-                        Name = item.Tag.Title,
-                        Slug = item.Tag.Slug
-                    });
-                }
-                return model;
-            }
-            catch
-            {
-                return new List<TopTagViewModel>();
-            }
-           
+            //try
+            //{
+            //    var topTags =
+            //   (from dbo in _context.SingPuzzleTag.Include(p => p.Tag)
+            //    select dbo.TagID).Distinct().ToList();
+            //    List<TopTagViewModel> model = new List<TopTagViewModel>();
+            //    foreach (var item in topTags)
+            //    {
+            //        model.Add(new TopTagViewModel
+            //        {
+            //            Name = item..Title,
+            //            Slug = item.Tag.Slug
+
+            //        });
+            //        foreach (var itemModel in model)
+            //        {
+            //            if (itemModel.Slug != item.Tag.Slug)
+            //            {
+
+            //            }
+            //        }
+            //        if (model.Count() > 5)
+            //            return model;
+            //    }
+            //    return model;
+            //}
+            //catch
+            //{
+            //    return new List<TopTagViewModel>();
+            //}
+            return new List<TopTagViewModel>();
+
         }
 
         public async Task<IEnumerable<TopPuzzleViewModel>> GetTopRecentPuzzle()

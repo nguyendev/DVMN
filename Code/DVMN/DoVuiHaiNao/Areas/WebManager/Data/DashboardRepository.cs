@@ -20,6 +20,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Data
             return await _context.SinglePuzzle
                 .Where(p => p.CreateDT.Value.Date == DateTime.Now.Date)
                 .Where(p => p.Approved == "A" && !p.IsDeleted)
+                .Where(p => !p.IsMMultiPuzzle)
                 .CountAsync();
         }
         private async Task<int> CountSingleQuestionInWeek()
@@ -30,6 +31,7 @@ namespace DoVuiHaiNao.Areas.WebManager.Data
                 .Where(p => p.CreateDT.Value.Month == DateTime.Now.Month)
                 .Where(p => p.CreateDT.Value.Year >= DateTime.Now.Year)
                 .Where(p => p.Approved == "A" && !p.IsDeleted)
+                .Where(p => !p.IsMMultiPuzzle)
                 .CountAsync();
         }
         private async Task<int> CountSingleQuestionInMonth()
@@ -39,12 +41,14 @@ namespace DoVuiHaiNao.Areas.WebManager.Data
                 .Where(p => p.CreateDT.Value.Month == DateTime.Now.Month)
                 .Where(p => p.CreateDT.Value.Year == DateTime.Now.Year)
                 .Where(p => p.Approved == "A" && !p.IsDeleted)
+                .Where(p => !p.IsMMultiPuzzle)
                 .CountAsync();
         }
         private async Task<int> CountSingleQuestionTotal()
         {
             return await _context.SinglePuzzle
                 .Where(p => p.Approved == "A" && !p.IsDeleted)
+                .Where(p => !p.IsMMultiPuzzle)
                 .CountAsync();
         }
         private async Task<int> CountMemberInDay()

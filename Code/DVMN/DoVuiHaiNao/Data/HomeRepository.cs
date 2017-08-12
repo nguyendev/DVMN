@@ -50,7 +50,7 @@ namespace DoVuiHaiNao.Data
                 .ToListAsync();
             try
             {
-                List<SingleViewModel> model = new List<SingleViewModel>(SinglePuzzleDbContext.Capacity - 1);
+                List<SingleViewModel> model = new List<SingleViewModel>();
                 foreach (var item in SinglePuzzleDbContext)
                 {
                     model.Add(new SingleViewModel
@@ -118,7 +118,7 @@ namespace DoVuiHaiNao.Data
                 .ToListAsync();
             try
             {
-                List<SingleViewModel> model = new List<SingleViewModel>(SinglePuzzleDbContext.Capacity - 1);
+                List<SingleViewModel> model = new List<SingleViewModel>();
                 foreach (var item in SinglePuzzleDbContext)
                 {
                     model.Add(new SingleViewModel
@@ -188,7 +188,7 @@ namespace DoVuiHaiNao.Data
                 .ToListAsync();
             try
             {
-                List<SingleViewModel> model = new List<SingleViewModel>(SinglePuzzleDbContext.Capacity - 1);
+                List<SingleViewModel> model = new List<SingleViewModel>();
                 foreach (var item in SinglePuzzleDbContext)
                 {
                     model.Add(new SingleViewModel

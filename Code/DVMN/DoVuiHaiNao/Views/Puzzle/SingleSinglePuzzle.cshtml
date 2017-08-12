@@ -2,7 +2,15 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<Member> signInManager
 @{
-    ViewData["Title"] = Model.Title + " | Đố vui";
+    if (Model.Title.Length > 150)
+    {
+        ViewData["Title"] = Model.Title;
+    }
+    else
+    {
+        ViewData["Title"] = Model.Title + "| Dovuihainao.Net";
+    }
+    ViewData["Desciption"] = Model.Description;
     string scheme = Context.Request.Scheme;
     string host = Context.Request.Host.Host;
     string port = Context.Request.Host.Port.ToString();
@@ -191,7 +199,7 @@
                     <i class="icon-tags"></i>
                     @foreach (var item in Model.Tags)
                     {
-                        <a asp-action="tag" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
+                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
                     }
                 </div>
                 <div class="share-inside-warp">

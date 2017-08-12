@@ -9,6 +9,7 @@ namespace DoVuiHaiNao.Models.PuzzleViewModels
     {
         public IEnumerable<SingleSinglePuzzleViewModel> listSinglePuzzle { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
 
         public IEnumerable<SimplePostPuzzle> ListbestPuzzle { get; set; }
     }
