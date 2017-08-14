@@ -29,11 +29,25 @@ namespace DoVuiHaiNao.Controllers
             this._repository = _repository;
             this._sidebarRepository = _sidebarRepository;
         }
+        [Route("/blogs/")]
         public async Task<IActionResult> Index(int? page)
         {
             var single = await _repository.GetListPost(page, 10);
             if (single == null)
                 return NotFound();
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
+            return View(single);
+        }
+
+
+        [Route("/blogs/{slug}")]
+        public async Task<IActionResult> Single(string slug)
+        {
+            var single = await _repository.GetSinglePost(slug);
+            if (single == null)
+                return NotFound();
+            // increase View
+            await _repository.IncreaseView(slug);
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(single);
         }

@@ -18,11 +18,11 @@ namespace DoVuiHaiNao.Controllers
             _repository = repository;
             _sidebarRepository = sidebarRepository;
         }
-        [Route("/tim-kiem")]
+        [Route("/tim-kiem/")]
         public async Task<IActionResult> Search(string search,int? page)
         {
             ViewData["listSinglePuzzle"] = await _repository.GetSearch(search,page,10);
-            ViewData["search"] = search;
+            ViewData["Search"] = search;
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View();
         }

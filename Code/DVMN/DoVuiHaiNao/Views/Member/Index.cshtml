@@ -26,7 +26,7 @@
                 <div class="about-author clearfix">
                     <div class="author-image">
                         <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug" original-title="@item.FullName" class="tooltip-n">
-                            <img alt="@item.FullName" src="@item.Image" class="hoverZoomLink">
+                            <img asp-append-version="true" alt="@item.FullName" src="@item.Image" class="hoverZoomLink">
                         </a>
                     </div>
                     <div class="author-bio">

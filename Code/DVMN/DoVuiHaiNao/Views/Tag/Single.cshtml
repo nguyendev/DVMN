@@ -85,7 +85,7 @@
                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                             <div class="question-author">
                                 <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
-                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                    <span></span><img asp-append-version="true" alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                                 </a>
                             </div>
                             <div class="question-inner">
@@ -114,7 +114,7 @@
                                 <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                             <div class="question-author">
                                 <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
-                                    <span></span><img alt="@item.Author.FullName" src="@item.Author.Picture65x65">
+                                    <span></span><img asp-append-version="true" alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                                 </a>
                             </div>
                             <div class="question-inner">

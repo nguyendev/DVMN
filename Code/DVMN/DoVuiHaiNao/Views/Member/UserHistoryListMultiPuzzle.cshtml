@@ -29,7 +29,7 @@
                     <div class="col-md-12">
                         <div class="page-content">
                             <h2>Thông tin về @Model.FullName</h2>
-                            <div class="user-profile-img"><img width="60" height="60" src="@Model.Image" alt="@Model.FullName"></div>
+                            <div class="user-profile-img"><img asp-append-version="true" width="60" height="60" src="@Model.Image" alt="@Model.FullName"></div>
                             <div class="ul_list ul_list-icon-ok about-user">
                                 <ul>
                                     <li><i class="icon-plus"></i>Ngày đăng ký : <span>@Model.CreateRegister</span></li>

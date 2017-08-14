@@ -62,38 +62,25 @@ namespace DoVuiHaiNao.Data
 
         public async Task<IEnumerable<TopTagViewModel>> GetTopTagPuzzle()
         {
-            //try
-            //{
-            //    var topTags =
-            //   (from dbo in _context.SingPuzzleTag.Include(p => p.Tag)
-            //    select dbo.TagID).Distinct().ToList();
-            //    List<TopTagViewModel> model = new List<TopTagViewModel>();
-            //    foreach (var item in topTags)
-            //    {
-            //        model.Add(new TopTagViewModel
-            //        {
-            //            Name = item..Title,
-            //            Slug = item.Tag.Slug
-
-            //        });
-            //        foreach (var itemModel in model)
-            //        {
-            //            if (itemModel.Slug != item.Tag.Slug)
-            //            {
-
-            //            }
-            //        }
-            //        if (model.Count() > 5)
-            //            return model;
-            //    }
-            //    return model;
-            //}
-            //catch
-            //{
-            //    return new List<TopTagViewModel>();
-            //}
-            return new List<TopTagViewModel>();
-
+            try
+            {
+                var result = _context.SingPuzzleTag.Select(m => new {m.TagID }).Distinct().Take(10);
+                List<TopTagViewModel> model = new List<TopTagViewModel>();
+                foreach (var item in result)
+                {
+                    var temp = await _context.SingPuzzleTag.Include(p => p.Tag).Where(dt => dt.TagID == item.TagID).Select(dt => new { dt.Tag }).Distinct().FirstOrDefaultAsync();
+                    model.Add(new TopTagViewModel
+                    {
+                        Name = temp.Tag.Title,
+                        Slug = temp.Tag.Slug
+                    });
+                }
+                return model;
+            }
+            catch
+            {
+                return new List<TopTagViewModel>();
+            }
         }
 
         public async Task<IEnumerable<TopPuzzleViewModel>> GetTopRecentPuzzle()

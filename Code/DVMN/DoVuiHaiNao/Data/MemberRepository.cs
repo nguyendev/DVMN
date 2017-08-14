@@ -111,59 +111,65 @@ namespace DoVuiHaiNao.Data
         }
         public async Task<UserHistoryMultiPuzzleViewModel> GetHistoryListMultiPuzzle(string slug, int? page, int? pageSize)
         {
+             
             var member = await _context.Users.SingleOrDefaultAsync(p => p.Slug == slug);
             int SinglePuzzleTotal = await _context.HistoryAnswerPuzzle.Where(p => p.AuthorID == member.Id && !p.IsMultiPuzzle).CountAsync();
             int MultiPuzzleTotal = await _context.HistoryAnswerPuzzle.Where(p => p.AuthorID == member.Id && p.IsMultiPuzzle).CountAsync();
-
-            // lay danh sach cac cot cau do trong lich su cua nguoi dung
-            var historySinglePuzzle = await _context.HistoryAnswerPuzzle
+            try
+            {
+                // lay danh sach cac cot cau do trong lich su cua nguoi dung
+                var historySinglePuzzle = await _context.HistoryAnswerPuzzle
                 .Where(p => p.AuthorID == member.Id && p.IsMultiPuzzle)
                 .ToListAsync();
 
-            // lay danh sach nay tuong ung voi bang cau do tuong ung
-            List<MultiPuzzle> multiPuzzleDbContext = new List<MultiPuzzle>();
-            foreach (var item in historySinglePuzzle)
-            {
-                var multiPuzzle = _context.MultiPuzzle
-                    .Include(p => p.Image)
-                    .SingleOrDefault(p => p.ID == item.PuzzleID);
-                multiPuzzleDbContext.Add(multiPuzzle);
-
-            }
-
-            // tien hanh phan trang
-            var pagelist = PaginatedList<MultiPuzzle>.Create(multiPuzzleDbContext, page ?? 1, pageSize != null ? pageSize.Value : 10);
-
-
-            //tien hanh du tat ca vao bang danh sach cau do
-            List<UserHistoryMultiPuzzle> listMultiPuzzle = new List<UserHistoryMultiPuzzle>();
-            foreach (var item in pagelist)
-            {
-                UserHistoryMultiPuzzle temp = new UserHistoryMultiPuzzle
+                // lay danh sach nay tuong ung voi bang cau do tuong ung
+                List<MultiPuzzle> multiPuzzleDbContext = new List<MultiPuzzle>();
+                foreach (var item in historySinglePuzzle)
                 {
-                    Title = item.Title,
-                    Views = item.Views,
-                    Slug = item.Slug,
-                    ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
-                    CreateDate = item.CreateDT
+                    var multiPuzzle = _context.MultiPuzzle
+                        .Include(p => p.Image)
+                        .SingleOrDefault(p => p.ID == item.PuzzleID);
+                    multiPuzzleDbContext.Add(multiPuzzle);
+                }
+
+                // tien hanh phan trang
+                var pagelist = PaginatedList<MultiPuzzle>.Create(multiPuzzleDbContext, page ?? 1, pageSize != null ? pageSize.Value : 10);
+
+
+                //tien hanh du tat ca vao bang danh sach cau do
+                List<UserHistoryMultiPuzzle> listMultiPuzzle = new List<UserHistoryMultiPuzzle>();
+                foreach (var item in pagelist)
+                {
+                    UserHistoryMultiPuzzle temp = new UserHistoryMultiPuzzle
+                    {
+                        Title = item.Title,
+                        Views = item.Views,
+                        Slug = item.Slug,
+                        ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                        CreateDate = item.CreateDT
+                    };
+                    listMultiPuzzle.Add(temp);
+                }
+                UserHistoryMultiPuzzleViewModel model = new UserHistoryMultiPuzzleViewModel
+                {
+                    FaceboookURL = member.Facebook,
+                    FullName = member.FullName,
+                    SinglePuzzleTotal = SinglePuzzleTotal,
+                    MultiPuzzleTotal = MultiPuzzleTotal,
+                    Points = member.Score,
+                    Image = member.Picture65x65,
+                    Count = pagelist.Count,
+                    PageIndex = pagelist.PageIndex,
+                    PageSize = pagelist.PageSize,
+                    ListMultiPuzzle = listMultiPuzzle.OrderByDescending(p => p.CreateDate),
+                    TotalPages = pagelist.TotalPages,
                 };
-                listMultiPuzzle.Add(temp);
+                return model;
             }
-            UserHistoryMultiPuzzleViewModel model = new UserHistoryMultiPuzzleViewModel
+            catch
             {
-                FaceboookURL = member.Facebook,
-                FullName = member.FullName,
-                SinglePuzzleTotal = SinglePuzzleTotal,
-                MultiPuzzleTotal = MultiPuzzleTotal,
-                Points = member.Score,
-                Image = member.Picture65x65,
-                Count = pagelist.Count,
-                PageIndex = pagelist.PageIndex,
-                PageSize = pagelist.PageSize,
-                ListMultiPuzzle = listMultiPuzzle.OrderByDescending(p => p.CreateDate),
-                TotalPages = pagelist.TotalPages,
-            };
-            return model;
+                return new UserHistoryMultiPuzzleViewModel { };
+            }
         }
 
         public async Task<UserProfileViewModel> GetProfile(string slug)
@@ -190,6 +196,8 @@ namespace DoVuiHaiNao.Data
                 MultiPuzzleTotal = MultiPuzzleTotal,
                 Points = member.Score,
                 Image = member.Picture65x65,
+                Birthday = member.DateofBirth,
+                CreateRegister = member.CreateDT,
                 Slug = slug
             };
             return profile;

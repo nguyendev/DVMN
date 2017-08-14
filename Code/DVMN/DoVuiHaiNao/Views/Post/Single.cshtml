@@ -1,0 +1,159 @@
+﻿@model DoVuiHaiNao.Models.PostViewModels.SinglePostViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Member> signInManager
+@{
+    if (Model.Title.Length > 150)
+    {
+        ViewData["Title"] = Model.Title;
+    }
+    else
+    {
+        ViewData["Title"] = Model.Title + "| Dovuihainao.Net";
+    }
+    ViewData["Desciption"] = Model.Description;
+    string scheme = Context.Request.Scheme;
+    string host = Context.Request.Host.Host;
+    string port = Context.Request.Host.Port.ToString();
+    string path = Context.Request.Path;
+    string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, path);
+    DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
+}
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Model.Title.</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-controller="Home" asp-action="index">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">@Model.Title.</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+            <article class="post single-post clearfix">
+                <div class="post-inner">
+                    @if (Model.ImageID != null)
+                    { 
+                    <div class="post-img">
+                        <a asp-controller="post" asp-action="single" asp-route-slug="@Model.Slug">
+                            <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Model.Image.ALT">
+                        </a>
+                    </div>
+                    }
+                    <h2 class="post-title"><span class="post-type"><i class="icon-film"></i></span>Beautiful Gallery Post.</h2>
+                    <div class="post-meta">
+                        <span class="meta-author"><i class="icon-user"></i><a asp-controller="member" asp-action="Details" asp-route-slug="@Model.Author.Slug">@Model.Author.FullName</a></span>
+                        <span class="meta-date"><i class="icon-time"></i>@Model.DateTime</span>
+                        <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="post" asp-action="index">Blogs</a></span>
+                        @*<span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>*@
+                    </div>
+                    <div class="post-content">
+                        @Html.Raw(Model.Content)
+                    </div><!-- End post-content -->
+                    <div class="clearfix"></div>
+                </div><!-- End post-inner -->
+            </article><!-- End article.post -->
+
+            <div class="share-tags page-content">
+                <div class="question-tags">
+                    <i class="icon-tags"></i>
+                    @foreach (var item in Model.Tags)
+                    {
+                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
+                    }
+                </div>
+                <div class="share-inside-warp">
+                    <ul>
+                        <li>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=@url" original-title="Facebook">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#3b5997" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(59, 89, 151); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-facebook" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=@url" target="_blank">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/home?status=@url" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#00baf0" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(0, 186, 240); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-twitter" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a target="_blank" href="https://twitter.com/home?status=@url">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="https://plus.google.com/share?url=@url" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#ca2c24" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(202, 44, 36); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-gplus" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="https://plus.google.com/share?url=@url" target="_blank">Google plus</a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#e64281" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(230, 66, 129); border-style: solid;">
+                                        <i i_color="#FFF" class="social_icon-dribbble" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Dribbble</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">
+                                <span class="icon_i">
+                                    <span class="icon_square" icon_size="20" span_bg="#c7151a" span_hover="#666" style="height: 20px; width: 20px; font-size: 10px; line-height: 20px; background-color: rgb(199, 21, 26); border-style: solid;">
+                                        <i i_color="#FFF" class="icon-pinterest" style="color: rgb(255, 255, 255);"></i>
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" target="_blank">Pinterest</a>
+                        </li>
+                    </ul>
+                    <span class="share-inside-f-arrow"></span>
+                    <span class="share-inside-l-arrow"></span>
+                </div><!-- End share-inside-warp -->
+                <div class="share-inside"><i class="icon-share-alt"></i>Share</div>
+                <div class="clearfix"></div>
+            </div>
+            @*<div class="about-author clearfix">
+                    <div class="author-image">
+                        <a href="#" original-title="admin" class="tooltip-n"><img alt="" src="http://2code.info/demo/html/ask-me/images/demo/admin.jpeg"></a>
+                    </div>
+                    <div class="author-bio">
+                        <h4>About the Author</h4>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed viverra auctor neque. Nullam lobortis, sapien vitae lobortis tristique.
+                    </div>
+                </div>*@<!-- End about-author -->
+            <!-- End Share-tags -->
+            <div id="related-posts">
+                <h2>Bài viết hay</h2>
+                <ul class="related-posts">
+                    @foreach (var item in Model.RelatedPuzzle)
+                    {
+                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                    }
+                </ul>
+            </div>
+            <div class="fb-comments" data-width="100%" data-href="@string.Format("{0}",@url)" data-numposts="7"></div>
+            <!-- End related-posts -->
+        </div>
+        <aside class="col-md-3 sidebar">
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
+        </aside>
+    </div>
+</section>

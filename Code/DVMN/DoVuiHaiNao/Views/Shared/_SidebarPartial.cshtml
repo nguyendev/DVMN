@@ -94,9 +94,9 @@
         {
             <li>
                 <div class="author-img">
-                    <a href="#"><img width="60" height="60" src="@item.Image" alt="@item.FullName" asp-append-version="true"></a>
+                    <a asp-controller="Member" asp-action="details" asp-route-slug="@item.Slug"><img width="60" height="60" src="@item.Image" alt="@item.FullName" asp-append-version="true"></a>
                 </div>
-                <h6><a href="#">@item.FullName</a></h6>
+                <h6><a asp-controller="Member" asp-action="details" asp-route-slug="@item.Slug">@item.FullName</a></h6>
                 <span class="comment">@item.Point điểm</span>
             </li>
         }
@@ -111,7 +111,10 @@
     }
     @foreach (var item in Model.TopTag)
     {
+        if(!String.IsNullOrEmpty(item.Name))
+        { 
         <a asp-controller="Tag" asp-action="Single" asp-route-slug="@item.Slug">@item.Name</a>
+        }
     }
 </div>
 

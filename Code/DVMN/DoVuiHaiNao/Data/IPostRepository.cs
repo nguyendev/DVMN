@@ -9,5 +9,7 @@ namespace DoVuiHaiNao.Data
     public interface IPostRepository
     {
         Task<ListPostViewModel> GetListPost(int? page, int? pageSize);
+        Task IncreaseView(string slug);
+        Task<SinglePostViewModel> GetSinglePost(string slug);
     }
 }

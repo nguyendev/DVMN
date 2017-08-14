@@ -14,7 +14,7 @@
                 {
                     var user = await UserManager.GetUserAsync(User);
                     <li>
-                        <a asp-controller="Member" asp-action="Details" asp-route-slug="@user.Slug">Xin chào @UserManager.GetUserName(User)!</a>
+                        <a asp-controller="Member" asp-action="Details" asp-route-slug="@user.Slug">Xin chào @UserManager.GetUserName(User)</a>
                     </li>
                     <li>
                         @*<form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
@@ -29,7 +29,7 @@
             </ul>
         </nav>
         <div class="header-search">
-            <form asp-action="Search" asp-controller="Search" asp-route-search="@ViewData["search"]">
+            <form asp-action="Search" asp-controller="Search" method="post"> 
                 <input name="search" type="text" value="Tìm kiếm ..." onfocus="if(this.value=='Tìm kiếm ...')this.value='';" onblur="if(this.value=='')this.value='Tìm kiếm ...';">
                 <button type="submit" class="search-submit"></button>
             </form>
@@ -40,11 +40,12 @@
     <section class="container clearfix">
         <div class="logo"><a asp-controller="Home" asp-action="Index"><img asp-append-version="true" alt="" src="~/images/logo.png"></a></div>
         <nav class="navigation">
-            <ul class="add-active">
+            <ul>
                 <li><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
                 <li><a asp-action="ListSinglePuzzle" asp-controller="Puzzle">Mỗi ngày một câu đố</a></li>
                 <li><a asp-action="ListMultiPuzzle" asp-controller="Puzzle">Câu đố đặc biệt</a></li>
                 <li><a asp-action="Index" asp-controller="Post">Bài viết</a></li>
+                <li><a asp-action="Index" asp-controller="member">Thành viên</a></li>
                 @*<li class="ask_question"><a href="ask_question.html">Ask Question</a></li>*@
                 @*<li class="current_page_item">
                     <a href="index.html">Home</a>

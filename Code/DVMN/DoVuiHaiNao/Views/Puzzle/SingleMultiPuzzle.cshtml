@@ -84,7 +84,7 @@
                                             <p>@item.Description)</p>
                                             @if (item.ImageID != null)
                                             { 
-                                                <img src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title" class="img-responsive" />
+                                                <img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title" class="img-responsive" />
                                             }
                                             <div class="row">
                                                 <div class="col-md-9">

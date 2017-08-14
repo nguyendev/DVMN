@@ -10,6 +10,7 @@ namespace DoVuiHaiNao.Models.HomeViewModels
         public IEnumerable<SingleViewModel> RecentPuzzle { get; set; }
         public IEnumerable<SingleViewModel> MostFavorite { get; set; }
         public IEnumerable<SingleViewModel> Mostpopular { get; set; }
+        public IEnumerable<SingleViewModel> RecentPost { get; set; }
 
     }
 }

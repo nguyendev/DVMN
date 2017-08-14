@@ -58,5 +58,62 @@ namespace DoVuiHaiNao.Data
             };
             return model;
         }
+
+        public async Task IncreaseView(string slug)
+        {
+            var item = await _context.Post.SingleOrDefaultAsync(p => p.Slug == slug);
+            if (item != null)
+            {
+                item.Views++;
+                _context.Post.Update(item);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<SinglePostViewModel> GetSinglePost(string slug)
+        {
+            var single = await _context.Post
+                .Include(p => p.Image)
+                .Include(p => p.Author)
+                .Where(p => !p.IsDeleted)
+                .Where(p => p.CreateDT <= DateTime.Now)
+                .Where(p => p.Approved == Global.APPROVED)
+                .SingleOrDefaultAsync(p => p.Slug == slug);
+            var bestSingle = await _context.Post
+                .Take(4)
+                .OrderByDescending(p => p.Like)
+                .ToListAsync();
+            List<SimplePost> listbestPuzzle = new List<SimplePost>(3);
+            foreach (var item in bestSingle)
+            {
+                listbestPuzzle.Add(new SimplePost { Slug = item.Slug, Title = item.Title });
+            }
+            var tags = await _context.SingPuzzleTag
+               .Include(p => p.SinglePuzzle)
+               .Include(p => p.Tag)
+               .Where(p => p.SinglePuzzleID == single.ID)
+               .ToListAsync();
+
+
+            SinglePostViewModel model = new SinglePostViewModel
+            {
+                ID = single.ID,
+                ImageID = single.ImageID,
+                Like = single.Like,
+                Slug = single.Slug,
+                Views = single.Views,
+                Title = single.Title,
+                Tags = tags,
+                Author = single.Author,
+                Description = single.Description,
+                Image = single.Image,
+                DateTime = DateTimeExtension.CurrentDay(single.CreateDT.Value),
+                RelatedPuzzle = listbestPuzzle,
+                Content = single.Content
+            };
+            return model;
+        }
+
+
     }
 }
