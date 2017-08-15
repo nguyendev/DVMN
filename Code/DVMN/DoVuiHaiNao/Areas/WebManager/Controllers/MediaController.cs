@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class MediaController : Controller
     {
         public static string DIR_IMAGE = "images";

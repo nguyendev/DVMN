@@ -17,4 +17,12 @@ namespace DoVuiHaiNao.Services
         MultipleWithImage = 2
     }
 
+    public static class Fonsize
+    {
+        public static int BIGGEST = 3;
+        public static int BIG = 2;
+        public static int NORMAL = 1;
+        public static int SMALL = 0;
+    }
+
 }

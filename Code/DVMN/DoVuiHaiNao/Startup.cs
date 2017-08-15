@@ -175,18 +175,19 @@ namespace DoVuiHaiNao
                 //connect facebook localhost
                 app.UseFacebookAuthentication(new FacebookOptions()
                 {
-                    AppId = "283779168758487",
-                    AppSecret = "16cbd9eafd6d2b5f6c1fb8b2fda3b1c6"
+                    AppId = "107378839934718",
+                    AppSecret = "03a1fbbb98f50059c29c7d2bc209ec21"
                 });
+                
 
             }
             else
             {
-                //connect facebook azure
+                //connect facebook in vps
                 app.UseFacebookAuthentication(new FacebookOptions()
                 {
-                    AppId = "107378839934718",
-                    AppSecret = "03a1fbbb98f50059c29c7d2bc209ec21"
+                    AppId = "283779168758487",
+                    AppSecret = "16cbd9eafd6d2b5f6c1fb8b2fda3b1c6"
                 });
             }
             app.UseMvc(routes =>

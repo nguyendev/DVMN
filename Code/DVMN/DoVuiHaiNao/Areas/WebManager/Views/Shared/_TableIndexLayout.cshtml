@@ -33,25 +33,34 @@
             </div>
         </div>
     </section>
-
+@section Css{
+<link href="~/lib/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/ckeditor/ckeditor.js"></script>
     <script src="~/lib/ckeditor/adapters/jquery.js"></script>
+    <script src="~/lib/datetimepicker/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript">
         $(".ckeditor").ckeditor();
     </script>
     <script>
         $(function () {
-
-
             //Date picker
-            $('.datepicker').datepicker({
-                dateFormat: 'dd/mm/yyyy',
-                autoclose: true
-            });
-
+            //$('.datepicker').datepicker({
+            //    dateFormat: 'dd/mm/yyyy',
+            //    autoclose: true
+            //});
+            $('.datetimepicker').datetimepicker(
+            {
+                    format: "dd MM yyyy - hh:ii",
+                    autoclose: true,
+                    todayBtn: true,
+                    startDate: "2017-08-14 10:00",
+                    minuteStep: 10
+            }
+            );
         });
 </script>
 

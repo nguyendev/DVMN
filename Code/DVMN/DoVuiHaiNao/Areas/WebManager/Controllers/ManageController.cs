@@ -13,8 +13,8 @@ using DoVuiHaiNao.Services;
 
 namespace DoVuiHaiNao.Areas.Admin.Controllers
 {
-    [Authorize]
     [Area("webmanager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class ManageController : Controller
     {
         private readonly UserManager<Member> _userManager;

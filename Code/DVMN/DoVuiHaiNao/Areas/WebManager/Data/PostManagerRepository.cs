@@ -56,7 +56,8 @@ namespace DoVuiHaiNao.Areas.WebManager.Data
                     tag = new Tag
                     {
                         Title = item,
-                        Slug = StringExtensions.ConvertToUnSign3(item)
+                        Slug = StringExtensions.ConvertToUnSign3(item),
+                        CreateDT = DateTime.Now
                     };
                     _context.Add(tag);
                 }
@@ -157,7 +158,8 @@ namespace DoVuiHaiNao.Areas.WebManager.Data
                     tag = new Tag
                     {
                         Title = item,
-                        Slug = StringExtensions.ConvertToUnSign3(item)
+                        Slug = StringExtensions.ConvertToUnSign3(item),
+                        CreateDT = DateTime.Now
                     };
                     _context.Add(tag);
                 }

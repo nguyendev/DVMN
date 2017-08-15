@@ -1,19 +1,19 @@
-﻿using DoVuiHaiNao.Models;
+﻿using DoVuiHaiNao.Areas.WebManager.ViewModels;
+using DoVuiHaiNao.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using DoVuiHaiNao.Areas.Admin.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DoVuiHaiNao.Areas.Admin.Controllers
+namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
-    [Authorize(Roles = "Admins")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private RoleManager<IdentityRole> _roleManager;
@@ -24,9 +24,12 @@ namespace DoVuiHaiNao.Areas.Admin.Controllers
             _roleManager = roleMgr;
             _userManager = userMrg;
         }
+        [Route("/quan-ly-web/quyen/")]
         public ViewResult Index() => View(_roleManager.Roles);
+        [Route("/quan-ly-web/quyen/tao")]
         public IActionResult Create() => View();
         [HttpPost]
+        [Route("/quan-ly-web/quyen/tao")]
         public async Task<IActionResult> Create([Required]string name)
         {
             if (ModelState.IsValid)
@@ -45,6 +48,7 @@ namespace DoVuiHaiNao.Areas.Admin.Controllers
             return View(name);
         }
         [HttpPost]
+        [Route("/quan-ly-web/quyen/xoa/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(id);
@@ -73,7 +77,7 @@ namespace DoVuiHaiNao.Areas.Admin.Controllers
                 ModelState.AddModelError("", error.Description);
             }
         }
-
+        [Route("/quan-ly-web/quyen/sua/{id}")]
         public async Task<IActionResult> Edit(string id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(id);
@@ -93,6 +97,7 @@ namespace DoVuiHaiNao.Areas.Admin.Controllers
             });
         }
         [HttpPost]
+        [Route("/quan-ly-web/quyen/sua/{id}")]
         public async Task<IActionResult> Edit(RoleModificationModel model)
         {
             IdentityResult result;

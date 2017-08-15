@@ -16,6 +16,18 @@ namespace DoVuiHaiNao.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels.PublishDatetimeSinglePuzzleViewModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("PublishDT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PublishDatetimeSinglePuzzleViewModel");
+                });
+
             modelBuilder.Entity("DoVuiHaiNao.Models.Comment", b =>
                 {
                     b.Property<int>("ID")
@@ -63,7 +75,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryAnswerPuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")
@@ -96,7 +108,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryLikePuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")
@@ -464,6 +476,8 @@ namespace DoVuiHaiNao.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<string>("Slug");
 

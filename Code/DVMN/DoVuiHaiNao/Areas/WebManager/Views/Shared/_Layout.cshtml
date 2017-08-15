@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/lib/Ionicons/css/ionicons.css" rel="stylesheet" />
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
         <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css" />
         <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.nova.min.css" />
         <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jquery.min.js"></script>
@@ -105,15 +106,15 @@
         </aside>
         <div class="control-sidebar-bg"></div>
     </div>
+    
     <environment names="Development">
-
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <script src="~/dist/js/adminlte.min.js"></script>
 
     </environment>
     <environment names="Staging,Production">
-
+     
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"

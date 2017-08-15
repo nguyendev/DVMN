@@ -10,10 +10,12 @@ using DoVuiHaiNao.Models;
 using DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 using Microsoft.AspNetCore.Identity;
 using DoVuiHaiNao.Areas.WebManager.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class SinglePuzzlesController : Controller
     {
         private readonly ISinglePuzzleManagerRepository _repository;
@@ -128,6 +130,9 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             return View(singlePuzzle);
         }
 
+
+
+
         // POST: WebManager/SinglePuzzles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -185,6 +190,37 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         private bool SinglePuzzleExists(int id)
         {
             return _context.SinglePuzzle.Any(e => e.ID == id);
+        }
+
+        [Route("/quan-ly-web/cau-do-moi-ngay/chinh-sua-xuat-ban/{id}")]
+        public async Task<IActionResult> EditPublishDT(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var singlePuzzle = await _repository.GetEditPublishDT(id);
+            return View(singlePuzzle);
+        }
+
+        [Route("/quan-ly-web/cau-do-moi-ngay/chinh-sua-xuat-ban/{id}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPublishDT(PublishDatetimeSinglePuzzleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _repository.UpdatePublishDT(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

@@ -72,5 +72,34 @@ namespace DoVuiHaiNao.Data
             }
         }
 
+        public async Task<IEnumerable<AllTagViewModel>> GetAllTag()
+        {
+            var result = _context.SingPuzzleTag.Select(m => new { m.TagID }).Distinct().ToList();
+            List<AllTagViewModel> model = new List<AllTagViewModel>();
+            foreach (var item in result)
+            {
+                var number = await _context.SingPuzzleTag.Include(p => p.Tag).Where(dt => dt.TagID == item.TagID).CountAsync();
+                
+                var tagDetail = await _context.SingPuzzleTag.Include(p => p.Tag).Where(dt => dt.TagID == item.TagID).FirstOrDefaultAsync();
+                if (number > 20)
+                {
+                    model.Add(new AllTagViewModel { FontSize = Fonsize.BIGGEST, Slug = tagDetail.Tag.Slug, Title = tagDetail.Tag.Title });
+                }
+                else if (number > 10)
+                {
+                    model.Add(new AllTagViewModel { FontSize = Fonsize.BIG, Slug = tagDetail.Tag.Slug, Title = tagDetail.Tag.Title });
+                }
+                else if (number > 5)
+                {
+                    model.Add(new AllTagViewModel { FontSize = Fonsize.NORMAL, Slug = tagDetail.Tag.Slug, Title = tagDetail.Tag.Title });
+                }
+                else
+                {
+                    model.Add(new AllTagViewModel { FontSize = Fonsize.SMALL, Slug = tagDetail.Tag.Slug, Title = tagDetail.Tag.Title });
+                }
+
+            }
+            return model;
+        }
     }
 }

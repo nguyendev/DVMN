@@ -135,7 +135,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <a class="color button small margin_0 signup">Xin vui lòng đăng nhập</a>
+                                                        <a class="color button small margin_0 signup">Xin vui lòng đăng nhập để trả lời bạn nhé</a>
                                                     }
                                                 </div>
                                                 <div class="col-md-3">
@@ -234,10 +234,20 @@
                                     <i class="icon-tags"></i>
                                     @if (item.Tags.Any())
                                     {
+
+                                        int current = 1;
+                                        int end = item.Tags.Count();
+
                                         foreach (var itemDetail in item.Tags)
                                         {
+                                            if (!String.IsNullOrEmpty(itemDetail.Tag.Slug))
+                                            {
                                             <a asp-action="Single" asp-controller="Tag" asp-route-slug="@itemDetail.Tag.Slug">@itemDetail.Tag.Title</a>
-                                            <i>, </i>
+                                                if (current != end)
+                                                {
+                                                    <i>, </i>
+                                                }
+                                            }
                                         }
                                     }
                                 </div>

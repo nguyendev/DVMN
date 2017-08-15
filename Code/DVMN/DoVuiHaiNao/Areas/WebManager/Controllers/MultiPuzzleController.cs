@@ -14,11 +14,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DoVuiHaiNao.Areas.WebManager.ViewModels;
 using DoVuiHaiNao.Areas.WebManager.ViewModels.MultiPuzzleViewModels;
+using DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
-    [Authorize]
+    [Authorize(Roles = "Admin, Manager")]
     public class MultiPuzzleController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -152,7 +153,8 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
                         tag = new Tag
                         {
                             Title = itemTag,
-                            Slug = StringExtensions.ConvertToUnSign3(itemTag)
+                            Slug = StringExtensions.ConvertToUnSign3(itemTag),
+                            CreateDT = DateTime.Now
                         };
                         _context.Tag.Add(tag);
                     }
@@ -327,6 +329,37 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
         private bool MultiPuzzleExists(int id)
         {
             return _context.MultiPuzzle.Any(e => e.ID == id);
+        }
+
+        [Route("/quan-ly-web/cau-do-dac-biet/chinh-sua-xuat-ban/{id}")]
+        public async Task<IActionResult> EditPublishDT(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var singlePuzzle = await _repository.GetEditPublishDT(id);
+            return View(singlePuzzle);
+        }
+
+        [Route("/quan-ly-web/cau-do-dac-biet/chinh-sua-xuat-ban/{id}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPublishDT(PublishDatetimeSinglePuzzleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _repository.UpdatePublishDT(model);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+                }
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
     

@@ -9,10 +9,12 @@ using DoVuiHaiNao.Areas.WebManager.Data;
 using DoVuiHaiNao.Models;
 using DoVuiHaiNao.Areas.WebManager.ViewModels;
 using DoVuiHaiNao.Extension;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class MembersController : Controller
     {
         private readonly IMemberManagerRepository _repository;

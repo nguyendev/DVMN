@@ -62,7 +62,8 @@ namespace DoVuiHaiNao.Data
                     tag = new Tag
                     {
                         Title = item,
-                        Slug = StringExtensions.ConvertToUnSign3(item)
+                        Slug = StringExtensions.ConvertToUnSign3(item),
+                        CreateDT = DateTime.Now
                     };
                     _context.Add(tag);
                 }
@@ -113,7 +114,7 @@ namespace DoVuiHaiNao.Data
             SinglePuzzle film = new SinglePuzzle
             {
                 Active = "A",
-                Approved = "A",
+                Approved = model.Approved,
                 AuthorID = singlePuzzleOld.AuthorID,
                 CreateDT = singlePuzzleOld.CreateDT,
                 IsDeleted = model.IsDelete,
@@ -172,7 +173,8 @@ namespace DoVuiHaiNao.Data
                     tag = new Tag
                     {
                         Title = item,
-                        Slug = StringExtensions.ConvertToUnSign3(item)
+                        Slug = StringExtensions.ConvertToUnSign3(item),
+                        CreateDT = DateTime.Now
                     };
                     _context.Add(tag);
                 }
@@ -238,6 +240,39 @@ namespace DoVuiHaiNao.Data
                 return editModel;
             }
             return null;
+        }
+
+        public async Task<PublishDatetimeSinglePuzzleViewModel> GetEditPublishDT(int? ID)
+        {
+            try
+            {
+                var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == ID);
+                PublishDatetimeSinglePuzzleViewModel model = new PublishDatetimeSinglePuzzleViewModel
+                {
+                    ID = single.ID,
+                    PublishDT = single.CreateDT
+                };
+            return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task UpdatePublishDT(PublishDatetimeSinglePuzzleViewModel model)
+        {
+            try
+            {
+                var single = await _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == model.ID);
+                single.CreateDT = model.PublishDT;
+                _context.SinglePuzzle.Update(single);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                
+            }
         }
     }
 }

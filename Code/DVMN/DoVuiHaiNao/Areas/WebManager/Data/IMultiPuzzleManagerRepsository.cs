@@ -1,4 +1,5 @@
 ﻿using DoVuiHaiNao.Areas.WebManager.ViewModels.MultiPuzzleViewModels;
+using DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 using DoVuiHaiNao.Extension;
 using DoVuiHaiNao.Models;
 using System;
@@ -19,5 +20,7 @@ namespace DoVuiHaiNao.Services
         Task Update(EditMultiPuzzleViewModel model);
         Task Delete(int id);
         Task<EditMultiPuzzleViewModel> GetEdit(int? id);
+        Task<PublishDatetimeSinglePuzzleViewModel> GetEditPublishDT(int? ID);
+        Task UpdatePublishDT(PublishDatetimeSinglePuzzleViewModel model);
     }
 }

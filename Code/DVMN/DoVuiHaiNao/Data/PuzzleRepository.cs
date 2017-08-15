@@ -41,6 +41,9 @@ namespace DoVuiHaiNao.Data
             var bestSingle = await _context.SinglePuzzle
                 .Take(4)
                 .Where(p => !p.IsMMultiPuzzle)
+                .Where(p => p.CreateDT <= DateTime.Now)
+                .Where(p => !p.IsDeleted)
+                .Where(p => p.Approved == Global.APPROVED)
                 .OrderByDescending(p => p.Like)
                 .ToListAsync();
             List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
@@ -136,6 +139,9 @@ namespace DoVuiHaiNao.Data
                     .SingleOrDefaultAsync(p => p.Slug == slug);
                 //multi.IsAnswered = await _repository.IsAnswerPuzzle(multi.ID, true);
                 var bestSingle = await _context.MultiPuzzle
+                    .Where(p => p.CreateDT <= DateTime.Now)
+                    .Where(p => !p.IsDeleted)
+                    .Where(p => p.Approved == Global.APPROVED)
                     .Take(4)
                     .ToListAsync();
                 List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);

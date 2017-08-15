@@ -27,5 +27,15 @@ namespace DoVuiHaiNao.Controllers
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(applicationDbContext);
         }
+
+        [Route("/the/")]
+        public async Task<IActionResult> Index()
+        {
+            var applicationDbContext = await _repository.GetAllTag();
+            if (applicationDbContext == null)
+                return NotFound();
+            ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
+            return View(applicationDbContext);
+        }
     }
 }

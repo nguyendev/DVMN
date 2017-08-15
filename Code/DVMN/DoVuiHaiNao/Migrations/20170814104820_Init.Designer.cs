@@ -8,8 +8,8 @@ using DoVuiHaiNao.Data;
 namespace DoVuiHaiNao.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170812144900_Init3212")]
-    partial class Init3212
+    [Migration("20170814104820_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryAnswerPuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")
@@ -97,7 +97,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryLikePuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")

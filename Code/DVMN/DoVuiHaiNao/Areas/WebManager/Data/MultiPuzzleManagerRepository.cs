@@ -7,6 +7,7 @@ using DoVuiHaiNao.Data;
 using Microsoft.EntityFrameworkCore;
 using DoVuiHaiNao.Extension;
 using DoVuiHaiNao.Areas.WebManager.ViewModels.MultiPuzzleViewModels;
+using DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 
 namespace DoVuiHaiNao.Services
 {
@@ -132,6 +133,37 @@ namespace DoVuiHaiNao.Services
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<PublishDatetimeSinglePuzzleViewModel> GetEditPublishDT(int? ID)
+        {
+            try
+            {
+                var single = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.ID == ID);
+                PublishDatetimeSinglePuzzleViewModel model = new PublishDatetimeSinglePuzzleViewModel
+                {
+                    ID = single.ID,
+                    PublishDT = single.CreateDT
+                };
+                return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
+        public async Task UpdatePublishDT(PublishDatetimeSinglePuzzleViewModel model)
+        {
+            try
+            {
+                var single = await _context.MultiPuzzle.SingleOrDefaultAsync(p => p.ID == model.ID);
+                single.CreateDT = model.PublishDT;
+                _context.MultiPuzzle.Update(single);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

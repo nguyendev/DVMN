@@ -1,0 +1,70 @@
+﻿@model IEnumerable<DoVuiHaiNao.Models.TagViewModels.AllTagViewModel>
+@using DoVuiHaiNao.Services
+
+@{
+    DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
+    ViewData["Title"] = "Tất cả thẻ | Dovuihainao.Net";
+    ViewData["Desciption"] = "Tất cả thẻ những câu đố vui mẹo hay, những câu đố vui hại não vừa khó và hay nhất có đáp án giúp bạn có thời gian giải trí mỗi ngày";
+}
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Tất cả thẻ</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-action="Index" asp-controller="Home">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Tất cả thẻ</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="share-tags page-content">
+                <h2>Tất cả thẻ</h2>
+                    <i class="icon-tags"></i>
+                    <style>
+                        .tag-biggest {
+                            font-size: 300%;
+                        }
+                        .tag-big {
+                            font-size: 200%;
+                        }
+                        .tag-normal {
+                            font-size: 150%;
+                        }
+                        .tag-small {
+                            font-size: 100%;
+                        }
+                    </style>
+                    @foreach (var item in Model)
+                    {
+                        if (item.FontSize == Fonsize.BIGGEST)
+                        {
+                            <a class="tag-biggest" asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Slug">@item.Title</a><i>, </i>
+                        }
+                        else if (item.FontSize == Fonsize.BIGGEST)
+                        {
+                            <a class="tag-big" asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Slug">@item.Title</a><i>, </i>
+                        }
+                        else if (item.FontSize == Fonsize.NORMAL)
+                        {
+                            <a class="tag-normal" asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Slug">@item.Title</a><i>, </i>
+                        }
+                        else
+                        {
+                            <a class="tag-small" asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Slug">@item.Title</a><i>, </i>
+                        }
+                    }
+            </div><!-- End post-inner -->
+        </div>
+        <aside class="col-md-3 sidebar">
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
+        </aside>
+    </div>
+</section>

@@ -8,14 +8,26 @@ using DoVuiHaiNao.Data;
 namespace DoVuiHaiNao.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170811082747_Init321")]
-    partial class Init321
+    [Migration("20170815021940_Init1232")]
+    partial class Init1232
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels.PublishDatetimeSinglePuzzleViewModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("PublishDT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PublishDatetimeSinglePuzzleViewModel");
+                });
 
             modelBuilder.Entity("DoVuiHaiNao.Models.Comment", b =>
                 {
@@ -43,6 +55,8 @@ namespace DoVuiHaiNao.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(200);
 
+                    b.Property<int?>("PostID");
+
                     b.Property<int?>("SinglePuzzleID");
 
                     b.Property<DateTime?>("UpdateDT");
@@ -53,6 +67,8 @@ namespace DoVuiHaiNao.Migrations
 
                     b.HasIndex("MultiPuzzleID");
 
+                    b.HasIndex("PostID");
+
                     b.HasIndex("SinglePuzzleID");
 
                     b.ToTable("Comment");
@@ -60,7 +76,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryAnswerPuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")
@@ -93,7 +109,7 @@ namespace DoVuiHaiNao.Migrations
 
             modelBuilder.Entity("DoVuiHaiNao.Models.HistoryLikePuzzle", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Active")
@@ -315,6 +331,66 @@ namespace DoVuiHaiNao.Migrations
                     b.ToTable("MultiPuzzle");
                 });
 
+            modelBuilder.Entity("DoVuiHaiNao.Models.Post", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Active")
+                        .HasMaxLength(1);
+
+                    b.Property<string>("Approved")
+                        .HasMaxLength(1);
+
+                    b.Property<string>("AuthorID");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime?>("CreateDT");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("ImageID");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("Like");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Slug")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(150);
+
+                    b.Property<DateTime?>("UpdateDT");
+
+                    b.Property<int>("Views");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("DoVuiHaiNao.Models.PostTag", b =>
+                {
+                    b.Property<int>("PostID");
+
+                    b.Property<int>("TagID");
+
+                    b.HasKey("PostID", "TagID");
+
+                    b.HasIndex("TagID");
+
+                    b.ToTable("PostTag");
+                });
+
             modelBuilder.Entity("DoVuiHaiNao.Models.SinglePuzzle", b =>
                 {
                     b.Property<int>("ID")
@@ -367,6 +443,8 @@ namespace DoVuiHaiNao.Migrations
                     b.Property<string>("Title")
                         .HasMaxLength(150);
 
+                    b.Property<int>("Type");
+
                     b.Property<DateTime?>("UpdateDT");
 
                     b.Property<int>("Views");
@@ -399,6 +477,8 @@ namespace DoVuiHaiNao.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreateDT");
 
                     b.Property<string>("Slug");
 
@@ -526,6 +606,10 @@ namespace DoVuiHaiNao.Migrations
                         .WithMany("Comment")
                         .HasForeignKey("MultiPuzzleID");
 
+                    b.HasOne("DoVuiHaiNao.Models.Post")
+                        .WithMany("Comment")
+                        .HasForeignKey("PostID");
+
                     b.HasOne("DoVuiHaiNao.Models.SinglePuzzle")
                         .WithMany("Comment")
                         .HasForeignKey("SinglePuzzleID");
@@ -561,6 +645,30 @@ namespace DoVuiHaiNao.Migrations
                     b.HasOne("DoVuiHaiNao.Models.Images", "Image")
                         .WithMany()
                         .HasForeignKey("ImageID");
+                });
+
+            modelBuilder.Entity("DoVuiHaiNao.Models.Post", b =>
+                {
+                    b.HasOne("DoVuiHaiNao.Models.Member", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
+
+                    b.HasOne("DoVuiHaiNao.Models.Images", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageID");
+                });
+
+            modelBuilder.Entity("DoVuiHaiNao.Models.PostTag", b =>
+                {
+                    b.HasOne("DoVuiHaiNao.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DoVuiHaiNao.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DoVuiHaiNao.Models.SinglePuzzle", b =>

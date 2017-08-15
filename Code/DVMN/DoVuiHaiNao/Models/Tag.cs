@@ -16,5 +16,6 @@ namespace DoVuiHaiNao.Models
         public string Slug { get; set; }
 
         public string Title { get; set; }
+        public DateTime? CreateDT { get; set; }
     }
 }

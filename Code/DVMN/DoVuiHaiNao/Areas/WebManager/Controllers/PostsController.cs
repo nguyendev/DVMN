@@ -11,10 +11,12 @@ using DoVuiHaiNao.Areas.WebManager.Data;
 using DoVuiHaiNao.Areas.WebManager.ViewModels.PostViewModels;
 using DoVuiHaiNao.Areas.WebManager.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DoVuiHaiNao.Areas.WebManager.Controllers
 {
     [Area("WebManager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;

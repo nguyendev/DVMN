@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DoVuiHaiNao.Areas.Admin.ViewModels
+namespace DoVuiHaiNao.Areas.WebManager.ViewModels
 {
     public class CreateModel
     {

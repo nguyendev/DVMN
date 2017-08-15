@@ -9,7 +9,7 @@ using DoVuiHaiNao.Areas.WebManager.Data;
 namespace DoVuiHaiNao.Areas.Admin.Controllers
 {
     [Area("webmanager")]
-    [Authorize]
+    [Authorize(Roles = "Admin, Manager")]
     public class DashboardController : Controller
     {
         private readonly IDashboardRepository _repository;

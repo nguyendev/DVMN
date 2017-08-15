@@ -9,5 +9,6 @@ namespace DoVuiHaiNao.Data
     public interface ITagRepository
     {
         Task<TagSingleViewModel> GetSingle(string slug, int? page, int? pageSize);
+        Task<IEnumerable<AllTagViewModel>> GetAllTag();
     }
 }

@@ -4,7 +4,7 @@
 @inject ApplicationDbContext _Context
 
 @{
-    var _user = @_Context.Users.Where(p => p.UserName == UserManager.GetUserName(User)).FirstOrDefault();
+    var _user = _Context.Users.Where(p => p.Id == UserManager.GetUserId(User)).FirstOrDefault();
 }
 <!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar">

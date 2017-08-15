@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DoVuiHaiNao.Models;
+using DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels;
 
 namespace DoVuiHaiNao.Data
 {
@@ -37,5 +38,6 @@ namespace DoVuiHaiNao.Data
         public DbSet<Member> Member { get; set; }
         public DbSet<Post> Post { get; set; }
         public DbSet<PostTag> PostTag { get; set; }
+        public DbSet<DoVuiHaiNao.Areas.WebManager.ViewModels.SinglePuzzleViewModels.PublishDatetimeSinglePuzzleViewModel> PublishDatetimeSinglePuzzleViewModel { get; set; }
     }
 }

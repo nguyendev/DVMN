@@ -112,7 +112,7 @@
                                     }
                                     else
                                     {
-                                        <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập</a>
+                                        <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập để trả lời bạn nhé</a>
                                     }
                                 </div>
                                 <div class="col-md-3">
@@ -197,9 +197,22 @@
             <div class="share-tags page-content">
                 <div class="question-tags">
                     <i class="icon-tags"></i>
+                    @{ 
+                        int current = 1;
+                        int end = Model.Tags.Count();
+                    }
                     @foreach (var item in Model.Tags)
                     {
-                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
+                        
+                        if(!String.IsNullOrEmpty(item.Tag.Slug))
+                        { 
+                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a>
+                        if (current != end)
+                        {
+                            <i>, </i>
+                            }
+                        }
+                        current++;
                     }
                 </div>
                 <div class="share-inside-warp">
@@ -297,9 +310,9 @@
 
     <script type="text/javascript">
         var clock;
+        var isStop = false;
         $(document).ready(function () {
             $('.start').click(function (e) {
-                var isStop = false;
                 clock = $('.clock').FlipClock(30, {
                     clockFace: 'Counter',
                     countdown: true,
@@ -402,7 +415,6 @@
                 }
             });
         });
-
         $("#submitAnswer").click(function (e) { // changed.
         e.preventDefault();
         AnswerA = $('#poll-1:checked').val();
@@ -418,30 +430,32 @@
                 Select = 2;
             else
                 Select = 3;
+            if (!isStop) {
+                isStop = true;
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("checkAnswer", "Puzzle"))",
+                    data: {
+                        select: Select
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        clock.stop();
+                        if (data == true) {
+                            $('.success').css("display", "block");
+                            $('.error').css("display", "none");
+                        }
+                        else {
+                            $('.success').css("display", "none");
+                            $('.error').css("display", "block");
+                        }
+                        $('#submitAnswer').css("display", "none");
 
-            $.ajax({
-                type: "POST",
-                url: "@(Url.Action("checkAnswer", "Puzzle"))",
-                data: {
-                    select: Select
-                },
-                dataType: "json",
-                success: function (data) {
-                    clock.stop();
-                    if (data == true) {
-                        $('.success').css("display", "block");
-                        $('.error').css("display", "none");
+                    },
+                    error: function (data) {
                     }
-                    else {
-                        $('.success').css("display", "none");
-                        $('.error').css("display", "block");
-                    }
-                    $('#submitAnswer').css("display", "none");
-
-                },
-                error: function (data) {
-                }
-            });
+                });
+            }
         });
     </script>
 }

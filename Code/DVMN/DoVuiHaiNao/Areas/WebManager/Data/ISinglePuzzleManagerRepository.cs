@@ -19,5 +19,7 @@ namespace DoVuiHaiNao.Data
         Task Delete(int id);
 
         Task<EditSinglePuzzleViewModels> GetEdit(int? ID);
+        Task<PublishDatetimeSinglePuzzleViewModel> GetEditPublishDT(int? ID);
+        Task UpdatePublishDT(PublishDatetimeSinglePuzzleViewModel model);
     }
 }
