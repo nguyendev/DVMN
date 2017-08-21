@@ -30,16 +30,16 @@
                 {
                     <article class="post blog_2 clearfix">
                         <div class="post-inner">
-                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h2>
-                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title"></a></div>
+                            <h2 class="post-title"><span class="post-type"><i class="icon-picture"></i></span><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@Html.Raw(item.Title)</a></h2>
+                            <div class="post-img"><a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug"><img asp-append-version="true" src="@item.Image.PicFull" alt="@Html.Raw(item.Image.ALT)" title="@Html.Raw(item.Image.Title)"></a></div>
                             <div class="post-meta">
-                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@item.Author.FullName</a></span>
-                                <span class="meta-date"><i class="icon-time"></i>@item.ShowTime</span>
+                                <span class="meta-author"><i class="icon-user"></i><a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug">@Html.Raw(item.Author.FullName)</a></span>
+                                <span class="meta-date"><i class="icon-time"></i>@Html.Raw(item.ShowTime)</span>
                                 <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a></span>
                                 <span class="meta-comment"><i class="icon-thumbs-up"></i><a href="#">@item.Like lượt thích</a></span>
                             </div>
                             <div class="post-content">
-                                <p>@item.Description</p>
+                                <p>@Html.Raw(item.Description)</p>
                                 <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug" class="post-read-more button color small">Giải đố</a>
                             </div><!-- End post-content -->
                         </div><!-- End post-inner -->
@@ -49,24 +49,24 @@
                 {
                     <article class="question question-type-normal">
                         <h2>
-                            <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a>
+                            <a asp-controller="puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@Html.Raw(item.Title)</a>
                         </h2>
                         @*<a class="question-report" href="#">Report</a>
                             <div class="question-type-main"><i class="icon-question-sign"></i>Question</div>*@
                         <div class="question-author">
-                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@item.Author.FullName" class="question-author-img tooltip-n">
+                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Author.Slug" original-title="@Html.Raw(item.Author.FullName)" class="question-author-img tooltip-n">
                                 <span></span><img asp-append-version="true" alt="@item.Author.FullName" src="@item.Author.Picture65x65">
                             </a>
                         </div>
                         <div class="question-inner">
                             <div class="clearfix"></div>
-                            <p class="question-desc">@item.Description</p>
+                            <p class="question-desc">@Html.Raw(item.Description)</p>
                             <div class="question-details">
                                 @*<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>*@
                                 @*<span class="question-favorite"><i class="icon-star"></i>5</span>*@
                             </div>
                             <span class="question-category"><a asp-controller="puzzle" asp-action="ListMultiPuzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
-                            <span class="question-date"><i class="icon-time"></i>@item.ShowTime</span>
+                            <span class="question-date"><i class="icon-time"></i>@Html.Raw(item.ShowTime)</span>
                             <span class="question-comment"><a href="#"><i class="icon-thumbs-up"></i>@item.Like lượt thích</a></span>
                             <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
                             <div class="clearfix"></div>

@@ -13,6 +13,7 @@ namespace DoVuiHaiNao.Models.TagViewModels
 
         public int PageSize { get; set; }
         public int Count { get; set; }
+        public string Slug { get; set; }
         public bool HasPreviousPage
         {
             get

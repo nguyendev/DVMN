@@ -156,36 +156,43 @@
                     }
                     @if (Model.PageIndex - 1 > 0)
                 {
-                        <a asp-action="ListSinglePuzzle"
+                        <a asp-action="Single"
+                           asp-route-slug="@Model.Slug"
                            asp-route-page="@(Model.PageIndex - 1)"
                            style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
                     }
                     @if (Model.PageIndex - 2 > 0)
                 {
-                        <a asp-action="ListSinglePuzzle"
+                        <a asp-action="Single"
+                           asp-route-slug="@Model.Slug"
                            asp-route-page="@(Model.PageIndex - 2)"
                            style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
                     }
                     @if (Model.PageIndex - 1 > 0)
                 {
-                        <a asp-action="ListSinglePuzzle"
+                        <a asp-action="Single"
+                           asp-route-slug="@Model.Slug"
                            asp-route-page="@(Model.PageIndex - 1)"
                            style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
                     }
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="Single"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex)"
                        class="current">@(Model.PageIndex)</a>
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="Single"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex + 1)"
                        style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="Single"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex + 2)"
                        style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
                     @*<span>...</span>
                         <a href="#">11</a>
                         <a href="#">12</a>
                         <a href="#">13</a>*@
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="Single"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex + 1)"
                        style="display: @nextDisabled">
                         <i class="icon-angle-right"></i>

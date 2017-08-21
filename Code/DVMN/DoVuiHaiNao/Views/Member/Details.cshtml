@@ -6,7 +6,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Trang cá nhân : @Model.FullName</h1>
+                <h1>Trang cá nhân : @Html.Raw(Model.FullName)</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -14,7 +14,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Member" asp-action="Index">Thành viên</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Trang cá nhân thành viên: @Model.FullName</span>
+                    <span class="current">Trang cá nhân thành viên: @Html.Raw(Model.FullName)</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -27,16 +27,16 @@
                 <div class="user-profile">
                     <div class="col-md-12">
                         <div class="page-content">
-                            <h2>Thông tin về @Model.FullName</h2>
-                            <div class="user-profile-img"><img asp-append-version="true" width="60" height="60" src="@Model.Image" alt="@Model.FullName"></div>
+                            <h2>Thông tin về @Html.Raw(Model.FullName)</h2>
+                            <div class="user-profile-img"><img asp-append-version="true" width="60" height="60" src="@Model.Image" alt="@Html.Raw(Model.FullName)"></div>
                             <div class="ul_list ul_list-icon-ok about-user">
                                 <ul>
-                                    <li><i class="icon-plus"></i>Ngày đăng ký : <span>@Model.CreateRegister</span></li>
-                                    <li><i class="icon-calendar"></i>Sinh nhật : <span>@Model.Birthday</span></li>
-                                    <li><i class="icon-globe"></i>Website : <a target="_blank" rel="nofollow" href="@Model.Website">xem</a></li>
+                                    <li><i class="icon-plus"></i>Ngày đăng ký : <span>@Html.Raw(Model.CreateRegister)</span></li>
+                                    <li><i class="icon-calendar"></i>Sinh nhật : <span>@Html.Raw(Model.Birthday)</span></li>
+                                    <li><i class="icon-globe"></i>Website : <a target="_blank" rel="nofollow" href="@Model.Website">@Html.Raw(Model.Website)</a></li>
                                 </ul>
                             </div>
-                            <p>@Model.InfoShort.</p>
+                            <p>@Html.Raw(Model.InfoShort).</p>
                             <div class="clearfix"></div>
                             <span class="user-follow-me">Theo dõi tôi qua</span>
                             <a href="@Model.FaceboookURL" rel="nofollow" original-title="Facebook" class="tooltip-n">
@@ -98,7 +98,7 @@
                                         <li><i class="icon-asterisk"></i><a asp-controller="Member" asp-action="UserHistoryListMultiPuzzle" asp-route-slug="@Model.Slug">Câu đố đặc biệt<span> ( <span>@Model.MultiPuzzleTotal</span> ) </span></a></li>
                                         @*<li><i class="icon-comment"></i><a href="user_answers.html">Answers<span> ( <span>10</span> ) </span></a></li>*@
                                         @*<li><i class="icon-star"></i><a href="user_favorite_questions.html">Favorite Questions<span> ( <span>3</span> ) </span></a></li>*@
-                                        <li><i class="icon-heart"></i><a href="user_points.html">Điểm<span> ( <span>@Model.Points</span> ) </span></a></li>
+                                        <li><i class="icon-heart"></i><a href="#">Điểm<span> ( <span>@Model.Points</span> ) </span></a></li>
 
                                     </ul>
                                 </div>

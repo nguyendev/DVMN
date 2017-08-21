@@ -99,10 +99,10 @@ namespace DoVuiHaiNao.Data
             switch (sortOrder)
             {
                 case "title":
-                    singlePuzzles = singlePuzzles.OrderByDescending(s => s.Title);
+                    singlePuzzles = singlePuzzles.OrderBy(s => s.Title);
                     break;
                 default:
-                    singlePuzzles = singlePuzzles.OrderBy(s => s.CreateDT);
+                    singlePuzzles = singlePuzzles.OrderByDescending(s => s.CreateDT);
                     break;
             }
             return await PaginatedList<SinglePuzzle>.CreateAsync(singlePuzzles.AsNoTracking(), page ?? 1, pageSize != null ? pageSize.Value : 10);
@@ -113,6 +113,7 @@ namespace DoVuiHaiNao.Data
             var singlePuzzleOld = await  _context.SinglePuzzle.SingleOrDefaultAsync(p => p.ID == model.ID);
             SinglePuzzle film = new SinglePuzzle
             {
+                ID = singlePuzzleOld.ID,
                 Active = "A",
                 Approved = model.Approved,
                 AuthorID = singlePuzzleOld.AuthorID,
@@ -145,7 +146,6 @@ namespace DoVuiHaiNao.Data
 
             //Tim tat ca tag cu va tien hanh xoa
             var tags = await _context.SingPuzzleTag.
-                    Include(p => p.Tag).
                     Where(p => p.SinglePuzzleID == model.ID).
                     ToListAsync();
             foreach (var item in tags)
@@ -153,6 +153,14 @@ namespace DoVuiHaiNao.Data
                 _context.SingPuzzleTag.Remove(item);
             }
 
+            //Tim tat ca lich su nguoi dung cu va xoa
+            var historyAnswer = await _context.HistoryAnswerPuzzle.
+                Where(p => p.PuzzleID == model.ID).
+                ToListAsync();
+            foreach (var item in historyAnswer)
+            {
+                _context.HistoryAnswerPuzzle.Remove(item);
+            }
 
             // Get and convert string to create tag
             List<string> listString = StringExtensions.ConvertStringToListString(model.TempTag);

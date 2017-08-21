@@ -31,7 +31,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>@Model.Title.</h1>
+                <h1>@Html.Raw(Model.Title).</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -39,7 +39,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">@Model.Title.</span>
+                    <span class="current">@Html.Raw(Model.Title).</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -50,19 +50,19 @@
         <div class="col-md-9">
             <article class="question single-question question-type-poll">
                 <h2>
-                    <a href="#">@Model.Title</a>
+                    <a href="#">@Html.Raw(Model.Title)</a>
                 </h2>
                 @*<a class="question-report" href="#">Report</a>
                     <div class="question-type-main"><i class="icon-signal"></i>Poll</div>*@
                 <div class="question-inner">
                     <div class="question-desc">
                         <div class="poll_2" style="text-align: justify">
-                            <p>@Model.Description</p>
+                            <p>@Html.Raw(Model.Description)</p>
                             @if (Model.ImageID != null)
                             {
                                 <div class="post-img">
                                     <a href="single_post.html">
-                                            <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Model.Image.ALT" title="@Model.Image.Title">
+                                        <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Html.Raw(Model.Image.ALT)" title="@Html.Raw(Model.Image.Title)">
                                     </a>
                                 </div>
                                 <br />
@@ -74,29 +74,29 @@
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerA))
                                                 {
-                                                <input id="poll-1" name="poll-radio" type="radio">
-                                                <label for="poll-1">@Model.AnswerA</label>
+                                                    <input id="poll-1" name="poll-radio" type="radio">
+                                                    <label for="poll-1">@Html.Raw(Model.AnswerA)</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerB))
                                                 {
-                                                <input id="poll-2" name="poll-radio" type="radio">
-                                                <label for="poll-2">@Model.AnswerB</label>
+                                                    <input id="poll-2" name="poll-radio" type="radio">
+                                                    <label for="poll-2">@Html.Raw(Model.AnswerB)</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerC))
                                                 {
-                                                <input id="poll-3" name="poll-radio" type="radio">
-                                                <label for="poll-3">@Model.AnswerC</label>
+                                                    <input id="poll-3" name="poll-radio" type="radio">
+                                                    <label for="poll-3">@Html.Raw(Model.AnswerC)</label>
                                                 }
                                             </p>
                                             <p>
                                                 @if (!String.IsNullOrEmpty(Model.AnswerD))
                                                 {
-                                                <input id="poll-4" name="poll-radio" type="radio">
-                                                <label for="poll-4">@Model.AnswerD</label>
+                                                    <input id="poll-4" name="poll-radio" type="radio">
+                                                    <label for="poll-4">@Html.Raw(Model.AnswerD)</label>
                                                 }
                                             </p>
                                         </div>
@@ -107,7 +107,7 @@
                                         if (!Model.IsAnswered)
                                         {
                                             <button class="color button small margin_0 start" id="startTime">Bắt đầu trả lời</button>
-                                            <button style="display:none" id="submitAnswer" type="submit" class="button small red-button">Gửi</button>
+                                                                <button style="display:none" id="submitAnswer" type="submit" class="button small red-button">Gửi</button>
                                         }
                                     }
                                     else
@@ -130,7 +130,7 @@
                                     <i class="icon-flag"></i>
                                     <p>
                                         <span>Bạn đã trả lời sai. Đáp án đúng câu @Model.Correct</span><br>
-                                        Vì: @Model.Reason
+                                        Vì: @Html.Raw(Model.Reason)
                                     </p>
                                 }
                                 else
@@ -146,7 +146,7 @@
                                     <i class="icon-ok"></i>
                                     <p>
                                         <span>Chúc mừng bạn</span><br>
-                                        Vì: @Model.Reason
+                                        Vì: @Html.Raw(Model.Reason)
                                     </p>
                                 }
                                 else
@@ -163,10 +163,10 @@
                                 @if (!String.IsNullOrEmpty(Model.Reason))
                                 {
                                     <i class="icon-ok"></i>
-                                    <p>
-                                        <span>Đáp án đúng câu @Model.Correct</span><br>
-                                        Vì: @Model.Reason
-                                    </p>
+                                                                    <p>
+                                                                        <span>Đáp án đúng câu @Model.Correct</span><br>
+                                                                        Vì: @Html.Raw(Model.Reason)
+                                                                    </p>
                                 }
                                 else
                                 {
@@ -183,7 +183,7 @@
                             <span class="question-favorite"><i class="icon-star"></i>5</span>
                         </div>*@
                     <span class="question-category"><a asp-action="listsinglepuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu đố mỗi ngày</a></span>
-                    <span class="question-date"><i class="icon-time"></i>@Model.DateTime</span>
+                    <span class="question-date"><i class="icon-time"></i>@Html.Raw(Model.DateTime)</span>
                     @*<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>*@
                     <span class="question-view"><i class="icon-user"></i>@Model.Views lượt xem</span>
                     <span class="single-question-vote-result">@Model.Like</span>
@@ -197,19 +197,19 @@
             <div class="share-tags page-content">
                 <div class="question-tags">
                     <i class="icon-tags"></i>
-                    @{ 
+                    @{
                         int current = 1;
                         int end = Model.Tags.Count();
                     }
                     @foreach (var item in Model.Tags)
                     {
-                        
-                        if(!String.IsNullOrEmpty(item.Tag.Slug))
-                        { 
-                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a>
-                        if (current != end)
+
+                        if (!String.IsNullOrEmpty(item.Tag.Slug))
                         {
-                            <i>, </i>
+                            <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@Html.Raw(item.Tag.Title)</a>
+                            if (current != end)
+                            {
+                                <i>, </i>
                             }
                         }
                         current++;
@@ -289,7 +289,7 @@
                 <ul class="related-posts">
                     @foreach (var item in Model.RelatedPuzzle)
                     {
-                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@Html.Raw(item.Title)</a></h3></li>
                     }
                 </ul>
             </div>
@@ -305,9 +305,7 @@
     <link href="~/plugins/flipclock/compiled/flipclock.css" rel="stylesheet" />
 }
 @section Scripts {
-
     <script src="~/plugins/flipclock/compiled/flipclock.min.js"></script>
-
     <script type="text/javascript">
         var clock;
         var isStop = false;
@@ -372,7 +370,7 @@
                     }
                 },
                 )
-               
+
             });
 
         });

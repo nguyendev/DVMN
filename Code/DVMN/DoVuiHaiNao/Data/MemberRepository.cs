@@ -20,35 +20,42 @@ namespace DoVuiHaiNao.Data
         }
         public async Task<ListMemberViewModel> GetAllMember(int? page, int? pageSize)
         {
-            var member = await _context.Users
-                .Where(p => !p.IsDeleted)
-                .ToListAsync();
-            var pagelist = PaginatedList<Member>.Create(member, page ?? 1, pageSize != null ? pageSize.Value : 10);
-
-
-            List<MemberViewModel> list = new List<MemberViewModel>();
-            foreach (var item in pagelist)
+            try
             {
-                MemberViewModel temp = new MemberViewModel
+                var member = await _context.Users
+                    .Where(p => !p.IsDeleted)
+                    .ToListAsync();
+                var pagelist = PaginatedList<Member>.Create(member, page ?? 1, pageSize != null ? pageSize.Value : 10);
+
+
+                List<MemberViewModel> list = new List<MemberViewModel>();
+                foreach (var item in pagelist)
                 {
-                    FullName = item.FullName,
-                    Slug = item.Slug,
-                    Image = item.Picture65x65,
-                    Score = item.Score,
-                    Facebook = item.Facebook,
-                    
+                    MemberViewModel temp = new MemberViewModel
+                    {
+                        FullName = item.FullName,
+                        Slug = item.Slug,
+                        Image = item.Picture65x65,
+                        Score = item.Score,
+                        Facebook = item.Facebook,
+
+                    };
+                    list.Add(temp);
+                }
+                ListMemberViewModel model = new ListMemberViewModel
+                {
+                    Count = pagelist.Count,
+                    PageIndex = pagelist.PageIndex,
+                    PageSize = pagelist.PageSize,
+                    List = list,
+                    TotalPages = pagelist.TotalPages
                 };
-                list.Add(temp);
+                return model;
             }
-            ListMemberViewModel model = new ListMemberViewModel
+            catch
             {
-                Count = pagelist.Count,
-                PageIndex = pagelist.PageIndex,
-                PageSize = pagelist.PageSize,
-                List = list,
-                TotalPages = pagelist.TotalPages
-            };
-            return model;
+                return null;
+            }
         }
 
         public async Task<UserHistorySinglePuzzleViewModel> GetHistoryListSinglePuzzle(string slug, int? page, int? pageSize)
@@ -58,56 +65,71 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.AuthorID == member.Id && !p.IsMultiPuzzle).CountAsync();
             int MultiPuzzleTotal = await _context.HistoryAnswerPuzzle
                 .Where(p => p.AuthorID == member.Id && p.IsMultiPuzzle).CountAsync();
-
-            // lay danh sach cac cot cau do trong lich su cua nguoi dung
-            var historySinglePuzzle = await _context.HistoryAnswerPuzzle
+            try
+            {
+                // lay danh sach cac cot cau do trong lich su cua nguoi dung
+                var historySinglePuzzle = await _context.HistoryAnswerPuzzle
                 .Where(p => p.AuthorID == member.Id && !p.IsMultiPuzzle)
                 .ToListAsync();
 
-            // lay danh sach nay tuong ung voi bang cau do tuong ung
-            List<SinglePuzzle> singlePuzzleDbContext = new List<SinglePuzzle>(); 
-            foreach (var item in historySinglePuzzle)
-            {
-                var singlePuzzle = _context.SinglePuzzle
-                    .Include(p => p.Image)
-                    .SingleOrDefault(p => p.ID == item.PuzzleID);
-                singlePuzzleDbContext.Add(singlePuzzle);
-                
-            }
-
-            // tien hanh phan trang
-            var pagelist = PaginatedList<SinglePuzzle>.Create(singlePuzzleDbContext, page ?? 1, pageSize != null ? pageSize.Value : 10);
-
-
-            //tien hanh du tat ca vao bang danh sach cau do
-            List<UserHistorySinglePuzzle> listSinglePuzzle = new List<UserHistorySinglePuzzle>();
-            foreach (var item in pagelist)
-            {
-                UserHistorySinglePuzzle temp = new UserHistorySinglePuzzle
+                // lay danh sach nay tuong ung voi bang cau do tuong ung
+                List<SinglePuzzle> singlePuzzleDbContext = new List<SinglePuzzle>();
+                foreach (var item in historySinglePuzzle)
                 {
-                    Title = item.Title,
-                    Views = item.Views,
-                    Slug = item.Slug,
-                    ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
-                    CreateDate = item.CreateDT
+                    var singlePuzzle = _context.SinglePuzzle
+                        .Include(p => p.Image)
+                        .SingleOrDefault(p => p.ID == item.PuzzleID);
+                    singlePuzzleDbContext.Add(singlePuzzle);
+
+                }
+
+                // tien hanh phan trang
+                var pagelist = PaginatedList<SinglePuzzle>.Create(singlePuzzleDbContext, page ?? 1, pageSize != null ? pageSize.Value : 10);
+
+
+                //tien hanh du tat ca vao bang danh sach cau do
+                List<UserHistorySinglePuzzle> listSinglePuzzle = new List<UserHistorySinglePuzzle>();
+                foreach (var item in pagelist)
+                {
+                    UserHistorySinglePuzzle temp = new UserHistorySinglePuzzle
+                    {
+                        Title = item.Title,
+                        Views = item.Views,
+                        Slug = item.Slug,
+                        ShowTime = DateTimeExtension.CurrentDay(item.CreateDT.Value),
+                        CreateDate = item.CreateDT
+                    };
+                    listSinglePuzzle.Add(temp);
+                }
+                UserHistorySinglePuzzleViewModel model = new UserHistorySinglePuzzleViewModel
+                {
+                    FaceboookURL = member.Facebook,
+                    FullName = member.FullName,
+                    SinglePuzzleTotal = SinglePuzzleTotal,
+                    MultiPuzzleTotal = MultiPuzzleTotal,
+                    Points = member.Score,
+                    Image = member.Picture65x65,
+                    Slug = member.Slug,
+                    Birthday = member.DateofBirth,
+                    CreateRegister = member.CreateDT,
+                    Email = member.Email,
+                    GooglePlus = member.GooglePlus,
+                    InfoShort = member.About,
+                    Linkedin = member.Linkedin,
+                    Twitter = member.Twitter,
+                    Website = member.Website,
+                    Count = pagelist.Count,
+                    PageIndex = pagelist.PageIndex,
+                    PageSize = pagelist.PageSize,
+                    ListSinglePuzzle = listSinglePuzzle.OrderByDescending(p => p.CreateDate),
+                    TotalPages = pagelist.TotalPages,
                 };
-                listSinglePuzzle.Add(temp);
+                return model;
             }
-            UserHistorySinglePuzzleViewModel model = new UserHistorySinglePuzzleViewModel
+            catch
             {
-                FaceboookURL = member.Facebook,
-                FullName = member.FullName,
-                SinglePuzzleTotal = SinglePuzzleTotal,
-                MultiPuzzleTotal = MultiPuzzleTotal,
-                Points = member.Score,
-                Image = member.Picture65x65,
-                Count = pagelist.Count,
-                PageIndex = pagelist.PageIndex,
-                PageSize = pagelist.PageSize,
-                ListSinglePuzzle = listSinglePuzzle.OrderByDescending(p => p.CreateDate),
-                TotalPages = pagelist.TotalPages,
-            };
-            return model;
+                return new UserHistorySinglePuzzleViewModel();
+            }
         }
         public async Task<UserHistoryMultiPuzzleViewModel> GetHistoryListMultiPuzzle(string slug, int? page, int? pageSize)
         {
@@ -154,6 +176,15 @@ namespace DoVuiHaiNao.Data
                 {
                     FaceboookURL = member.Facebook,
                     FullName = member.FullName,
+                    Slug = member.Slug,
+                    Birthday = member.DateofBirth,
+                    CreateRegister = member.CreateDT,
+                    Email = member.Email,
+                    GooglePlus = member.GooglePlus,
+                    InfoShort = member.About,
+                    Website = member.Website,
+                    Linkedin = member.Linkedin,
+                    Twitter = member.Twitter,
                     SinglePuzzleTotal = SinglePuzzleTotal,
                     MultiPuzzleTotal = MultiPuzzleTotal,
                     Points = member.Score,
@@ -243,22 +274,28 @@ namespace DoVuiHaiNao.Data
 
         public async Task<UserEditProfileViewModel> GetEditProfile(string id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(p => p.Id == id);
-            UserEditProfileViewModel editProfile = new UserEditProfileViewModel
+            try
             {
-                Id = id,
-                About = user.About,
-                Email = user.Email,
-                Facebook = user.Facebook,
-                FullName = user.FullName,
-                GooglePlus = user.GooglePlus,
-                Image = user.Picture65x65,
-                Linkedin = user.Linkedin,
-                Twitter = user.Twitter,
-                Website = user.Website,
-                Slug = user.Slug
-            };
-            return editProfile;
+                var user = await _context.Users.SingleOrDefaultAsync(p => p.Id == id);
+                UserEditProfileViewModel editProfile = new UserEditProfileViewModel
+                {
+                    Id = id,
+                    About = user.About,
+                    Email = user.Email,
+                    Facebook = user.Facebook,
+                    FullName = user.FullName,
+                    GooglePlus = user.GooglePlus,
+                    Image = user.Picture65x65,
+                    Linkedin = user.Linkedin,
+                    Twitter = user.Twitter,
+                    Website = user.Website,
+                    Slug = user.Slug
+                };
+                return editProfile;
+            }
+            catch {
+                return null;
+            }
         }
 
         public async Task SaveEditProfile(UserEditProfileViewModel editProfile)

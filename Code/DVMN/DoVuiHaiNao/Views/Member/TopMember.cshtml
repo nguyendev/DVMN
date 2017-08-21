@@ -25,13 +25,13 @@
             {
                 <div class="about-author clearfix">
                     <div class="author-image">
-                        <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug" original-title="@item.FullName" class="tooltip-n">
-                            <img asp-append-version="true" alt="@item.FullName" src="@item.Image" class="hoverZoomLink">
+                        <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug" original-title="@Html.Raw(item.FullName)" class="tooltip-n">
+                            <img asp-append-version="true" alt="@Html.Raw(item.FullName)" src="@item.Image" class="hoverZoomLink">
                         </a>
                     </div>
                     <div class="author-bio">
                         <h4>
-                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug">@item.FullName</a>
+                            <a asp-controller="Member" asp-action="Details" asp-route-slug="@item.Slug">@Html.Raw(item.FullName)</a>
                             @*<span class="badge-span">Người mới</span>*@
                         </h4>
                         <p>Điểm: @item.Score</p>
@@ -80,37 +80,37 @@
                 }
                 @if (Model.PageIndex - 1 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="TopMember"
                        asp-route-page="@(Model.PageIndex - 1)"
                        style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
                 }
                 @if (Model.PageIndex - 2 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="TopMember"
                        asp-route-page="@(Model.PageIndex - 2)"
                        style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
                 }
                 @if (Model.PageIndex - 1 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="TopMember"
                        asp-route-page="@(Model.PageIndex - 1)"
                        style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
                 }
 
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="TopMember"
                    asp-route-page="@(Model.PageIndex)"
                    class="current">@Model.PageIndex</a>
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="TopMember"
                    asp-route-page="@(Model.PageIndex + 1)"
                    style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="TopMember"
                    asp-route-page="@(Model.PageIndex + 2)"
                    style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
                 @*<span>...</span>
                     <a href="#">11</a>
                     <a href="#">12</a>
                     <a href="#">13</a>*@
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="TopMember"
                    asp-route-page="@(Model.PageIndex + 1)"
                    style="display: @nextDisabled">
                     <i class="icon-angle-right"></i>

@@ -37,8 +37,8 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
-                .Take(5)
                 .OrderByDescending(p => p.CreateDT)
+                .Take(5)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
@@ -46,8 +46,8 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
-                .Take(5)
                 .OrderByDescending(p => p.CreateDT)
+                .Take(5)
                 .ToListAsync();
             try
             {

@@ -6,7 +6,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Trang cá nhân : @Model.FullName</h1>
+                <h1>Trang cá nhân : @Html.Raw(Model.FullName)</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -14,7 +14,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Member" asp-action="Index">Thành viên</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Trang cá nhân thành viên: @Model.FullName</span>
+                    <span class="current">Trang cá nhân thành viên: @Html.Raw(Model.FullName)</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -28,16 +28,16 @@
                 <div class="user-profile">
                     <div class="col-md-12">
                         <div class="page-content">
-                            <h2>Thông tin về @Model.FullName</h2>
-                            <div class="user-profile-img"><img asp-append-version="true" width="60" height="60" src="@Model.Image" alt="@Model.FullName"></div>
+                            <h2>Thông tin về @Html.Raw(Model.FullName)</h2>
+                            <div class="user-profile-img"><img asp-append-version="true" width="60" height="60" src="@Model.Image" alt="@Html.Raw(Model.FullName)"></div>
                             <div class="ul_list ul_list-icon-ok about-user">
                                 <ul>
-                                    <li><i class="icon-plus"></i>Ngày đăng ký : <span>@Model.CreateRegister</span></li>
-                                    <li>@*<i class="icon-map-marker"></i>*@Country : <span>Egypt</span></li>
-                                    <li><i class="icon-globe"></i>Website : <a target="_blank" rel="nofollow" href="@Model.Website">xem</a></li>
+                                    <li><i class="icon-plus"></i>Ngày đăng ký : <span>@Html.Raw(Model.CreateRegister)</span></li>
+                                    <li><i class="icon-calendar"></i>Sinh nhật : <span>@Html.Raw(Model.Birthday)</span></li>
+                                    <li><i class="icon-globe"></i>Website : <a target="_blank" rel="nofollow" href="@Html.Raw(Model.Website)">@Html.Raw(Model.Website)</a></li>
                                 </ul>
                             </div>
-                            <p>@Model.InfoShort.</p>
+                            <p>@Html.Raw(Model.InfoShort).</p>
                             <div class="clearfix"></div>
                             <span class="user-follow-me">Theo dõi tôi qua</span>
                             <a href="@Model.FaceboookURL" rel="nofollow" original-title="Facebook" class="tooltip-n">
@@ -83,11 +83,11 @@
                                 <h2>Thành tích</h2>
                                 <div class="ul_list ul_list-icon-ok">
                                     <ul>
-                                        <li><i class="icon-question-sign"></i><a href="user_questions.html">Đố vui mỗi ngày<span> ( <span>@Model.SinglePuzzleTotal</span> ) </span></a></li>
+                                        <li><i class="icon-question-sign"></i><a href="#">Câu đố mỗi ngày<span> ( <span>@Model.SinglePuzzleTotal</span> ) </span></a></li>
                                         <li><i class="icon-asterisk"></i>Câu đố đặc biệt<span> ( <span>@Model.MultiPuzzleTotal</span> ) </span></li>
                                         @*<li><i class="icon-comment"></i><a href="user_answers.html">Answers<span> ( <span>10</span> ) </span></a></li>*@
                                         @*<li><i class="icon-star"></i><a href="user_favorite_questions.html">Favorite Questions<span> ( <span>3</span> ) </span></a></li>*@
-                                        <li><i class="icon-heart"></i><a href="user_points.html">Điểm<span> ( <span>@Model.Points</span> ) </span></a></li>
+                                        <li><i class="icon-heart"></i><a href="#">Điểm<span> ( <span>@Model.Points</span> ) </span></a></li>
 
                                     </ul>
                                 </div>
@@ -147,37 +147,44 @@
                 }
                 @if (Model.PageIndex - 1 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="UserHistoryListMultiPuzzle"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex - 1)"
                        style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
                 }
                 @if (Model.PageIndex - 2 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="UserHistoryListMultiPuzzle"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex - 2)"
                        style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
                 }
                 @if (Model.PageIndex - 1 > 0)
                 {
-                    <a asp-action="ListSinglePuzzle"
+                    <a asp-action="UserHistoryListMultiPuzzle"
+                       asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex - 1)"
                        style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
                 }
 
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="UserHistoryListMultiPuzzle"
+                   asp-route-slug="@Model.Slug"
                    asp-route-page="@(Model.PageIndex)"
                    class="current">@Model.PageIndex</a>
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="UserHistoryListMultiPuzzle"
+                   asp-route-slug="@Model.Slug"
                    asp-route-page="@(Model.PageIndex + 1)"
                    style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="UserHistoryListMultiPuzzle"
+                   asp-route-slug="@Model.Slug"
                    asp-route-page="@(Model.PageIndex + 2)"
                    style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
                 @*<span>...</span>
                     <a href="#">11</a>
                     <a href="#">12</a>
                     <a href="#">13</a>*@
-                <a asp-action="ListSinglePuzzle"
+                <a asp-action="UserHistoryListMultiPuzzle"
+                   asp-route-slug="@Model.Slug"
                    asp-route-page="@(Model.PageIndex + 1)"
                    style="display: @nextDisabled">
                     <i class="icon-angle-right"></i>

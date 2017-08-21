@@ -301,7 +301,7 @@ namespace DoVuiHaiNao.Data
                 Count = pagelist.Count,
                 PageIndex = pagelist.PageIndex,
                 PageSize = pagelist.PageSize,
-                List = list,
+                List = list.OrderByDescending(p => p.DateTime),
                 TotalPages = pagelist.TotalPages
             };
             return model;
@@ -342,7 +342,7 @@ namespace DoVuiHaiNao.Data
                 Count = pagelist.Count,
                 PageIndex = pagelist.PageIndex,
                 PageSize = pagelist.PageSize,
-                List = list,
+                List = list.OrderByDescending(p => p.DateTime),
                 TotalPages = pagelist.TotalPages
             };
             return model;

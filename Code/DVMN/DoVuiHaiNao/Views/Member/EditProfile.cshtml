@@ -3,7 +3,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Chỉnh sử thông tin cá nhân: @Model.FullName</h1>
+                <h1>Chỉnh sử thông tin cá nhân: @Html.Raw(Model.FullName)</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -11,7 +11,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Member" asp-action="Index">Thành viên</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Chỉnh sửa thông tin cá nhân: @Model.FullName</span>
+                    <span class="current">Chỉnh sửa thông tin cá nhân: @Html.Raw(Model.FullName)</span>
                 </div>
             </div>
         </div><!-- End row -->

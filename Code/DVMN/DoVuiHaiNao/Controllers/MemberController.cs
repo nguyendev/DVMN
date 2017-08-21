@@ -29,6 +29,8 @@ namespace DoVuiHaiNao.Controllers
         public async Task<IActionResult> Index(int? page)
         {
             var member = await _repository.GetAllMember(page, 10);
+            if (member == null)
+                return NotFound();
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(member);
         }
@@ -72,6 +74,8 @@ namespace DoVuiHaiNao.Controllers
                 return NotFound();
 
             var editProfile = await _repository.GetEditProfile(currentUser.Id);
+            if (editProfile == null)
+                return NotFound();
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View(editProfile);
         }

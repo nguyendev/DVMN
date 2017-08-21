@@ -4787,9 +4787,9 @@ a.carousel-next {
 	margin: 0 20px 5px 0;
 	display: inline-block;
 }
-.post .post-meta .meta-author, .post .post-meta .meta-date, .post .post-meta .meta-categories, .post .post-meta .meta-comment, .post .post-meta .meta-like {
-    font-size: 13px;
-    float: left;
+.post .post-meta .meta-author,.post .post-meta .meta-date,.post .post-meta .meta-categories,.post .post-meta .meta-comment {
+	font-size: 13px;
+	float: left;
 }
 .post .post-meta .meta-author a,.post .post-meta .meta-date,.post .post-meta .meta-categories a,.post .post-meta .meta-comment a {
 	color: #2f3239;

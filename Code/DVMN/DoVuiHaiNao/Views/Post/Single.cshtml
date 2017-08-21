@@ -22,7 +22,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>@Model.Title.</h1>
+                <h1>@Html.Raw(Model.Title).</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -30,7 +30,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Puzzle" asp-action="ListSinglePuzzle">Câu đố mỗi ngày</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">@Model.Title.</span>
+                    <span class="current">@Html.Raw(Model.Title).</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -45,14 +45,14 @@
                     { 
                     <div class="post-img">
                         <a asp-controller="post" asp-action="single" asp-route-slug="@Model.Slug">
-                            <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Model.Image.ALT">
+                            <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Html.Raw(Model.Image.ALT)">
                         </a>
                     </div>
                     }
-                    <h2 class="post-title"><span class="post-type"><i class="icon-film"></i></span>Beautiful Gallery Post.</h2>
+                    <h2 class="post-title"><span class="post-type"><i class="icon-film"></i></span>@Html.Raw(Model.Title).</h2>
                     <div class="post-meta">
-                        <span class="meta-author"><i class="icon-user"></i><a asp-controller="member" asp-action="Details" asp-route-slug="@Model.Author.Slug">@Model.Author.FullName</a></span>
-                        <span class="meta-date"><i class="icon-time"></i>@Model.DateTime</span>
+                        <span class="meta-author"><i class="icon-user"></i><a asp-controller="member" asp-action="Details" asp-route-slug="@Model.Author.Slug">@Html.Raw(Model.Author.FullName)</a></span>
+                        <span class="meta-date"><i class="icon-time"></i>@Html.Raw(Model.DateTime)</span>
                         <span class="meta-categories"><i class="icon-suitcase"></i><a asp-controller="post" asp-action="index">Blogs</a></span>
                         @*<span class="meta-comment"><i class="icon-comments-alt"></i><a href="#">15 comments</a></span>*@
                     </div>
@@ -68,7 +68,7 @@
                     <i class="icon-tags"></i>
                     @foreach (var item in Model.Tags)
                     {
-                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@item.Tag.Title</a><i>, </i>
+                        <a asp-action="Single" asp-controller="Tag" asp-route-slug="@item.Tag.Slug">@Html.Raw(item.Tag.Title)</a><i>, </i>
                     }
                 </div>
                 <div class="share-inside-warp">
@@ -145,7 +145,7 @@
                 <ul class="related-posts">
                     @foreach (var item in Model.RelatedPuzzle)
                     {
-                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@item.Title</a></h3></li>
+                        <li class="related-item"><h3><a asp-action="SingleSinglePuzzle" asp-controller="Puzzle" asp-route-slug="@item.Slug"><i class="icon-double-angle-right"></i>@Html.Raw(item.Title)</a></h3></li>
                     }
                 </ul>
             </div>

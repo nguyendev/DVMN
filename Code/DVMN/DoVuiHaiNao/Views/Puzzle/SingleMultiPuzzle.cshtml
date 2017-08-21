@@ -25,7 +25,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>@Model.Title</h1>
+                <h1>@Html.Raw(Model.Title)</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -33,7 +33,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-controller="Puzzle" asp-action="ListMultiPuzzle">Câu đố đặc biệt</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">@Model.Title</span>
+                    <span class="current">@Html.Raw(Model.Title)</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -71,7 +71,7 @@
                         <div class="tab-inner">
                             <article class="question single-question question-type-poll">
                                 <h2>
-                                    <a href="#">@item.Title</a>
+                                    <a href="#">@Html.Raw(item.Title)</a>
                                 </h2>
                                 <a class="question-report" href="#">Báo cáo</a>
                                 <div class="question-type-main">
@@ -81,10 +81,10 @@
                                     <div class="clearfix"></div>
                                     <div class="question-desc">
                                         <div class="poll_2" style="text-align:justify">
-                                            <p>@item.Description)</p>
+                                            <p>@Html.Raw(item.Description)</p>
                                             @if (item.ImageID != null)
                                             { 
-                                                <img asp-append-version="true" src="@item.Image.PicFull" alt="@item.Image.ALT" title="@item.Image.Title" class="img-responsive" />
+                                                <img asp-append-version="true" src="@item.Image.PicFull" alt="@Html.Raw(item.Image.ALT)" title="@Html.Raw(item.Image.Title)" class="img-responsive" />
                                             }
                                             <div class="row">
                                                 <div class="col-md-9">
@@ -93,34 +93,26 @@
                                                             @if (!String.IsNullOrEmpty(item.AnswerA))
                                                             {
                                                                 <p>
-
                                                                     <input id="poll-1_@id" name="poll-radio" type="radio">
-                                                                    <label for="poll-1">@item.AnswerA</label>
-
+                                                                    <label for="poll-1">@Html.Raw(item.AnswerA)</label>
                                                                 </p>}
                                                             @if (!String.IsNullOrEmpty(item.AnswerB))
                                                             {
                                                                 <p>
-
                                                                     <input id="poll-2_@id" name="poll-radio" type="radio">
-                                                                    <label for="poll-2">@item.AnswerB</label>
-
+                                                                    <label for="poll-2">@Html.Raw(item.AnswerB)</label>
                                                                 </p>}
                                                             @if (!String.IsNullOrEmpty(item.AnswerC))
                                                             {
                                                                 <p>
-
                                                                     <input id="poll-3_@id" name="poll-radio" type="radio">
-                                                                    <label for="poll-3">@item.AnswerC</label>
-
+                                                                    <label for="poll-3">@Html.Raw(item.AnswerC)</label>
                                                                 </p>}
                                                             @if (!String.IsNullOrEmpty(item.AnswerD))
                                                             {
                                                                 <p>
-
                                                                     <input id="poll-4_@id" name="poll-radio" type="radio">
-                                                                    <label for="poll-4">@item.AnswerD</label>
-
+                                                                    <label for="poll-4">@Html.Raw(item.AnswerD)</label>
                                                                 </p>}
                                                         </div>
                                                     </form>
@@ -154,7 +146,7 @@
                                                         <i class="icon-flag"></i>
                                                         <span>Bạn đã trả lời sai. Đáp án đúng câu @item.Correct</span>
                                                         <br>
-                                                        Vì: @item.Reason
+                                                        Vì: @Html.Raw(item.Reason)
                                                     </p>
                                                 }
                                                 else
@@ -173,7 +165,7 @@
                                                     <p>
                                                         <span>Chúc mừng bạn</span>
                                                         <br>
-                                                        Vì: @item.Reason
+                                                        Vì: @Html.Raw(item.Reason)
                                                     </p>
                                                 }
                                                 else
@@ -195,7 +187,7 @@
                                                     <p>
                                                         <span>Đáp án đúng câu @item.Correct</span>
                                                         <br>
-                                                        Vì: @item.Reason
+                                                        Vì: @Html.Raw(item.Reason)
                                                     </p>
                                                 }
                                                 else
@@ -214,7 +206,7 @@
                                         <span class="question-favorite"><i class="icon-star"></i>5</span>
                                     </div>*@
                                     <span class="question-category"><a asp-action="listmultipuzzle" asp-controller="puzzle"><i class="icon-folder-close"></i>Câu đố đặc biệt</a></span>
-                                    <span class="question-date"><i class="icon-time"></i>@item.DateTime</span>
+                                    <span class="question-date"><i class="icon-time"></i>@Html.Raw(item.DateTime)</span>
                                     @*<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>*@
                                     <span class="question-view"><i class="icon-user"></i>@item.Views lượt xem</span>
                                     <span class="single-question-vote-result" id="@id-vote-result">@item.Like</span>
@@ -242,7 +234,7 @@
                                         {
                                             if (!String.IsNullOrEmpty(itemDetail.Tag.Slug))
                                             {
-                                            <a asp-action="Single" asp-controller="Tag" asp-route-slug="@itemDetail.Tag.Slug">@itemDetail.Tag.Title</a>
+                                            <a asp-action="Single" asp-controller="Tag" asp-route-slug="@itemDetail.Tag.Slug">@Html.Raw(itemDetail.Tag.Title)</a>
                                                 if (current != end)
                                                 {
                                                     <i>, </i>
@@ -334,7 +326,7 @@
                         {
                             <li class="related-item">
                                 <h3>
-                                    <a asp-action="SingleMultiPuzzle" asp-controller="Puzzle" asp-route-slug="@itemDetail.Slug"><i class="icon-double-angle-right"></i>@itemDetail.Title</a>
+                                    <a asp-action="SingleMultiPuzzle" asp-controller="Puzzle" asp-route-slug="@itemDetail.Slug"><i class="icon-double-angle-right"></i>@Html.Raw(itemDetail.Title)</a>
                                 </h3>
                             </li>
                         }

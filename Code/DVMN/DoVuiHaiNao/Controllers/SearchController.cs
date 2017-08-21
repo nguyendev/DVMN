@@ -26,5 +26,12 @@ namespace DoVuiHaiNao.Controllers
             ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
             return View();
         }
+
+        //[Route("/tim-kiem-voi-google/")]
+        //public async Task<IActionResult> SearchGoogle()
+        //{
+        //    ViewData["sidebar"] = await _sidebarRepository.GetAllSibar();
+        //    return View();
+        //}
     }
 }

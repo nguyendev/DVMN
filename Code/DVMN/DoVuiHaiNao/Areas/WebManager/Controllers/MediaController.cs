@@ -76,10 +76,10 @@ namespace DoVuiHaiNao.Areas.WebManager.Controllers
             switch (sortOrder)
             {
                 case "name":
-                    images = images.OrderByDescending(s => s.Name);
+                    images = images.OrderBy(s => s.Name);
                     break;
                 default:
-                    images = images.OrderBy(s => s.CreateDT);
+                    images = images.OrderByDescending(s => s.CreateDT);
                     break;
             }
 

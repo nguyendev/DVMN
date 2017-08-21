@@ -31,6 +31,7 @@ namespace DoVuiHaiNao.Data
                     .Include(p => p.Image)
                     .Include(p => p.Author)
                     .Include(p => p.MultiPuzzle)
+                    .Where( p => p.CreateDT < DateTime.Now)
                     .SingleOrDefaultAsync(p => p.ID == item.SinglePuzzleID);
                     SinglePuzzleDbContext.Add(singlePuzzle);
                 }
@@ -62,7 +63,8 @@ namespace DoVuiHaiNao.Data
                     PageIndex = pagelist.PageIndex,
                     PageSize = pagelist.PageSize,
                     List = list,
-                    TotalPages = pagelist.TotalPages
+                    TotalPages = pagelist.TotalPages,
+                    Slug = slug
                 };
                 return searchModel;
             }

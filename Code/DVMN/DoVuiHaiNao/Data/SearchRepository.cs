@@ -26,6 +26,7 @@ namespace DoVuiHaiNao.Data
                 var SinglePuzzleDbContext = await _context.SinglePuzzle
                     .Include(p => p.Image)
                     .Include(p => p.Author)
+                    .Where(p => p.CreateDT < DateTime.Now)
                     .Where(p => p.Title.Contains(search))
                     .OrderByDescending(p => p.CreateDT)
                     .ToListAsync();

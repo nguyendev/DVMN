@@ -32,27 +32,18 @@
     <meta name="twitter:description" content="@Html.Raw(ViewData["Desciption"])">
     <meta name="twitter:title" content="@Html.Raw(ViewData["Title"])">
     <link rel="dns-prefetch" href="//s.w.org/">
-    <link rel="alternate" type="application/rss+xml" href="feed/">
-    <link rel="alternate" type="application/rss+xml" href="comments/feed/">
+    @*<link rel="alternate" type="application/rss+xml" href="feed/">
+    <link rel="alternate" type="application/rss+xml" href="comments/feed/">*@
     <link rel="https://api.w.org/" href="wp-json/">
     <link rel="alternate" href="/" hreflang="vi-vn">
     <link rel="profile" href="//gmpg.org/xfn/11">
     <link rel="canonical" href="@url">
     <link rel="apple-touch-icon" href="/favicon.ico" />
     <link rel="icon" sizes="192x192" href="/favicon.ico" />
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" asp-append-version="true"/>
-<environment names="Development">
-    <link href="~/style.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/style.min.css" rel="stylesheet" asp-append-version="true"/>
     <link href="~/css/skins/blue/blue.css" rel="stylesheet" asp-append-version="true"/>
     <link href="/css/responsive.css" rel="stylesheet" asp-append-version="true"/>
     <link rel="shortcut icon" href="~/favicon.ico">
-</environment>
-<environment names="Staging,Production">
-    <link href="/style.css" rel="stylesheet" asp-append-version="true"/>
-    <link href="/css/skins/blue.css" rel="stylesheet" asp-append-version="true" />
-    <link href="/css/responsive.css" rel="stylesheet" asp-append-version="true"/>
-    <link rel="shortcut icon" href="~/favicon.ico">
-</environment>
     <!--[if lt IE 9]>
     <script src="assets/js/html5shiv.min.js"></script>
     <script src="assets/js/respond.min.js"></script>
@@ -123,9 +114,30 @@ if (top.location != self.location)
 
         ga('create', 'UA-81624325-4', 'auto');
         ga('send', 'pageview');
-
     </script>
-
+    <script defer type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "url": "https://dovuihainao.net/",
+        "potentialAction": {
+            "@@type": "SearchAction",
+            "target": "https://dovuihainao.net/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <script defer type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "Person",
+        "name": "Do vui hai nao",
+        "url": "https://dovuihainao.net",
+        "sameAs": [
+        "https://www.facebook.com/%C4%90%E1%BB%91-vui-m%E1%BB%97i-ng%C3%A0y-470420386650641"
+        ]
+        }
+    </script>
 
    
 </body>
