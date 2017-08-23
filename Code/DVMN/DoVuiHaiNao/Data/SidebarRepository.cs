@@ -90,15 +90,15 @@ namespace DoVuiHaiNao.Data
                 .Include(p => p.Author)
                 .Where(p => !p.IsMMultiPuzzle)
                 .Where(p => p.CreateDT < DateTime.Now)
-                .Take(3)
                 .OrderByDescending(p => p.Like)
+                .Take(5)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
                 .Include(p => p.Author)
                 .Where(p => p.CreateDT < DateTime.Now)
-                .Take(3)
                 .OrderByDescending(p => p.Like)
+                .Take(3)
                 .ToListAsync();
             try
             {

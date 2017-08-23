@@ -33,9 +33,9 @@ namespace DoVuiHaiNao.Data
                     .Include(p => p.MultiPuzzle)
                     .Where( p => p.CreateDT < DateTime.Now)
                     .SingleOrDefaultAsync(p => p.ID == item.SinglePuzzleID);
-                    SinglePuzzleDbContext.Add(singlePuzzle);
+                    if(singlePuzzle != null)
+                        SinglePuzzleDbContext.Add(singlePuzzle);
                 }
-                SinglePuzzleDbContext = SinglePuzzleDbContext.OrderByDescending(p => p.CreateDT).ToList();
                 var pagelist = PaginatedList<SinglePuzzle>.Create(SinglePuzzleDbContext, page ?? 1, pageSize != null ? pageSize.Value : 10);
                 List<SingleViewModel> list = new List<SingleViewModel>();
                 foreach (var item in pagelist)
@@ -62,9 +62,10 @@ namespace DoVuiHaiNao.Data
                     Count = pagelist.Count,
                     PageIndex = pagelist.PageIndex,
                     PageSize = pagelist.PageSize,
-                    List = list,
+                    List = list.OrderByDescending(p => p.DateTime),
                     TotalPages = pagelist.TotalPages,
-                    Slug = slug
+                    Slug = slug,
+                    Title = tag.Title
                 };
                 return searchModel;
             }

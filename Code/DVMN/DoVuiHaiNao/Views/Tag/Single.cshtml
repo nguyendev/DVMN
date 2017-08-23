@@ -2,14 +2,14 @@
 @{
 
     DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
-    ViewData["Title"] = "Tìm kiếm câu đố | Dovuihainao.Net";
-    ViewData["Desciption"] = "Tìm kiếm tất cả những câu đố vui mẹo hay, những câu đố vui hại não vừa khó và hay nhất có đáp án giúp bạn có thời gian giải trí mỗi ngày";
+    ViewData["Title"] = Model.Title +  " | Dovuihainao.Net";
+    ViewData["Desciption"] = "Tất cả câu đố liên quan đến thẻ "+ Model.Title+" những câu đố vui mẹo hay, những câu đố vui hại não vừa khó và hay nhất có đáp án giúp bạn có thời gian giải trí mỗi ngày";
 }
 <div class="breadcrumbs">
     <section class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Câu đố trong thẻ</h1>
+                <h1>@Model.Title</h1>
             </div>
             <div class="col-md-12">
                 <div class="crumbs">
@@ -17,7 +17,7 @@
                     <span class="crumbs-span">/</span>
                     <a asp-action="Index" asp-controller="Tag">Thẻ</a>
                     <span class="crumbs-span">/</span>
-                    <span class="current">Câu đố trong thẻ</span>
+                    <span class="current">@Model.Title</span>
                 </div>
             </div>
         </div><!-- End row -->
@@ -169,16 +169,19 @@
                            style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
                     }
                     @if (Model.PageIndex - 1 > 0)
-                {
+                    {
                         <a asp-action="Single"
                            asp-route-slug="@Model.Slug"
                            asp-route-page="@(Model.PageIndex - 1)"
                            style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
                     }
+@if (nextDisabled != "none")
+{
                     <a asp-action="Single"
                        asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex)"
                        class="current">@(Model.PageIndex)</a>
+                     
                     <a asp-action="Single"
                        asp-route-slug="@Model.Slug"
                        asp-route-page="@(Model.PageIndex + 1)"
@@ -197,6 +200,7 @@
                        style="display: @nextDisabled">
                         <i class="icon-angle-right"></i>
                     </a>
+                    }
                 </div><!-- End pagination -->
                         }
         </div>

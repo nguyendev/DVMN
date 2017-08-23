@@ -1,0 +1,119 @@
+﻿@model DoVuiHaiNao.Models.GalleryViewModels.GalleryViewModel
+@{
+    ViewData["Title"] = "Tất cả hình ảnh trong đố vui hại não" + "| Dovuihainao.Net";
+    ViewData["Desciption"] = "Do vui hai nao";
+    string scheme = Context.Request.Scheme;
+    string host = Context.Request.Host.Host;
+    string port = Context.Request.Host.Port.ToString();
+    string path = Context.Request.Path;
+    string url = string.Format("{0}://{1}:{2}{3}", scheme, host, port, path);
+    DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel sidebar = ViewData["sidebar"] as DoVuiHaiNao.Models.SidebarViewModels.AllSidebarViewModel;
+}
+<div class="breadcrumbs">
+    <section class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Thư viện hình ảnh.</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="crumbs">
+                    <a asp-controller="Home" asp-action="index">Trang chủ</a>
+                    <span class="crumbs-span">/</span>
+                    <span class="current">Thư viện hình ảnh</span>
+                </div>
+            </div>
+        </div><!-- End row -->
+    </section><!-- End container -->
+</div><!-- End breadcrumbs -->
+<section class="container main-content">
+    <div class="row">
+        <div class="col-md-9">
+                <div class="boxedtitle page-title">
+                    <h2>Thư viện hình ảnh</h2>
+                </div>
+                <div class="row">
+                    @foreach (var item in Model.List)
+                    {
+                        <div class="col-md-4" style="text-align: center !important">
+                            <a class="example-image-link" href="@item.Source" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="example-image" src="@item.Source" alt="@item.ALT" /></a>
+                            @if (item.IsMul)
+                            {
+                                <h3><a asp-controller="Puzzle" asp-action="SingleMultiPuzzle" asp-route-slug="@item.Slug">@item.Title</a></h3>
+                            }
+                            else
+                            {
+                                <h3><a asp-controller="Puzzle" asp-action="SingleSinglePuzzle" asp-route-slug="@item.Slug">@item.Title</a></h3>
+                            }
+                            <br /><br />
+                        </div>
+                    }
+                    <div class="pagination">
+                        @*@{
+                int Min = (@Model.PageIndex - 1) * @Model.PageSize;
+                int Max = (@Model.PageIndex) * @Model.PageSize;
+            }
+            Hiển thị @Min to @Max trong @Model.Count phần tử*@
+                        <style>
+                            .current {
+                                background-color: #3498db !important;
+                                color: white !important;
+                            }
+                        </style>
+                        @{
+                            var prevDisabled = !Model.HasPreviousPage ? "none" : "block";
+                            var nextDisabled = !Model.HasNextPage ? "none" : "block";
+                        }
+                        @if (Model.PageIndex - 1 > 0)
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="@(Model.PageIndex - 1)"
+                               style="display: @prevDisabled"><i class="icon-angle-left"></i></a>
+                        }
+                        @if (Model.PageIndex - 2 > 0)
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="@(Model.PageIndex - 2)"
+                               style="display: @prevDisabled">@(Model.PageIndex - 2)</a>
+                        }
+                        @if (Model.PageIndex - 1 > 0)
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="@(Model.PageIndex - 1)"
+                               style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
+                        }
+                        @if(nextDisabled != "none") { 
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageIndex)"
+                           class="current">@Model.PageIndex</a>
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageIndex + 2)"
+                           style="display: @nextDisabled">@(Model.PageIndex + 2)</a>
+                        @*<span>...</span>
+            <a href="#">11</a>
+            <a href="#">12</a>
+            <a href="#">13</a>*@
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           style="display: @nextDisabled">
+                            <i class="icon-angle-right"></i>
+                        </a>
+                        }
+                    </div><!-- End pagination -->
+                </div>
+
+        </div>
+        <aside class="col-md-3 sidebar">
+            @await Html.PartialAsync("_SidebarPartial", sidebar)
+        </aside>
+    </div>
+</section>
+@section Style{
+    <link href="~/plugins/lightBox2/css/lightbox.min.css" rel="stylesheet" />
+}
+@section Scripts{
+
+    <script src="~/plugins/lightBox2/js/lightbox-plus-jquery.min.js"></script>
+}

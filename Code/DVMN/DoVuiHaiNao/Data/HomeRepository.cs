@@ -38,7 +38,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
                 .OrderByDescending(p => p.CreateDT)
-                .Take(5)
+                .Take(8)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
@@ -47,7 +47,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
                 .OrderByDescending(p => p.CreateDT)
-                .Take(5)
+                .Take(2)
                 .ToListAsync();
             try
             {
@@ -145,7 +145,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
-                .Take(5)
+                .Take(8)
                 .OrderByDescending(p => p.Like)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
@@ -154,7 +154,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
-                .Take(5)
+                .Take(2)
                 .OrderByDescending(p => p.Like)
                 .ToListAsync();
             try
@@ -216,7 +216,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
                 .OrderByDescending(p => p.Views)
-                .Take(5)
+                .Take(8)
                 .ToListAsync();
             var MultiPuzzleDbContext = await _context.MultiPuzzle
                 .Include(p => p.Image)
@@ -224,7 +224,7 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
-                .Take(5)
+                .Take(2)
                 .OrderByDescending(p => p.Views)
                 .ToListAsync();
             try

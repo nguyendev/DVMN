@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using DoVuiHaiNao.Models;
 using DoVuiHaiNao.Models.AccountViewModels;
 using DoVuiHaiNao.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace DoVuiHaiNao.Controllers
 {
@@ -155,6 +156,7 @@ namespace DoVuiHaiNao.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
+        [Route("dang-nhap-ben-ngoai")]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
@@ -167,6 +169,7 @@ namespace DoVuiHaiNao.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [HttpGet]
+        [Route("dang-nhap-voi-mang-xa-hoi")]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
@@ -178,7 +181,7 @@ namespace DoVuiHaiNao.Controllers
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -186,7 +189,10 @@ namespace DoVuiHaiNao.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
+                string currentUrl = HttpContext.Session.GetString("currentUrl");
+                if (String.IsNullOrEmpty(currentUrl))
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToLocal(currentUrl);
             }
             if (result.RequiresTwoFactor)
             {
@@ -201,8 +207,33 @@ namespace DoVuiHaiNao.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
+
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
+                var fullName = info.Principal.FindFirstValue(ClaimTypes.Name);
+                //var info = await _signInManager.GetExternalLoginInfoAsync();
+                var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                var dateOfBirth = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth);
+                var facebook = $"https://www.facebook.com/{identifier}/";
+                var pictureSmall = $"https://graph.facebook.com/{identifier}/picture?width=128&height=128";
+                var pictureBig = $"https://graph.facebook.com/{identifier}/picture?width=160&height=160";
+                var picture65x65 = $"https://graph.facebook.com/{identifier}/picture?width=65&height=65";
+                info = await _signInManager.GetExternalLoginInfoAsync();
+                var user = new Member { IsDeleted = false, CreateDT = DateTime.Now, IdentityFacebook = identifier, Facebook = facebook, UserName = email, Slug = StringExtensions.ConvertToUnSign3(fullName) + "-" + StringExtensions.RandomNumber(2), FullName = fullName, Email = email, PictureSmall = pictureSmall, Picture65x65 = picture65x65, PictureBig = pictureBig, DateofBirth = dateOfBirth };
+                var createResult = await _userManager.CreateAsync(user);
+                if (createResult.Succeeded)
+                {
+                    createResult = await _userManager.AddLoginAsync(user, info);
+                    if (createResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        string currentUrl = HttpContext.Session.GetString("currentUrl");
+                        if (String.IsNullOrEmpty(currentUrl))
+                            return RedirectToAction(nameof(HomeController.Index), "Home"); ;
+                        return RedirectToLocal(currentUrl);
+                    }
+                }
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
 

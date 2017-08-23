@@ -23,7 +23,7 @@
             }
             else
             {
-                <form asp-area="webmanager" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                         @foreach (var provider in loginProviders)
                         {
 

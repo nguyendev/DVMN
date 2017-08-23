@@ -61,7 +61,7 @@
                             @if (Model.ImageID != null)
                             {
                                 <div class="post-img">
-                                    <a href="single_post.html">
+                                    <a href="#">
                                         <img asp-append-version="true" src="@Model.Image.PicFull" alt="@Html.Raw(Model.Image.ALT)" title="@Html.Raw(Model.Image.Title)">
                                     </a>
                                 </div>
@@ -112,12 +112,25 @@
                                     }
                                     else
                                     {
-                                        <a class="button small margin_0 signup green-button">Xin vui lòng đăng nhập để trả lời bạn nhé</a>
+                                       
                                     }
                                 </div>
                                 <div class="col-md-3">
                                     <div class="clock pull-right"></div>
                                 </div>
+                                @if (!signInManager.IsSignedIn(User))
+                                {
+                                    <div class="col-md-12">
+                                        <div class="alert-message success">
+                                            <p>
+                                                <span>Bạn chỉ cần đăng nhập một lần trong vòng 10-30 giây mà thôi là bạn có thể trả lời và xem đáp án được ngay.</span><br>
+                                            </p>
+                                        </div>
+
+                                        <a class="color button small margin_0 signup">Đăng nhập</a>
+                                    </div>
+
+                                }
                             </div>
                         </div>
                         <div class="clearfix height_10"></div>

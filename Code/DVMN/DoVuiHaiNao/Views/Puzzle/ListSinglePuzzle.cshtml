@@ -110,10 +110,12 @@
                        asp-route-page="@(Model.PageIndex - 1)"
                        style="display: @prevDisabled">@(Model.PageIndex - 1)</a>
                 }
-
+@if (nextDisabled != "none")
+{
                 <a asp-action="ListSinglePuzzle"
                    asp-route-page="@(Model.PageIndex)"
                    class="current">@Model.PageIndex</a>
+                
                 <a asp-action="ListSinglePuzzle"
                    asp-route-page="@(Model.PageIndex + 1)"
                    style="display: @nextDisabled">@(Model.PageIndex + 1)</a>
@@ -129,6 +131,7 @@
                    style="display: @nextDisabled">
                     <i class="icon-angle-right"></i>
                 </a>
+                }
             </div><!-- End pagination -->
         </div><!-- End main -->
         <aside class="col-md-3 sidebar">

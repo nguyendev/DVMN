@@ -1,20 +1,17 @@
-﻿using DoVuiHaiNao.Models.HomeViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DoVuiHaiNao.Models.TagViewModels
+namespace DoVuiHaiNao.Models.GalleryViewModels
 {
-    public class TagSingleViewModel
+    public class GalleryViewModel
     {
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
 
         public int PageSize { get; set; }
         public int Count { get; set; }
-        public string Slug { get; set; }
-        public string Title { get; set; }
         public bool HasPreviousPage
         {
             get
@@ -29,7 +26,15 @@ namespace DoVuiHaiNao.Models.TagViewModels
                 return (PageIndex < TotalPages);
             }
         }
-
-        public IEnumerable<SingleViewModel> List { get; set; }
+        public IEnumerable<SingleGalleryViewModel> List { get;set;}
+    }
+    public class SingleGalleryViewModel
+    {
+        public string Title { get; set; }
+        public string ALT { get; set; }
+        public string Slug { get; set; }
+        public string Source { get; set; }
+        public bool IsMul { get; set; }
+        public DateTime? CreateTime { get; set; }
     }
 }

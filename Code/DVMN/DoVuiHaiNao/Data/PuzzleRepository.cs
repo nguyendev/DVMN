@@ -39,13 +39,17 @@ namespace DoVuiHaiNao.Data
                 .Where(p => p.Approved == Global.APPROVED)
                 .SingleOrDefaultAsync(p => p.Slug == slug);
             var bestSingle = await _context.SinglePuzzle
-                .Take(4)
                 .Where(p => !p.IsMMultiPuzzle)
                 .Where(p => p.CreateDT <= DateTime.Now)
                 .Where(p => !p.IsDeleted)
                 .Where(p => p.Approved == Global.APPROVED)
+                .Where(p => p.CreateDT.Value.Date <= single.CreateDT.Value.AddDays(7))
+                .Where(p => p.CreateDT.Value.Date >= single.CreateDT.Value.AddDays(-7))
                 .OrderByDescending(p => p.Like)
+                .Take(10)
                 .ToListAsync();
+
+
             List<SimplePostPuzzle> listbestPuzzle = new List<SimplePostPuzzle>(3);
             foreach(var item in bestSingle)
             {

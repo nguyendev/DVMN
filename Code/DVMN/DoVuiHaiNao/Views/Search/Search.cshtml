@@ -174,7 +174,7 @@
                asp-route-page="@(model.PageIndex - 1)"
                style="display: @prevDisabled">@(model.PageIndex - 1)</a>
                 }
-
+            @if(nextDisabled != "none") { 
                     <a asp-action="Search"
                asp-route-search ="@ViewData["Search"]"
                        asp-route-page="@(model.PageIndex)"
@@ -197,6 +197,7 @@
                        style="display: @nextDisabled">
                         <i class="icon-angle-right"></i>
                     </a>
+            }
                 </div><!-- End pagination -->
                         }
         </div>
